@@ -11,7 +11,45 @@
 
 
 export default class PageInstanceRepository {
-    async get
+    async getGalleryImages(page = 1) {
+        const images = [
+            {
+                id: 1,
+                src: require('@/assets/images/vol_1/Ula_52661_DONE-min.jpg'),
+                name: "«Тертон 1»"
+            },
+            {
+                id: 2,
+                src: require('@/assets/images/vol_1/Ula_52800_DONE-min.jpg'),
+                name: "«Баланс»"
+            },
+            {
+                id: 3,
+                src: require('@/assets/images/vol_1/Ula_52665_DONE-min.jpg'),
+                name: "«Тувинское утро 1»"
+            },
+            {
+                id: 4,
+                src: require('@/assets/images/vol_2/Ula_52475_DONE-min.jpg'),
+                name: "«Чам»"
+            },
+            {
+                id: 5,
+                src: require('@/assets/images/vol_2/Ula_52591_DONE-min.jpg'),
+                name: "«Сон самурая»"
+            },
+            {
+                id: 6,
+                src: require('@/assets/images/vol_2/Ula_52642_DONE-min.jpg'),
+                name: "«Созерцатель»"
+            },
+        ]
+        if (page === 1) {
+            return images.slice(0, 3);
+        } else if (page === 2) {
+            return images.slice(3, 6);
+        }
+    }
 }
 
 

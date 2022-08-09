@@ -9,3 +9,16 @@
  * В этом слое можно создавать специфические методы для обработки произвольных событий из слоя view.
  */
 
+import PageInstanceService from "@/pageInstance/page-instance.service";
+
+class PageInstanceController {
+
+    #service = new PageInstanceService()
+
+    async getGalleryImages(page) {
+        return await this.#service.getGalleryImages(page)
+    }
+
+}
+
+export default new PageInstanceController()

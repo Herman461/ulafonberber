@@ -22,7 +22,6 @@ export default {
   methods: {
     calculateWidth(width) {
       let property
-
       if (width.includes('auto')) {
         property = `1 1 ${width}`
       } else if (width.includes('px')) {

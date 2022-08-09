@@ -10,3 +10,16 @@
  *
  * Экземпляр сервиса является приватным полем контроллера, вызывать методы сервиса может только контроллер.
  */
+
+
+import PageInstanceRepository from "@/pageInstance/page-instance.repository";
+
+export default class PageInstanceService {
+
+    #repository = new PageInstanceRepository()
+
+    async getGalleryImages(page) {
+        return await this.#repository.getGalleryImages(page)
+    }
+
+}

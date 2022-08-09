@@ -7,7 +7,7 @@ const pageInstanceState = reactive({
     },
     currentColumnWidth: [],
     activeColumn: [],
-    isLoading: false
+    isLoading: false,
 })
 
 export default pageInstanceState

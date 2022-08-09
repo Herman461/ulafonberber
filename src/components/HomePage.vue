@@ -1,25 +1,24 @@
 <template>
   <base-page>
     <template v-slot:first-block>
-      <home-block />
+      <about-block />
     </template>
     <template v-slot:second-block>
-      <gallery-block />
+      <gallery-block :page="1" />
     </template>
     <template v-slot:third-block>
-      <works-block />
+      <gallery-block :is-central="true" :page="2" />
     </template>
   </base-page>
 </template>
 
 <script>
 import GalleryBlock from "@/components/blocks/GalleryBlock";
-import HomeBlock from "@/components/blocks/HomeBlock";
-import WorksBlock from "@/components/blocks/WorksBlock";
+import AboutBlock from "@/components/blocks/AboutBlock";
 import BasePage from "@/components/BasePage";
 
 export default {
   name: 'HomePage',
-  components: {BasePage, WorksBlock, HomeBlock, GalleryBlock},
+  components: {BasePage, AboutBlock, GalleryBlock},
 }
 </script>

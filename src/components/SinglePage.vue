@@ -1,7 +1,7 @@
 <template>
   <base-page>
     <template v-slot:first-block>
-      <home-block />
+      <about-block />
     </template>
     <template v-slot:second-block>
       <work-block />
@@ -14,13 +14,13 @@
 
 
 <script>
-import HomeBlock from "@/components/blocks/HomeBlock";
+import AboutBlock from "@/components/blocks/AboutBlock";
 import WorkBlock from "@/components/blocks/WorkBlock";
 import CollectionBlock from "@/components/blocks/CollectionBlock";
 import BasePage from "@/components/BasePage";
 
 export default {
   name: "SinglePage",
-  components: {BasePage, CollectionBlock, WorkBlock, HomeBlock},
+  components: {BasePage, CollectionBlock, WorkBlock, AboutBlock},
 }
 </script>
