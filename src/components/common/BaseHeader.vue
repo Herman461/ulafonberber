@@ -21,6 +21,14 @@
         <li class="menu-header__social"><a href="">Facebook</a></li>
         <li class="menu-header__social"><a href="">Pinterest</a></li>
       </ul>
+      <div class="menu-header__label">Ссылки для демонстрации страниц</div>
+      <div class="menu-header__links">
+        <router-link to="/" class="menu-header__link">Главная</router-link>
+        <router-link to="/about" class="menu-header__link">О нас</router-link>
+        <router-link to="/gallery" class="menu-header__link">Галерея</router-link>
+        <router-link to="/" class="menu-header__link">Подробное описание</router-link>
+      </div>
+
     </div>
   </div>
 </template>

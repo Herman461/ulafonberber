@@ -889,6 +889,19 @@ p:last-child {
     .title {
         margin-bottom: 16px;
     }
+
+    /*Удалить*/
+    .menu-header__links {
+        padding-bottom: 31px;
+    }
+    .menu-header__link {
+        display: inline-block;
+        margin-right: 15px;
+        margin-bottom: 10px;
+    }
+    .menu-header__link:last-child {
+        margin-bottom: 0;
+    }
 }
 
 @media (min-width: 991.98px) {
