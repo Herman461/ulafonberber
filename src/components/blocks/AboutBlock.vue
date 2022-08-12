@@ -1,16 +1,18 @@
 <template>
-  <div class="about">
-    <div class="about__item item-about">
-      <div class="item-about__block">
-        <div class="item-about__image image">
+  <div :class="{'about_main': isAboutPage}" class="about">
+    <div class="about__body">
+      <div class="about__block">
+        <div class="about__image image">
           <router-link to="/" class="image__item">
             <img src="@/assets/images/portrait/Ula_52965_DONE-min.jpg" alt="">
           </router-link>
         </div>
-
-        <div class="item-about__title title">about</div>
+        <div v-if="!isAboutPage" class="about__title title">about</div>
+        <div v-if="isAboutPage" class="about__quote">«То хорошее, что мы получаем от искусства, — это не то, чему оно нас учит, а то, чем мы становимся благодаря ему»</div>
+        <div v-if="isAboutPage" class="about__author">Оскар Уайлд</div>
       </div>
-      <div class="item-about__text">
+      <div class="about__content">
+        <div v-if="isAboutPage" class="about__title title">about</div>
         <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
           Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
           упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
@@ -31,6 +33,8 @@
           стремится помогать всем живым существам и делать их жизнь лучше. Поэтому оно не противоречит
           ни одной религии. А скорее наоборот, призывает к осознанной опоре на традиции в поисках
           баланса.
+        </p>
+        <p>
           Свое воплощение эта идея нашла в одноименной скульптуре. На первый взгляд, тибетский
           мальчик-монах забавляется, пытаясь удержаться на толстой верёвке. Однако, по замыслу автора,
           он олицетворяет постоянную работу над собой в стремлении сохранить свое внутреннее
@@ -44,6 +48,11 @@
 <script>
 export default {
   name: "AboutBlock",
+  computed: {
+    isAboutPage() {
+      return this.$route.path === '/about'
+    }
+  }
 }
 </script>
 

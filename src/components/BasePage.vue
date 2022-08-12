@@ -1,5 +1,5 @@
 <template>
-  <div class="page__body">
+  <div class="base-page">
     <div class="preloader" :class="{hide: !isLoading}"></div>
     <div :class="{active: (activeColumn === 1)}" :style="calculateWidth(columnWidth[0])" class="page__block">
       <slot name="first-block"></slot>
@@ -21,6 +21,11 @@ export default {
   name: 'BasePage',
   methods: {
     calculateWidth(width) {
+      if (!width) {
+        return {
+          display: "none"
+        }
+      }
       let property
       if (width.includes('auto')) {
         property = `1 1 ${width}`

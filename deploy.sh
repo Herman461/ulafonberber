@@ -14,7 +14,7 @@ cd dist
 
 git init
 git add *
-git commit -m 'refactoring homepage'
+git commit -m 'build: add mobile version'
 
 # если вы публикуете по адресу https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
