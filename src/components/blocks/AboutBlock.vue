@@ -1,13 +1,14 @@
 <template>
   <div :class="{'about_main': isAboutPage}" class="about">
     <div class="about__body">
+      <div v-if="!isAboutPage" class="about__title title">about</div>
       <div class="about__block">
         <div class="about__image image">
-          <router-link to="/" class="image__item">
+          <router-link to="/about" class="image__item">
             <img src="@/assets/images/portrait/Ula_52965_DONE-min.jpg" alt="">
           </router-link>
         </div>
-        <div v-if="!isAboutPage" class="about__title title">about</div>
+<!--        <div v-if="!isAboutPage" class="about__title title">about</div>-->
         <div v-if="isAboutPage" class="about__quote">«То хорошее, что мы получаем от искусства, — это не то, чему оно нас учит, а то, чем мы становимся благодаря ему»</div>
         <div v-if="isAboutPage" class="about__author">Оскар Уайлд</div>
       </div>
@@ -18,7 +19,7 @@
           упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
           спрашивают нас: «Ты слышишь?».</p>
         <p>ULAFONBERBER</p>
-        <p>
+        <p v-if="isAboutPage">
           Имя ULA воплощает все светское, социальное, то есть осознаваемое. FON означает
           принадлежность к месту, к роду... к своим корням, которые прочно удерживают нас в
           равновесии. BERBER олицетворяет глубинную свободу и силу духа, подобную той, что позволила
@@ -34,12 +35,13 @@
           ни одной религии. А скорее наоборот, призывает к осознанной опоре на традиции в поисках
           баланса.
         </p>
-        <p>
+        <p v-if="isAboutPage">
           Свое воплощение эта идея нашла в одноименной скульптуре. На первый взгляд, тибетский
           мальчик-монах забавляется, пытаясь удержаться на толстой верёвке. Однако, по замыслу автора,
           он олицетворяет постоянную работу над собой в стремлении сохранить свое внутреннее
           равновесие.
         </p>
+        <a v-if="!isAboutPage" href="" class="about__link link">Читать далее</a>
       </div>
     </div>
   </div>

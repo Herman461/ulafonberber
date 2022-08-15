@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'bg-white': hasBackground, active: isActive, home: isHomePage}" class="header">
+  <div :class="{'hidden': !isShown, 'bg-white': hasBackground, active: isActive, main: isHomePage}" class="header">
     <div class="header__top">
       <button type="button" @click="toggleButton" :class="{active: isActive}" class="header__icon icon">
         <span></span>
@@ -21,14 +21,6 @@
         <li class="menu-header__social"><a href="">Facebook</a></li>
         <li class="menu-header__social"><a href="">Pinterest</a></li>
       </ul>
-      <div class="menu-header__label">Ссылки для демонстрации страниц</div>
-      <div class="menu-header__links">
-        <router-link to="/" class="menu-header__link">Главная</router-link>
-        <router-link to="/about" class="menu-header__link">О нас</router-link>
-        <router-link to="/gallery" class="menu-header__link">Галерея</router-link>
-        <router-link to="/" class="menu-header__link">Подробное описание</router-link>
-      </div>
-
     </div>
   </div>
 </template>
@@ -43,8 +35,14 @@ export default {
       isHomePage: false
     }
   },
+  props: {
+    isShown: {
+      type: Boolean,
+      default: true
+    }
+  },
   created() {
-    if (this.$route.href === '/') {
+    if (this.$route.path === '/') {
       window.addEventListener('scroll', () => {
         if (document.documentElement.scrollTop > 10 && !this.hasBackground) {
           this.hasBackground = true

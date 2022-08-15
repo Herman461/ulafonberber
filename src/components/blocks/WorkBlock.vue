@@ -2,27 +2,27 @@
   <div class="work">
     <div class="work__body">
       <div class="work__images">
-        <div class="work__image image">
+        <router-link to="/single" class="work__image image">
           <div class="image__item">
             <img src="@/assets/images/vol_2/Ula_52475_DONE-min.jpg" alt="">
           </div>
 
-        </div>
-        <div class="work__image image">
+        </router-link>
+        <router-link to="/single" class="work__image image">
           <div class="image__item">
             <img src="@/assets/images/vol_2/Ula_52591_DONE-min.jpg" alt="">
           </div>
-        </div>
-        <div class="work__image image">
+        </router-link>
+        <router-link to="/single" class="work__image image">
           <div class="image__item">
             <img src="@/assets/images/vol_2/Ula_52619_DONE-min.jpg" alt="">
           </div>
-        </div>
-        <div class="work__image image">
+        </router-link>
+        <router-link to="/single" class="work__image image">
           <div class="image__item">
             <img src="@/assets/images/vol_2/Ula_52642_DONE-min.jpg" alt="">
           </div>
-        </div>
+        </router-link>
       </div>
       <div class="work__content">
         <div class="work__title title">
