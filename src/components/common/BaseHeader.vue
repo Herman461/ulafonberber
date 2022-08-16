@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'hidden': !isShown, 'bg-white': hasBackground, active: isActive, main: isHomePage}" class="header">
+  <div :class="{active: isActive, main: isHomePage}" class="header">
     <div class="header__top">
       <button type="button" @click="toggleButton" :class="{active: isActive}" class="header__icon icon">
         <span></span>
@@ -34,27 +34,6 @@ export default {
       hasBackground: false,
       isHomePage: false
     }
-  },
-  props: {
-    isShown: {
-      type: Boolean,
-      default: true
-    }
-  },
-  created() {
-    if (this.$route.path === '/') {
-      window.addEventListener('scroll', () => {
-        if (document.documentElement.scrollTop > 10 && !this.hasBackground) {
-          this.hasBackground = true
-        } else if (document.documentElement.scrollTop < 10 && this.hasBackground) {
-          this.hasBackground = false
-        }
-      })
-      this.isHomePage = true
-    } else {
-      this.hasBackground = true
-    }
-
   },
   methods: {
     toggleButton() {
