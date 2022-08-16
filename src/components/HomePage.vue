@@ -67,9 +67,14 @@
 <!--        равновесие.-->
 <!--      </p>-->
 <!--      <router-link to="/gallery" class="home__link link link_big">смотреть галерею</router-link>-->
-      <div class="home__main main-home" ref="mainScreen">
-        <div class="main-home__logo">
-          <img :style="{transform: 'scale(' + scaleLogo + ')', top: topLogo + '%'}" src="@/assets/images/logo.svg" alt="">
+      <div :style="{'min-height': !wasScrolled ? '450px' : 'auto', height: !wasScrolled ? '100vh' : 'auto'}" :class="{scrolled: wasScrolled}" class="home__main main-home" ref="mainScreen">
+        <div :class="{hidden: isHiddenLogo}" class="main-home__logo">
+<!--          <svg :style="{transform: 'scale(' + scaleLogo + ')', top: topLogo + '%'}">-->
+<!--              <use xlink:href="@/assets/images/logo.svg#logo"></use>-->
+<!--          </svg>-->
+          <svg :style="{width: logoWidth, height: logoHeight, top: topLogo + '%'} ">
+            <use xlink:href="@/assets/images/logo.svg#logo"></use>
+          </svg>
         </div>
       </div>
       <div class="line"></div>
@@ -81,7 +86,9 @@
           <gallery-block :page="2" />
         </div>
       </div>
-      <about-block ref="about" />
+      <div ref="about" class="home__about">
+        <about-block />
+      </div>
     </template>
   </div>
 </template>
@@ -102,7 +109,11 @@ export default {
       mainScreenHeight: 0,
       scaleLogo: 4,
       topLogo: 50,
-      logoWidth: 90
+      logoHeight: 360,
+      logoWidth: 160,
+      isHiddenLogo: false,
+      wasScrolled: false,
+      top: 0
     }
   },
   created() {
@@ -114,7 +125,9 @@ export default {
       if (scrollTop > this.mainScreenHeight && !this.wasMainBlockScrolled) {
         this.wasMainBlockScrolled = true
         this.scaleLogo = 1
-        this.topLogo = 5
+        this.topLogo = 15
+        this.logoHeight = 90
+        this.logoWidth = 43
         return
       } else if (scrollTop < this.mainScreenHeight && this.wasMainBlockScrolled) {
         this.wasMainBlockScrolled = false
@@ -123,19 +136,64 @@ export default {
       const offset = (scrollTop / this.mainScreenHeight)
       const scale = ((1 - offset) * 4).toFixed(2)
 
-      this.logoWidth = scale * 90
-      if (scale >= 1) {
-        this.scaleLogo = scale
+      this.logoHeight = scale * 90
+      this.logoWidth = scale * 43
+      if (this.logoHeight < 90) {
+        this.logoHeight = 90
       }
+      if (this.logoWidth < 43) {
+        this.logoWidth = 43
+      }
+      // if (this.logoWidth >= 43) {
+      //   this.logoWidth = scale * 43
+      // }
+      //
+      // if (this.logoHeight >= 90) {
+      //   this.logoHeight = scale * 90
+      // }
 
-      const top = ((1 - offset) * 50).toFixed(2)
-      if (top >= 5) {
+      const top = ((1 - offset) * 45).toFixed(2)
+      if (top >= 15) {
         this.topLogo = top;
       }
 
 
-    })
 
+      const aboutBlockTopPos = this.$refs.about.getBoundingClientRect().top
+      if (aboutBlockTopPos - 120 <= 0 && !this.isHiddenLogo) {
+        this.isHiddenLogo = true
+      } else if (aboutBlockTopPos - 120 >= 0 && this.isHiddenLogo) {
+        this.isHiddenLogo = false
+      }
+
+    })
+    window.onbeforeunload = function () {
+      window.scrollTo(0, 0);
+    }
+    window.addEventListener('scroll', (e) => {
+      const top = document.documentElement.scrollTop
+      if (top < 500) {
+        document.body.style.overflow = 'hidden'
+      }
+      document.body.style.overflow = 'auto'
+    })
+    document.body.style.overflow = 'hidden'
+    // Какой-то запрос за БД
+    setTimeout(() => {
+      const top = this.$refs.mainScreen.offsetHeight
+      this.top = top
+      document.body.style.overflow = 'auto'
+      window.scrollTo({
+        top: top,
+        behavior: "smooth"
+      });
+
+    }, 3000)
+    setTimeout(() => {
+      this.wasScrolled = true
+      window.scrollTo(0, 0)
+      document.querySelector('.home').style['home__main'] = true
+    }, 4000)
   },
   computed: {
     windowWidth() {

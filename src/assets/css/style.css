@@ -696,6 +696,10 @@ p:last-child {
         opacity: 0;
         visibility: hidden;
     }
+    .main-home__logo.hidden svg {
+        opacity: 0;
+        visibility: hidden;
+    }
     .home .about__image {
         width: 80%;
     }
@@ -948,12 +952,22 @@ p:last-child {
     height: 100vh;
     padding: 30px 0;
 }
-
-.main-home__logo img {
+.main-home__logo {
+    transition: all 0.3s ease 0s;
+}
+.main-home__logo svg {
+    transition: all 0.6s ease 0s;
     width: 40px;
     height: 90px;
     position: fixed;
-    left: calc(50% - 20px);
+    left: 50%;
+    transform: translate(-50%, -50%);
     top: 50%;
     z-index: 25;
+}
+
+.home__main.scrolled {
+    min-height: auto;
+    height: auto;
+    padding: 0;
 }
