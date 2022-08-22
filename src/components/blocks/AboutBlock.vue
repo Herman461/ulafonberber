@@ -1,18 +1,41 @@
 <template>
-  <div :class="{'about_main': isAboutPage}" class="about">
+  <div @scroll="onScroll" :class="{'about_main': isAboutPage}" class="about">
     <div class="about__body">
-      <div v-if="!isAboutPage" class="about__title title">about</div>
       <div class="about__block">
         <div class="about__image image">
           <router-link to="/about" class="image__item">
             <img src="@/assets/images/portrait/Ula_52965_DONE-min.jpg" alt="">
           </router-link>
         </div>
-<!--        <div v-if="!isAboutPage" class="about__title title">about</div>-->
+        <div v-if="!isAboutPage" class="about__title title">about</div>
         <div v-if="isAboutPage" class="about__quote">«То хорошее, что мы получаем от искусства, — это не то, чему оно нас учит, а то, чем мы становимся благодаря ему»</div>
         <div v-if="isAboutPage" class="about__author">Оскар Уайлд</div>
       </div>
       <div class="about__content">
+        <div v-if="isAboutPage" class="about__title title">about</div>
+        <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
+          Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
+          упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
+          спрашивают нас: «Ты слышишь?».</p>
+        <p>ULAFONBERBER</p>
+        <div v-if="isAboutPage" class="about__title title">about</div>
+        <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
+          Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
+          упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
+          спрашивают нас: «Ты слышишь?».</p>
+        <p>ULAFONBERBER</p>
+        <div v-if="isAboutPage" class="about__title title">about</div>
+        <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
+          Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
+          упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
+          спрашивают нас: «Ты слышишь?».</p>
+        <p>ULAFONBERBER</p>
+        <div v-if="isAboutPage" class="about__title title">about</div>
+        <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
+          Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
+          упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
+          спрашивают нас: «Ты слышишь?».</p>
+        <p>ULAFONBERBER</p>
         <div v-if="isAboutPage" class="about__title title">about</div>
         <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
           Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
@@ -54,6 +77,14 @@ export default {
     isAboutPage() {
       return this.$route.path === '/about'
     }
+  },
+  methods: {
+    onScroll() {
+      console.log('test')
+    }
+  },
+  mounted() {
+    // window.addEventListener('scroll', fun)
   }
 }
 </script>

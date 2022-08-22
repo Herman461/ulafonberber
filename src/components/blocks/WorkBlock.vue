@@ -1,28 +1,27 @@
 <template>
+
   <div class="work">
+    <div v-if="activeImageSrc" class="work__viewer work-viewer">
+      <div class="work-viewer__body">
+        <button @click="closeImage" type="button" class="work-viewer__close"><span></span></button>
+        <img :src="activeImageSrc" alt="">
+      </div>
+    </div>
     <div class="work__body">
       <div class="work__images">
-        <router-link to="/single" class="work__image image">
-          <div class="image__item">
-            <img src="@/assets/images/vol_2/Ula_52475_DONE-min.jpg" alt="">
-          </div>
+        <swiper
+            :space-between="29"
+            :slides-per-view="1.3"
+        >
+          <swiper-slide v-for="(imageSrc, index) in card.images">
+            <router-link to="/single" class="work__image image">
+              <div class="image__item">
+                <img @click="expandImageSize($event, imageSrc)" :class="{active: activeImage === index}" :data-index="index" :src="imageSrc" alt="">
+              </div>
+            </router-link>
+          </swiper-slide>
+        </swiper>
 
-        </router-link>
-        <router-link to="/single" class="work__image image">
-          <div class="image__item">
-            <img src="@/assets/images/vol_2/Ula_52591_DONE-min.jpg" alt="">
-          </div>
-        </router-link>
-        <router-link to="/single" class="work__image image">
-          <div class="image__item">
-            <img src="@/assets/images/vol_2/Ula_52619_DONE-min.jpg" alt="">
-          </div>
-        </router-link>
-        <router-link to="/single" class="work__image image">
-          <div class="image__item">
-            <img src="@/assets/images/vol_2/Ula_52642_DONE-min.jpg" alt="">
-          </div>
-        </router-link>
       </div>
       <div class="work__content">
         <div class="work__title title">
@@ -31,8 +30,9 @@
           2022
         </div>
         <div class="work__text">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean hendrerit tellus eget placerat auctor. Nunc rutrum lacinia semper. Duis porta urna dictum elit luctus, at aliquet orci luctus. Ut vitae tellus condimentum, feugiat metus sit amet, tincidunt diam. Ut ut libero nisl. Pellentesque nec velit quis massa suscipit porttitor sed eget ante. In hac habitasse platea dictumst. Nulla at leo ut nisi iaculis pellentesque et nec tellus. Morbi semper pharetra massa ut interdum. Aliquam sit amet semper dui.</p>
-          <p>Suspendisse potenti. DONE-minc aliquam lacinia augue at tristique. In at viverra dui, vitae semper elit. Quisque vel elit mollis, cursus augue eget, iaculis est. Mauris mi tellus, congue et nibh a, ultrices ornare eros. Nulla a quam in ante consequat iaculis in sit amet sem. Nam nisi arcu, egestas porta vestibulum quis, sodales non diam. Aliquam convallis, justo pretium elementum semper, urna sem vestibulum risus, vestibulum porta velit risus faucibus mi. In vel odio vel odio dignissim iaculis in sit amet urna.</p>
+          <p>Композиция посвящена  мистерии Чам (Cham), впечатлившая  автора во время пребывания в    монастыре Менри.
+            Чам – одна из самых  красочный религиозных церемоний в   Тибетской культуре. Мистерия Чам - это танец мистического содержания, во время которого монахи, облаченные в костюмы и маски персонажей буддийского пантеона, с помощью символических жестов и движений представляли победу Учения над омрачениями ума.
+            Монах облачается в божество, символически обретая его просветлённые качества и отождествляясь с ним.</p>
         </div>
         <a href="" class="work__link link">Смотреть всю коллекцию</a>
       </div>
@@ -41,7 +41,53 @@
 </template>
 
 <script>
+import { Swiper } from 'swiper/vue/swiper.js';
+import { SwiperSlide } from 'swiper/vue/swiper-slide.js';
+import 'swiper/swiper-bundle.min.css'
+
 export default {
   name: "WorkBlock",
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
+  data() {
+    return {
+      activeImage: null,
+      activeImageSrc: null,
+      card: {
+        images: [
+            require('@/assets/images/vol_2/Ula_52475_DONE-min.jpg'),
+            require('@/assets/images/vol_2/Ula_52483_DONE-min.jpg'),
+            require('@/assets/images/vol_2/Ula_52499_DONE-min.jpg'),
+            require('@/assets/images/vol_2/Ula_52501_DONE-min.jpg'),
+            require('@/assets/images/vol_2/Ula_52514_DONE-min.jpg'),
+            require('@/assets/images/vol_2/Ula_52519_DONE-min.jpg'),
+        ]
+      }
+    }
+  },
+  methods: {
+    expandImageSize($event, imageSrc) {
+      this.activeImage = Number($event.target.dataset.index)
+      this.activeImageSrc = imageSrc
+      document.querySelector('.single').style.overflow = 'hidden'
+      document.body.style.overflow = 'hidden'
+    },
+    closeImage() {
+      document.body.style.overflow = 'auto'
+      document.querySelector('.single').style.overflow = 'auto'
+      this.activeImageSrc = null
+      this.activeImage = null
+    }
+  },
+  computed: {
+    windowWidth() {
+      return window.innerWidth
+    },
+    windowHeight() {
+      return window.innerHeight
+    }
+  }
 }
 </script>

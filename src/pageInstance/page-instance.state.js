@@ -9,7 +9,11 @@ const pageInstanceState = reactive({
     },
     currentColumnWidth: [],
     activeColumn: [],
-    isLoading: false,
+    isLoading: true,
+    animation: {
+        done: false,
+        delay: 600
+    }
 })
 
 export function pageStateInit() {

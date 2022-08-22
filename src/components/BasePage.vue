@@ -1,13 +1,13 @@
 <template>
-  <div class="base-page">
-    <div class="preloader" :class="{hide: !isLoading}"></div>
-    <div :class="{active: (activeColumn === 1)}" :style="calculateWidth(columnWidth[0])" class="page__block">
+  <div class="base-page" :class="{done: animationDone}">
+
+    <div @scroll="expandFirstCol" :class="{active: (activeColumn === 1)}" :style="calculateWidth(columnWidth[0])" class="page__block">
       <slot name="first-block"></slot>
     </div>
-    <div :class="{active: (activeColumn === 2)}" :style="calculateWidth(columnWidth[1])" class="page__block">
+    <div @scroll="expandSecondCol" :class="{active: (activeColumn === 2)}" :style="calculateWidth(columnWidth[1])" class="page__block">
       <slot name="second-block"></slot>
     </div>
-    <div :class="{active: (activeColumn === 3)}" :style="calculateWidth(columnWidth[2])" class="page__block">
+    <div @scroll="expandThirdCol" :class="{active: (activeColumn === 3)}" :style="calculateWidth(columnWidth[2])" class="page__block">
       <slot name="third-block"></slot>
     </div>
   </div>
@@ -26,6 +26,7 @@ export default {
           display: "none"
         }
       }
+
       let property
       if (width.includes('auto')) {
         property = `1 1 ${width}`
@@ -38,10 +39,26 @@ export default {
       return {
         flex: property
       }
+    },
+    expandFirstCol() {
+      if (pageInstanceState.activeColumn !== 1) {
+        pageInstanceState.activeColumn = 1
+      }
+    },
+    expandSecondCol() {
+      if (pageInstanceState.activeColumn !== 2) {
+        pageInstanceState.activeColumn = 2
+      }
+    },
+    expandThirdCol() {
+      if (pageInstanceState.activeColumn !== 3) {
+        pageInstanceState.activeColumn = 3
+      }
     }
   },
   computed: {
     columnWidth() {
+
       return pageInstanceState.currentColumnWidth
     },
     activeColumn() {
@@ -49,8 +66,12 @@ export default {
     },
     isLoading() {
       return pageInstanceState.isLoading
+    },
+    animationDone() {
+      return pageInstanceState.animation.done
     }
   },
+
 }
 </script>
 

@@ -45,6 +45,7 @@ import BasePage from "@/components/BasePage";
 import pageInstanceState from "@/pageInstance/page-instance.state";
 import {pageStateInit} from "@/pageInstance/page-instance.state";
 import BaseHeader from "@/components/common/BaseHeader";
+import $ from 'jquery'
 
 export default {
   name: 'HomePage',
@@ -74,15 +75,25 @@ export default {
       }, 2000)
     })
     .then(() => {
-      this.$refs.gallery.scrollIntoView({ behavior: "smooth" });
-    })
-    .then(() => {
-      setTimeout(() => {
+      $('html, body').animate({
+        scrollTop: window.innerHeight
+      }, 500, null, () => {
         document.body.style.overflow = 'auto'
         this.wasPageScrolled = true
         window.scrollTo(0, 0)
-      }, 1000)
+      });
+      // window.scrollBy({
+      //   top: window.innerHeight,
+      //   left: 0,
+      //   behavior: 'smooth'
+      // });
+      // this.$refs.gallery.scrollIntoView({ behavior: "smooth" });
     })
+    // .then(() => {
+    //   setTimeout(() => {
+    //
+    //   }, 1000)
+    // })
 
     window.onbeforeunload = function () {
       window.scrollTo(0, 0);
