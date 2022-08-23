@@ -1,5 +1,5 @@
 <template>
-  <base-header v-if="wasPageScrolled" ref="header" />
+  <base-header v-if="wasPageScrolled && windowWidth < 767" ref="header" />
   <div class="home">
     <template v-if="windowWidth > 767">
       <base-page>

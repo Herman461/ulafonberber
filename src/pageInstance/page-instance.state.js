@@ -5,13 +5,14 @@ const pageInstanceState = reactive({
         home: ["50%", "25%", "25%"],
         single: ["210px", "auto", "170px"],
         about: ["auto", "170px"],
-        gallery: ["220px", '42.5%', '42.5%'],
+        gallery: ["220px", '43.5%', '43.5%'],
     },
     windowWidth: 1920,
     currentColumnWidth: [],
     activeColumn: [],
     activeBlock: null,
     isLoading: true,
+    lock: false,
     animation: {
         done: false,
         delay: 600

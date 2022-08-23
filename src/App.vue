@@ -1,24 +1,15 @@
 <template>
   <div class="wrapper">
     <div class="container">
+      <base-header />
       <div class="page" :class="{init: init}">
         <div class="preloader" :class="{hidden: !isLoading}"></div>
-        <router-link to="/" :class="{top: !isLoading, shifted: showOneLine, fixed: fixedLogo}" :style="mainLineStyle" class="page__logo logo">
+        <router-link to="/" :class="{top: !isLoading, shifted: showOneLine, fixed: fixedLogo, center: isLogoCentered}" :style="mainLineStyle" class="page__logo logo">
           <img src="@/assets/images/logo.svg" alt="">
         </router-link>
         <span class="page__line" :class="{showed: !isLoading}" :style="mainLineStyle"></span>
         <span class="page__line" v-if="!showOneLine" :class="{done: animationDone}" :style="{right: columnWidth[2]}"></span>
-        <base-page>
-          <template v-slot:first-block>
-            <about-block />
-          </template>
-          <template v-slot:second-block>
-            <gallery-block :page="1"/>
-          </template>
-          <template v-slot:third-block>
-            <gallery-block :is-central="true" :page="2"/>
-          </template>
-        </base-page>
+        <base-page></base-page>
       </div>
     </div>
 
@@ -39,14 +30,23 @@ export default {
       if (to.path === '/') {
         pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.home.slice()
         pageInstanceState.activeColumn = 1
+        pageInstanceState.activeBlock = null
       }
       if (to.path.includes('/single')) {
         pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.single.slice()
         pageInstanceState.activeColumn = 2
+        pageInstanceState.activeBlock = 'single'
       }
       if (to.path.includes('/about')) {
         pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.about.slice()
         pageInstanceState.activeColumn = 1
+        pageInstanceState.activeBlock = 'about'
+      }
+
+      if (to.path.includes('/gallery')) {
+        pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.gallery.slice()
+        pageInstanceState.activeColumn = 2
+        pageInstanceState.activeBlock = 'gallery'
       }
 
       // Прячем вторую линию, если выводим две колонки
@@ -61,11 +61,22 @@ export default {
       // }
     }
   },
+  data() {
+    return {
+      isLogoCentered: false
+    }
+  },
+  created() {
+
+    if (window.location.pathname.includes('/single')) {
+      this.isLogoCentered = true
+    }
+  },
   mounted() {
     // искусственная задержка
     setTimeout(() => {
       pageInstanceState.isLoading = false
-
+      this.isLogoCentered = false
       // Завершение анимации
       setTimeout(() => {
         pageInstanceState.animation.done = true
@@ -93,7 +104,7 @@ export default {
       return pageInstanceState.currentColumnWidth.length === 2
     },
     fixedLogo() {
-      return this.isLoading && pageInstanceState.currentColumnWidth.length === 2
+      return (this.isLoading && pageInstanceState.currentColumnWidth.length === 2)
     },
     isLoading() {
       return pageInstanceState.isLoading
@@ -106,8 +117,8 @@ export default {
     },
     mainLineStyle() {
       return {
-        left: this.columnWidth[0] !== 'auto' ? this.columnWidth[0] : 'auto',
-        right: this.columnWidth[0] === 'auto' ? this.columnWidth[1] : 'auto'
+        left: this.columnWidth[0] !== 'auto' ? this.columnWidth[0] : 'calc(100% - ' + this.columnWidth[1] + ')',
+        // right: this.columnWidth[0] === 'auto' ? this.columnWidth[1] : 'auto'
       }
     }
   },

@@ -1,5 +1,5 @@
 <template>
-  <div @scroll="onScroll" ref="gallery" class="works" :class="{active: isActiveBlock}">
+  <div @scroll="onScroll" ref="gallery" class="works" :class="{active: isActiveBlock, lock: isLockedPage}">
     <div :class="{'works_central': isCentral}" class="works__image image" v-for="image in images">
       <router-link to="/single" class="image__item">
         <img :src="image.src" alt="">
@@ -12,7 +12,7 @@
 <script>
 import pageController from "@/pageInstance/page-instance.controller";
 import pageInstanceState from "@/pageInstance/page-instance.state";
-
+console.log(pageInstanceState)
 export default {
   name: "GalleryBlock",
   props: {
@@ -27,12 +27,16 @@ export default {
   computed: {
     isActiveBlock() {
       return pageInstanceState.activeBlock === 'gallery'
+    },
+    lock() {
+      return pageInstanceState.lock
     }
   },
   data() {
     return {
       images: [],
       wasScrolled: false,
+      isLockedPage: false
     }
   },
   async created() {
@@ -40,23 +44,32 @@ export default {
   },
   methods: {
     onScroll() {
+
       // Если элемент еще не скроллился ни разу
       if (!this.wasScrolled && !this.isActiveBlock) {
+        this.isLockedPage = true
         this.$refs.gallery.scrollTo(0, 0)
+        setTimeout(() => {
+          this.isLockedPage = false
+        }, 600)
+        this.wasScrolled = true
       }
-      console.log('scroll')
-      if (!this.isActiveBlock) {
+      if (!this.isActiveBlock && !pageInstanceState.lock) {
+        pageInstanceState.activeBlock = 'gallery'
+        pageInstanceState.lock = true
+        pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.gallery
+
+        this.$router.push('gallery')
+
+        this.$emit('expand-third-column')
 
         this.lockScroll = true
         setTimeout(function() {
           this.lockScroll = false
-          this.wasScrolled = true
+
+          // this.wasScrolled = true
+          pageInstanceState.lock = false
         }.bind(this), 600)
-
-
-        this.$emit('expand-second-column')
-        pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.gallery
-        pageInstanceState.activeBlock = 'gallery'
       }
     },
   },

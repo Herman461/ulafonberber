@@ -7,7 +7,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 3;
+    z-index: 6;
 }
 
 .preloader.hidden {
@@ -252,35 +252,58 @@ p:last-child {
     display: flex;
 }
 
+.v-enter-active,
+.v-leave-active {
+    transition: all 0.9s ease 0s;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
+    transform: translate(0, 100%);
+}
+
+/*.page__block.hidden {*/
+/*    opacity: 0;*/
+/*    transform: translate(0, 100%);*/
+/*    visibility: hidden;*/
+/*    position: absolute;*/
+/*}*/
+
+/*.page__block {*/
+/*    transition: all 0.9s ease 0s;*/
+/*    opacity: 1;*/
+/*    visibility: visible;*/
+/*}*/
+
 .page__line {
     position: absolute;
     top: 0;
-    width: 1px;
+    width: 0.9px;
     height: 100%;
     z-index: 9;
-    transition: all 0.6s ease 0s;
+    transition: all 0.9s ease 0s;
     background-color: #000000;
 }
+
+
 
 .page__block {
     overflow: auto;
     /*padding-top: 208px;*/
     max-height: 100vh;
-    padding-bottom: 30px;
+    transition: all 0.9s ease 0s;
 }
 
-.page__block:first-child,
-.page__block:nth-child(2) {
-    overflow: hidden !important;
-}
 .about_main .about__body {
     flex-direction: row-reverse;
 }
 
-.about, .works {
-    padding-top: 30px;
-    overflow: auto;
+.about, .works, .single {
+    padding-top: 200px;
+    overflow: scroll;
     height: 100%;
+    transition: all 0.9s ease 0s;
 }
 
 
@@ -301,20 +324,25 @@ p:last-child {
 .page__logo {
     position: absolute;
     top: 50%;
-    right: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    transition: all 0.6s ease 0s;
+    transition: all 0.9s ease 0s;
+}
+
+.page__logo.center {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
 }
 .page__logo.shifted {
-    transform: translate(50%, 0) !important;
+    transform: translate(-50%, 0) !important;
 }
 
 .page__logo.fixed {
     top: 50% !important;
-    right: 50% !important;
-    left: auto !important;
-    transform: translate(50%, -50%) !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
 }
 
 
@@ -336,15 +364,9 @@ p:last-child {
     max-width: none;
 }
 
-.page__block.active .about__content {
-    -webkit-box-flex: 1;
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
-}
 
 .about__block {
     max-width: 134px;
-    margin-right: 43px;
 }
 
 .page__block.active .about__block {
@@ -369,6 +391,13 @@ p:last-child {
     margin-bottom: 11px;
     font-style: italic;
     display: inline-block;
+    transition: all 0.9s ease 0s;
+    opacity: 0;
+    visibility: hidden;
+}
+.about.active .about__quote span {
+    opacity: 1;
+    visibility: visible;
 }
 
 .about__author {
@@ -376,7 +405,16 @@ p:last-child {
     font-size: 14px;
     line-height: 130%;
     text-align: right;
+    transition: all 0.9s ease 0s;
+    opacity: 0;
+    visibility: hidden;
 }
+
+.about.active .about__author {
+    opacity: 1;
+    visibility: visible;
+}
+
 
 .title {
     font-size: 22px;
@@ -413,9 +451,9 @@ p:last-child {
     height: auto;
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
-    -webkit-transition: all 0.6s ease 0s;
-    -o-transition: all 0.6s ease 0s;
-    transition: all 0.6s ease 0s;
+    -webkit-transition: all 0.9s ease 0s;
+    -o-transition: all 0.9s ease 0s;
+    transition: all 0.9s ease 0s;
 
 }
 
@@ -493,14 +531,14 @@ p:last-child {
     padding: 2px 15px;
     height: 60px;
     border-bottom: 1px solid #F4F4EE;
-    transition: all 0.3s ease 0s;
-    z-index: 50;
+    transition: all 0.9s ease 0s;
+    z-index: 5;
 }
 
 .header__language {
     color: #F4F4EE;
     font-size: 22px;
-    transition: all 0.3s ease 0s;
+    transition: all 0.9s ease 0s;
 }
 
 .header {
@@ -509,13 +547,13 @@ p:last-child {
     left: 0;
     width: 100%;
     z-index: 5;
-    transition: all 0.3s ease 0s;
+    transition: all 0.9s ease 0s;
 
 }
 .header .header__languages {
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease 0s;
+    transition: all 0.9s ease 0s;
     /*padding-left: 15px;*/
 }
 .header.main .header__languages {
@@ -548,7 +586,7 @@ p:last-child {
     display: flex;
     flex-direction: column;
     overflow: scroll;
-    transition: all 0.3s ease 0s;
+    transition: all 0.9s ease 0s;
     opacity: 0;
     visibility: hidden;
     z-index: 50;
@@ -635,7 +673,7 @@ p:last-child {
     width: 100%;
     height: 1px;
     background: #F4F4EE;
-    transition: all 0.3s ease 0s;
+    transition: all 0.9s ease 0s;
 }
 .icon span:first-child {
     top: 0;
@@ -900,7 +938,7 @@ p:last-child {
         height: calc(100% + 72px);
         background: #000;
         z-index: 20;
-        transition: all 0.3s ease 0s;
+        transition: all 0.9s ease 0s;
     }
     .gallery {
         display: flex;
@@ -926,7 +964,7 @@ p:last-child {
         height: calc(100% + 72px);
         background: #000;
         z-index: 20;
-        transition: all 0.3s ease 0s;
+        transition: all 0.9s ease 0s;
     }
     .gallery__logo {
         position: fixed;
@@ -934,7 +972,7 @@ p:last-child {
         left: 50%;
         transform: translate(-50%, 0);
         z-index: 30;
-        transition: all 0.3s ease 0s;
+        transition: all 0.9s ease 0s;
     }
     .gallery__logo img {
         width: 41px;
@@ -1022,7 +1060,7 @@ p:last-child {
         padding: 45px 0 15px;
 
         min-height: 100vh;
-        transition: all 0.3s ease 0s;
+        transition: all 0.9s ease 0s;
         background-color: #F4F4EE;
     }
 
@@ -1044,12 +1082,15 @@ p:last-child {
 }
 
 @media (min-width: 991.98px) {
+    .works {
+        transition: all 0.9s ease 0s;
+    }
+    .works.lock {
+        overflow: hidden !important;
+    }
     .about_main .about__block {
         flex: 0 0 340px !important;
         margin-left: 15.5%;
-    }
-    .about__quote {
-        display: none;
     }
     .about.active .about__content p {
         font-size: 18px;
@@ -1061,19 +1102,25 @@ p:last-child {
         display: none;
     }
     .page__block:nth-child(2) .works {
-        padding: 30px 45px 0 !important;
+        padding: 200px 15px 0 !important;
+    }
+    .page__block:nth-child(2) .works.active {
+        padding: 200px 0 0 45px !important;
     }
     .page__block:nth-child(3) .works {
-        padding: 30px 0 0 45px !important;
+        padding: 200px 0 0 15px !important;
     }
     .works {
         padding-right: 43px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
     .works.active .image__item img {
         max-width: 340px;
     }
     /*.about__block {*/
-    /*    transition: all 0.6s ease 0s;*/
+    /*    transition: all 0.9s ease 0s;*/
     /*    position: absolute;*/
     /*    top: 0;*/
     /*    left: 0;*/
@@ -1089,40 +1136,49 @@ p:last-child {
 
     }
     .about__image img {
-        transition: all 0.6s ease 0s;
-        position: absolute;
-        top: 0;
-        right: 100%;
-        transform: translate(100%, 0);
+        transition: all 0.9s ease 0s;
+
+
+        /*transform: translate(100%, 0);*/
         width: 128px;
         height: 103px;
     }
+    .about .about__image {
+        transition: all 0.9s ease 0s;
+        position: absolute;
+        right: calc(100% - 127px);
+        top: 0;
+    }
     .about__image img {
-        transition: all 0.6s ease 0s;
+        transition: all 0.9s ease 0s;
     }
     .about__title {
-        transition: all 0.6s ease 0s;
+        transition: all 0.9s ease 0s;
         position: absolute;
         top: 150px;
         left: 0;
     }
     .about__content {
-        transition: all 0.6s ease 0s;
+        transition: all 0.9s ease 0s;
         position: absolute;
         left: 0;
         top: 192px;
         height: auto;
     }
 
-    .page.init .about__content {
+    .about.home .about__content {
         top: 0;
         left: 255px;
         width: calc(100% - 255px);
     }
-    .page.init .about__content p {
+    .about.home .about__content p {
         font-size: 18px;
     }
-    .page.init .about__image img {
+    .about__content p {
+        display: inline-block;
+        transition: all 0.9s ease 0s;
+    }
+    .about.home .about__image img {
         width: 212px;
         height: 143px;
     }
@@ -1134,14 +1190,25 @@ p:last-child {
     .about.active .about__image img {
         width: 340px;
         height: 274px;
+    }
+    .about.active .about__image {
         right: 0;
-        transform: translate(0);
+    }
+    .about__image {
+        transition: all 0.9s ease 0s;
     }
     .about.active .about__content {
         left: 0;
         top: 50px;
         right: auto;
         width: calc(100% - 595px);
+    }
+    .about__content {
+
+    }
+    .about__content p.hidden {
+        opacity: 0;
+        visibility: hidden;
     }
     .about.active .about__title {
         top: 0;
@@ -1152,6 +1219,7 @@ p:last-child {
     .about__body {
         position: relative;
         width: 100%;
+        transition: all 0.9s ease 0s;
     }
     .page__line {
         opacity: 0;
@@ -1164,7 +1232,7 @@ p:last-child {
     }
     .logo.top {
         top: 29px;
-        right: 50%;
+        left: 50%;
         transform: translate(-50%, 0);
     }
     .logo.top img {
@@ -1174,15 +1242,48 @@ p:last-child {
     .logo img {
         width: 161px;
         height: 357px;
-        transition: all 0.6s ease 0s;
+        transition: all 0.9s ease 0s;
     }
 
     .base-page {
-        transition: all 0.6s ease 0s;
+        transition: all 0.9s ease 0s;
         transform: translate(0, 100%);
     }
     .base-page.done {
         transform: translate(0, 0);
+    }
+    .single {
+        overflow: auto !important;
+    }
+
+    .single__body {
+        display: flex;
+        padding: 0 80px 0 130px;
+    }
+
+    .single__images {
+        flex: 0 0 340px;
+    }
+    .single__image {
+        margin-bottom: 40px;
+    }
+    .single__image img {
+        width: 100%;
+        height: auto;
+    }
+
+    .single__content {
+        flex: 1 1 auto;
+        padding-left: 40px;
+    }
+
+    .single__title {
+    }
+
+    .title {
+    }
+
+    .single__text {
     }
 }
 
@@ -1192,10 +1293,10 @@ p:last-child {
     padding: 30px 0;
 }
 .main-home__logo {
-    transition: all 0.6s ease 0s;
+    transition: all 0.9s ease 0s;
 }
 .main-home__logo svg {
-    transition: all 0.6s ease 0s;
+    transition: all 0.9s ease 0s;
     width: 40px;
     height: 90px;
     position: fixed;

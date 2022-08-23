@@ -1,18 +1,22 @@
 <template>
   <div class="base-page" :class="{done: animationDone}">
 
-    <div @scroll="expandFirstCol" :class="{active: (activeColumn === 1)}" :style="calculateWidth(columnWidth[0])" class="page__block">
+    <div :class="{active: (activeColumn === 1)}" :style="calculateWidth(columnWidth[0])" class="page__block">
 <!--      <slot  name="first-block"></slot>-->
       <about-block @expand-first-column="expandFirstCol" />
     </div>
-    <div>
-      <work-block />
-    </div>
-    <div @scroll="expandSecondCol" :class="{active: (activeColumn === 2)}" :style="calculateWidth(columnWidth[1])" class="page__block">
-      <gallery-block :page="1" @expand-second-column="expandSecondCol" name="second-block"></gallery-block>
-    </div>
-    <div @scroll="expandThirdCol" :class="{active: (activeColumn === 3)}" :style="calculateWidth(columnWidth[2])" class="page__block">
-      <gallery-block :page="2" @expand-third-column="expandSecondCol" name="third-block"></gallery-block>
+
+      <div  :class="{active: (activeColumn === 2)}" :style="calculateWidth(columnWidth[1])" class="page__block">
+        <Transition>
+          <single-block v-if="isSingle" />
+        </Transition>
+        <Transition>
+          <gallery-block v-if="!isSingle" :page="1" @expand-second-column="expandSecondCol" ></gallery-block>
+        </Transition>
+      </div>
+
+    <div :class="{active: (activeColumn === 3)}" :style="calculateWidth(columnWidth[2])" class="page__block">
+      <gallery-block :page="2" @expand-third-column="expandThirdCol"></gallery-block>
     </div>
   </div>
 </template>
@@ -23,7 +27,7 @@ import pageInstanceState from "@/pageInstance/page-instance.state";
 import GalleryBlock from "@/components/blocks/GalleryBlock";
 import AboutBlock from "@/components/blocks/AboutBlock";
 import BaseHeader from "@/components/common/BaseHeader";
-import WorkBlock from "@/components/blocks/WorkBlock";
+import SingleBlock from "@/components/blocks/SingleBlock";
 
 
 export default {
@@ -68,7 +72,7 @@ export default {
   computed: {
     // временная заглушка
     isSingle() {
-      return this.$route.path === '/single'
+      return this.$route.path === '/single' && pageInstanceState.activeBlock === 'single'
     },
     columnWidth() {
       return pageInstanceState.currentColumnWidth
@@ -83,11 +87,7 @@ export default {
       return pageInstanceState.animation.done
     }
   },
-  components: {WorkBlock, BaseHeader, AboutBlock, GalleryBlock},
+  components: {SingleBlock, BaseHeader, AboutBlock, GalleryBlock},
 }
 </script>
 
-
-<style scoped lang="scss">
-
-</style>
