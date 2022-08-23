@@ -292,19 +292,14 @@ p:last-child {
     overflow: auto;
     /*padding-top: 208px;*/
     max-height: 100vh;
-    transition: all 0.9s ease 0s;
+    /*transition: all 0.9s ease 0s;*/
 }
 
 .about_main .about__body {
     flex-direction: row-reverse;
 }
 
-.about, .works, .single {
-    padding-top: 200px;
-    overflow: scroll;
-    height: 100%;
-    transition: all 0.9s ease 0s;
-}
+
 
 
 .about__body {
@@ -349,6 +344,10 @@ p:last-child {
 .about__content p {
     font-size: 12px;
 }
+.about__content.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
 
 .title {
     margin-bottom: 26px;
@@ -359,6 +358,8 @@ p:last-child {
     display: -ms-flexbox;
     display: flex;
 }
+
+
 
 .page__block.active .about__block {
     max-width: none;
@@ -443,8 +444,6 @@ p:last-child {
 
 .image__item img {
     max-width: 100%;
-    -o-object-fit: cover;
-    object-fit: cover;
     -o-object-position: center center;
     object-position: center center;
     cursor: pointer;
@@ -470,14 +469,18 @@ p:last-child {
 }
 
 .image__label {
-    text-align: right;
     font-weight: 300;
     font-size: 16px;
-    white-space: nowrap;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
 .works__image {
     margin-bottom: 147px;
+    padding-bottom: 20px;
+    position: relative;
+    max-width: 340px;
 }
 
 .works__image:last-child {
@@ -530,15 +533,15 @@ p:last-child {
     align-items: center;
     padding: 2px 15px;
     height: 60px;
-    border-bottom: 1px solid #F4F4EE;
-    transition: all 0.9s ease 0s;
+
+    transition: all 0.3s ease 0s;
     z-index: 5;
 }
 
 .header__language {
     color: #F4F4EE;
     font-size: 22px;
-    transition: all 0.9s ease 0s;
+    transition: all 0.3s ease 0s;
 }
 
 .header {
@@ -547,13 +550,13 @@ p:last-child {
     left: 0;
     width: 100%;
     z-index: 5;
-    transition: all 0.9s ease 0s;
+    transition: all 0.3s ease 0s;
 
 }
 .header .header__languages {
     opacity: 0;
     visibility: hidden;
-    transition: all 0.9s ease 0s;
+    transition: all 0.3s ease 0s;
     /*padding-left: 15px;*/
 }
 .header.main .header__languages {
@@ -566,9 +569,7 @@ p:last-child {
     visibility: visible;
 }
 
-.header .header__top {
-    background: #F4F4EE;
-}
+
 .header .icon span {
     background: #313032;
 }
@@ -578,7 +579,7 @@ p:last-child {
 .header__menu {
     position: fixed;
     top: 60px;
-    width: 100%;
+    width: 50%;
     min-height: calc(100vh - 60px);
     background: #F4F4EE;
     height: 100%;
@@ -586,7 +587,7 @@ p:last-child {
     display: flex;
     flex-direction: column;
     overflow: scroll;
-    transition: all 0.9s ease 0s;
+    transition: all 0.3s ease 0s;
     opacity: 0;
     visibility: hidden;
     z-index: 50;
@@ -647,7 +648,7 @@ p:last-child {
 }
 
 .header.active {
-    z-index: 50;
+    z-index: 5;
 }
 
 
@@ -673,7 +674,7 @@ p:last-child {
     width: 100%;
     height: 1px;
     background: #F4F4EE;
-    transition: all 0.9s ease 0s;
+    transition: all 0.3s ease 0s;
 }
 .icon span:first-child {
     top: 0;
@@ -703,8 +704,15 @@ p:last-child {
 
 @media (min-width: 767.98px) {
     .works {
-        /*padding-left: 82px;*/
         padding-right: 22px;
+    }
+    .works__image {
+        max-width: 90%;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .works__image img {
+        object-fit: contain;
     }
     .about_main .about__block {
         margin-right: 0;
@@ -756,6 +764,11 @@ p:last-child {
     body.hidden .main-home__logo svg {
         opacity: 0;
         visibility: hidden;
+    }
+
+    .header .header__top {
+        background: #F4F4EE;
+        border-bottom: 1px solid #F4F4EE;
     }
     .main-home__logo.hidden svg {
         opacity: 0;
@@ -950,10 +963,7 @@ p:last-child {
         flex: 0 1 50%;
     }
     .gallery__column:first-child {
-        padding-right: 28px;
-    }
-    .gallery__column:last-child {
-        padding-left: 28px;
+        padding-right: 38px;
     }
     .gallery__line {
         position: absolute;
@@ -1082,6 +1092,12 @@ p:last-child {
 }
 
 @media (min-width: 991.98px) {
+    .about, .works, .single {
+        padding-top: 200px;
+        overflow: scroll;
+        height: 100%;
+        transition: all 0.9s ease 0s;
+    }
     .works {
         transition: all 0.9s ease 0s;
     }
@@ -1093,7 +1109,7 @@ p:last-child {
         margin-left: 15.5%;
     }
     .about.active .about__content p {
-        font-size: 18px;
+        font-size: 18px !important;
     }
     .about.active .about__quote {
         display: block;
@@ -1102,13 +1118,13 @@ p:last-child {
         display: none;
     }
     .page__block:nth-child(2) .works {
-        padding: 200px 15px 0 !important;
+        padding: 250px 15px 0 45px !important;
     }
     .page__block:nth-child(2) .works.active {
         padding: 200px 0 0 45px !important;
     }
     .page__block:nth-child(3) .works {
-        padding: 200px 0 0 15px !important;
+        padding: 470px 0 0 15px !important;
     }
     .works {
         padding-right: 43px;
@@ -1135,10 +1151,11 @@ p:last-child {
         height: auto;
 
     }
+
     .about__image img {
         transition: all 0.9s ease 0s;
 
-
+        object-fit: cover !important;
         /*transform: translate(100%, 0);*/
         width: 128px;
         height: 103px;
@@ -1159,24 +1176,22 @@ p:last-child {
         left: 0;
     }
     .about__content {
-        transition: all 0.9s ease 0s;
         position: absolute;
         left: 0;
         top: 192px;
         height: auto;
+        transition: top, left, opacity 0.9s ease 0s;
     }
+
 
     .about.home .about__content {
         top: 0;
         left: 255px;
         width: calc(100% - 255px);
     }
+
     .about.home .about__content p {
         font-size: 18px;
-    }
-    .about__content p {
-        display: inline-block;
-        transition: all 0.9s ease 0s;
     }
     .about.home .about__image img {
         width: 212px;
@@ -1197,14 +1212,27 @@ p:last-child {
     .about__image {
         transition: all 0.9s ease 0s;
     }
+
+    .about.home .about__image img {
+        min-width: 212px;
+    }
+    .about.home .about__image {
+        right: calc(100% - 212px);
+    }
     .about.active .about__content {
         left: 0;
         top: 50px;
         right: auto;
         width: calc(100% - 595px);
     }
-    .about__content {
+    .about__content.v-enter-active,
+    .about__content.v-leave-active {
+        transition: opacity 0.5s ease;
+    }
 
+    .about__content.v-enter-from,
+    .about__content.v-leave-to {
+        opacity: 0;
     }
     .about__content p.hidden {
         opacity: 0;
@@ -1314,7 +1342,7 @@ p:last-child {
 
 @media (max-width: 400px) {
     .works__image {
-        max-width: 90%;
+        max-width: 80%;
     }
     .gallery__column:last-child .works {
         display: flex;

@@ -2,14 +2,19 @@
   <div class="wrapper">
     <div class="container">
       <base-header />
-      <div class="page" :class="{init: init}">
-        <div class="preloader" :class="{hidden: !isLoading}"></div>
-        <router-link to="/" :class="{top: !isLoading, shifted: showOneLine, fixed: fixedLogo, center: isLogoCentered}" :style="mainLineStyle" class="page__logo logo">
-          <img src="@/assets/images/logo.svg" alt="">
-        </router-link>
-        <span class="page__line" :class="{showed: !isLoading}" :style="mainLineStyle"></span>
-        <span class="page__line" v-if="!showOneLine" :class="{done: animationDone}" :style="{right: columnWidth[2]}"></span>
-        <base-page></base-page>
+      <div class="page">
+        <template v-if="windowWidth > 767">
+          <div class="preloader" :class="{hidden: !isLoading}"></div>
+          <router-link to="/" :class="{top: !isLoading, shifted: showOneLine, fixed: fixedLogo, center: isLogoCentered}" :style="mainLineStyle" class="page__logo logo">
+            <img src="@/assets/images/logo.svg" alt="">
+          </router-link>
+          <span class="page__line" :class="{showed: !isLoading}" :style="mainLineStyle"></span>
+          <span class="page__line" v-if="!showOneLine" :class="{done: animationDone}" :style="{right: columnWidth[2]}"></span>
+          <base-page></base-page>
+        </template>
+        <template v-else>
+          <router-view />
+        </template>
       </div>
     </div>
 
@@ -18,7 +23,7 @@
 </template>
 
 <script>
-import pageInstanceState from "@/pageInstance/page-instance.state.js"
+import pageInstanceState, {pageStateInit} from "@/pageInstance/page-instance.state.js"
 import GalleryBlock from "@/components/blocks/GalleryBlock";
 import AboutBlock from "@/components/blocks/AboutBlock";
 import BasePage from "@/components/BasePage";
@@ -44,6 +49,7 @@ export default {
       }
 
       if (to.path.includes('/gallery')) {
+        console.log('how?')
         pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.gallery.slice()
         pageInstanceState.activeColumn = 2
         pageInstanceState.activeBlock = 'gallery'
@@ -73,6 +79,7 @@ export default {
     }
   },
   mounted() {
+    pageStateInit()
     // искусственная задержка
     setTimeout(() => {
       pageInstanceState.isLoading = false
@@ -87,10 +94,6 @@ export default {
 
   },
   computed: {
-    // Начальное состояние главной
-    init() {
-      return !pageInstanceState.activeBlock
-    },
     columnWidth() {
       return pageInstanceState.currentColumnWidth
     },

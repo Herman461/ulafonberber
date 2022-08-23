@@ -46,11 +46,13 @@ export default {
     onScroll() {
 
       // Если элемент еще не скроллился ни разу
-      if (!this.wasScrolled && !this.isActiveBlock) {
+      if (!this.wasScrolled && !this.isActiveBlock && !this.lock) {
         this.isLockedPage = true
+        pageInstanceState.lock = true
         this.$refs.gallery.scrollTo(0, 0)
         setTimeout(() => {
           this.isLockedPage = false
+          pageInstanceState.lock = false
         }, 600)
         this.wasScrolled = true
       }
