@@ -1,18 +1,13 @@
 <template>
   <div class="wrapper">
     <div class="container">
-      <div class="page">
-        <router-link to="/" :class="{top: !isLoading}" class="page__logo logo">
+      <div class="page" :class="{init: init}">
+        <div class="preloader" :class="{hidden: !isLoading}"></div>
+        <router-link to="/" :class="{top: !isLoading, shifted: showOneLine, fixed: fixedLogo}" :style="mainLineStyle" class="page__logo logo">
           <img src="@/assets/images/logo.svg" alt="">
         </router-link>
-        <span class="page__line" :class="{showed: !isLoading}" :style="{left: columnWidth[0]}"></span>
-        <span class="page__line" :class="{done: animationDone}" :style="{right: columnWidth[2]}"></span>
-<!--        <template v-else>-->
-<!--          <router-link to="/" :style="{right: `calc(${this.columnWidth[1]} - 32px)`}" class="page__logo logo">-->
-<!--            <img src="@/assets/images/logo.svg" alt="">-->
-<!--          </router-link>-->
-<!--          <span class="page__line" :style="{right: columnWidth[1]}"></span>-->
-<!--        </template>-->
+        <span class="page__line" :class="{showed: !isLoading}" :style="mainLineStyle"></span>
+        <span class="page__line" v-if="!showOneLine" :class="{done: animationDone}" :style="{right: columnWidth[2]}"></span>
         <base-page>
           <template v-slot:first-block>
             <about-block />
@@ -53,6 +48,17 @@ export default {
         pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.about.slice()
         pageInstanceState.activeColumn = 1
       }
+
+      // Прячем вторую линию, если выводим две колонки
+      // if (pageInstanceState.currentColumnWidth.length === 2) {
+      //   console.log(pageInstanceState.currentColumnWidth)
+      //   this.showOneLine = true
+      //   this.mainLineStyle.right = this.columnWidth[1]
+      // } else {
+      //
+      //   this.mainLineStyle.left = this.columnWidth[0]
+      //
+      // }
     }
   },
   mounted() {
@@ -70,6 +76,10 @@ export default {
 
   },
   computed: {
+    // Начальное состояние главной
+    init() {
+      return !pageInstanceState.activeBlock
+    },
     columnWidth() {
       return pageInstanceState.currentColumnWidth
     },
@@ -78,6 +88,12 @@ export default {
     },
     windowWidth() {
       return pageInstanceState.windowWidth
+    },
+    showOneLine() {
+      return pageInstanceState.currentColumnWidth.length === 2
+    },
+    fixedLogo() {
+      return this.isLoading && pageInstanceState.currentColumnWidth.length === 2
     },
     isLoading() {
       return pageInstanceState.isLoading
@@ -88,6 +104,12 @@ export default {
     animationDelay() {
       return pageInstanceState.animation.delay
     },
+    mainLineStyle() {
+      return {
+        left: this.columnWidth[0] !== 'auto' ? this.columnWidth[0] : 'auto',
+        right: this.columnWidth[0] === 'auto' ? this.columnWidth[1] : 'auto'
+      }
+    }
   },
   components: {BaseHeader, BasePage, AboutBlock, GalleryBlock},
 }

@@ -1,5 +1,5 @@
 <template>
-  <div @scroll="onScroll" :class="{'about_main': isAboutPage}" class="about">
+  <div ref="about" @scroll="onScroll" :class="{'active': isActiveBlock, 'lock': lockScroll}" class="about">
     <div class="about__body">
       <div class="about__block">
         <div class="about__image image">
@@ -7,41 +7,55 @@
             <img src="@/assets/images/portrait/Ula_52965_DONE-min.jpg" alt="">
           </router-link>
         </div>
-        <div v-if="!isAboutPage" class="about__title title">about</div>
-        <div v-if="isAboutPage" class="about__quote">«То хорошее, что мы получаем от искусства, — это не то, чему оно нас учит, а то, чем мы становимся благодаря ему»</div>
-        <div v-if="isAboutPage" class="about__author">Оскар Уайлд</div>
+        <div class="about__title title">about</div>
+        <div class="about__quote">
+          <span>«То хорошее, что мы получаем от искусства, — это не то, чему оно нас учит, а то, чем мы становимся благодаря ему»</span>
+          <div class="about__author">Оскар Уайлд</div>
+
+        </div>
+
       </div>
       <div class="about__content">
-        <div v-if="isAboutPage" class="about__title title">about</div>
         <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
           Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
           упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
           спрашивают нас: «Ты слышишь?».</p>
-        <p>ULAFONBERBER</p>
-        <div v-if="isAboutPage" class="about__title title">about</div>
         <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
           Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
           упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
           спрашивают нас: «Ты слышишь?».</p>
-        <p>ULAFONBERBER</p>
-        <div v-if="isAboutPage" class="about__title title">about</div>
         <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
           Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
           упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
           спрашивают нас: «Ты слышишь?».</p>
-        <p>ULAFONBERBER</p>
-        <div v-if="isAboutPage" class="about__title title">about</div>
         <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
           Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
           упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
           спрашивают нас: «Ты слышишь?».</p>
-        <p>ULAFONBERBER</p>
-        <div v-if="isAboutPage" class="about__title title">about</div>
         <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
           Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
           упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
           спрашивают нас: «Ты слышишь?».</p>
-        <p>ULAFONBERBER</p>
+        <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
+          Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
+          упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
+          спрашивают нас: «Ты слышишь?».</p>
+        <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
+          Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
+          упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
+          спрашивают нас: «Ты слышишь?».</p>
+        <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
+          Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
+          упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
+          спрашивают нас: «Ты слышишь?».</p>
+        <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
+          Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
+          упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
+          спрашивают нас: «Ты слышишь?».</p>
+        <p>Современной визуальной культуре присуще упрощение образов, в том числе и в скульптуре.
+          Абстрактные формы задают нам вопрос: «Ты чувствуешь?». Работы ULAFONBERBER не стремятся к
+          упрощению внешнего, но направляют нас к чистоте и гармонии внутреннего. Тихим шепотом они
+          спрашивают нас: «Ты слышишь?».</p>
         <p v-if="isAboutPage">
           Имя ULA воплощает все светское, социальное, то есть осознаваемое. FON означает
           принадлежность к месту, к роду... к своим корням, которые прочно удерживают нас в
@@ -71,25 +85,49 @@
 </template>
 
 <script>
+import pageInstanceState from "@/pageInstance/page-instance.state";
+import {debounce} from "@/utils/debounce";
 export default {
   name: "AboutBlock",
+  data() {
+    return {
+      wasScrolled: false,
+      lockScroll: false
+    }
+  },
   computed: {
+    activeColumn() {
+      return pageInstanceState.activeColumn
+    },
     isAboutPage() {
       return this.$route.path === '/about'
-    }
+    },
+    isActiveBlock() {
+      return pageInstanceState.activeBlock === 'about' || this.$route.path === '/about'
+    },
   },
   methods: {
     onScroll() {
-      console.log('test')
-    }
+      // Если элемент еще не скроллился ни разу
+      if (!this.wasScrolled && !this.isActiveBlock) {
+        this.$refs.about.scrollTo(0, 0)
+      }
+
+      if (!this.isActiveBlock) {
+
+        this.lockScroll = true
+        setTimeout(function() {
+          this.lockScroll = false
+          this.wasScrolled = true
+        }.bind(this), 600)
+
+
+        this.$emit('expand-first-column')
+        pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.about
+        pageInstanceState.activeBlock = 'about'
+      }
+    },
   },
-  mounted() {
-    // window.addEventListener('scroll', fun)
-  }
 }
 </script>
 
-
-<style scoped lang="scss">
-
-</style>
