@@ -16,7 +16,7 @@
       </div>
 
     <div :class="{active: (activeColumn === 3)}" :style="calculateWidth(columnWidth[2])" class="page__block">
-      <gallery-block :page="2" @expand-third-column="expandThirdCol"></gallery-block>
+        <gallery-block :page="2" @expand-third-column="expandThirdCol"></gallery-block>
     </div>
   </div>
 </template>
@@ -36,7 +36,10 @@ export default {
     calculateWidth(width) {
       if (!width) {
         return {
-          display: "none"
+          opacity: 0,
+          visibility: 'hidden',
+          height: 0,
+          width: 0
         }
       }
 

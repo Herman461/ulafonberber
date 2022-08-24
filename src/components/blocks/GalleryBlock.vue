@@ -44,18 +44,26 @@ export default {
   },
   methods: {
     onScroll() {
+      // Исключаем страницы, на которых мы не будем расширять колонку галлереи
+      if (this.$route.path.includes('/about') || this.$route.path.includes('/single')) return
+      // Если элемент еще не скроллился ни разу
+      // if (!this.wasScrolled && !this.isActiveBlock && !this.lock) {
+      //   this.isLockedPage = true
+      //   pageInstanceState.lock = true
+      //   this.$refs.gallery.scrollTo(0, 0)
+      //   setTimeout(() => {
+      //     this.isLockedPage = false
+      //     pageInstanceState.lock = false
+      //   }, 600)
+      //   this.wasScrolled = true
+      // }
 
       // Если элемент еще не скроллился ни разу
-      if (!this.wasScrolled && !this.isActiveBlock && !this.lock) {
-        this.isLockedPage = true
-        pageInstanceState.lock = true
+      if (!this.wasScrolled && !this.isActiveBlock) {
         this.$refs.gallery.scrollTo(0, 0)
-        setTimeout(() => {
-          this.isLockedPage = false
-          pageInstanceState.lock = false
-        }, 600)
-        this.wasScrolled = true
       }
+
+
       if (!this.isActiveBlock && !pageInstanceState.lock) {
         pageInstanceState.activeBlock = 'gallery'
         pageInstanceState.lock = true

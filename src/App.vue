@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div :class="{home: isHomePage}" class="wrapper">
     <div class="container">
       <base-header />
       <div class="page">
@@ -49,22 +49,10 @@ export default {
       }
 
       if (to.path.includes('/gallery')) {
-        console.log('how?')
         pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.gallery.slice()
         pageInstanceState.activeColumn = 2
         pageInstanceState.activeBlock = 'gallery'
       }
-
-      // Прячем вторую линию, если выводим две колонки
-      // if (pageInstanceState.currentColumnWidth.length === 2) {
-      //   console.log(pageInstanceState.currentColumnWidth)
-      //   this.showOneLine = true
-      //   this.mainLineStyle.right = this.columnWidth[1]
-      // } else {
-      //
-      //   this.mainLineStyle.left = this.columnWidth[0]
-      //
-      // }
     }
   },
   data() {
@@ -111,6 +99,9 @@ export default {
     },
     isLoading() {
       return pageInstanceState.isLoading
+    },
+    isHomePage() {
+      return this.$route.path === '/'
     },
     animationDone() {
       return pageInstanceState.animation.done

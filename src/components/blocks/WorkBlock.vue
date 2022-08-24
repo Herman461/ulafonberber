@@ -34,7 +34,7 @@
             Чам – одна из самых  красочный религиозных церемоний в   Тибетской культуре. Мистерия Чам - это танец мистического содержания, во время которого монахи, облаченные в костюмы и маски персонажей буддийского пантеона, с помощью символических жестов и движений представляли победу Учения над омрачениями ума.
             Монах облачается в божество, символически обретая его просветлённые качества и отождествляясь с ним.</p>
         </div>
-        <a href="" class="work__link link">Смотреть всю коллекцию</a>
+        <router-link to="/gallery" class="work__link link">Смотреть всю коллекцию</router-link>
       </div>
     </div>
   </div>
@@ -55,6 +55,7 @@ export default {
     return {
       activeImage: null,
       activeImageSrc: null,
+
       card: {
         images: [
             require('@/assets/images/vol_2/Ula_52475_DONE-min.jpg'),
@@ -88,6 +89,7 @@ export default {
     windowHeight() {
       return window.innerHeight
     }
-  }
+  },
+
 }
 </script>

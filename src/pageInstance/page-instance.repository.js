@@ -15,7 +15,7 @@ export default class PageInstanceRepository {
         const images = [
             {
                 id: 1,
-                src: require('@/assets/images/vol_1/Ula_52661_DONE-min.jpg'),
+                src: require('@/assets/images/vol_1/Ula_52604_DONE.jpg'),
                 name: "«Тертон 1»"
             },
             {
