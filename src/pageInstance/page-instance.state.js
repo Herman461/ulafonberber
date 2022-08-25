@@ -11,7 +11,9 @@ const pageInstanceState = reactive({
     currentColumnWidth: [],
     activeColumn: [],
     activeBlock: null,
+    language: "ru",
     isLoading: true,
+    isLoaded: false,
     lock: false,
     animation: {
         done: false,

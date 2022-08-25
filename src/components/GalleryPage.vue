@@ -25,7 +25,7 @@
 import pageInstanceState, {pageStateInit} from "@/pageInstance/page-instance.state";
 import GalleryBlock from "@/components/blocks/GalleryBlock";
 import BaseHeader from "@/components/common/BaseHeader";
-
+import $ from 'jquery'
 export default {
   name: "gallery-page",
   components: {BaseHeader, GalleryBlock},
@@ -36,8 +36,12 @@ export default {
     windowWidth() {
       return pageInstanceState.windowWidth
     },
+  },
+  mounted() {
+    pageInstanceState.isLoaded = true;
+    $(window).scrollTop(0)
+  },
 
-  }
 }
 </script>
 

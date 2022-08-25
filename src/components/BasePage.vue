@@ -32,6 +32,7 @@ import SingleBlock from "@/components/blocks/SingleBlock";
 
 export default {
   name: 'BasePage',
+
   methods: {
     calculateWidth(width) {
       if (!width) {

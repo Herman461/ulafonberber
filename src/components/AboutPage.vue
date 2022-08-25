@@ -27,11 +27,16 @@ import BasePage from "@/components/BasePage";
 import CollectionBlock from "@/components/blocks/CollectionBlock";
 import BaseHeader from "@/components/common/BaseHeader";
 import pageInstanceState, {pageStateInit} from "@/pageInstance/page-instance.state";
+import $ from "jquery";
 export default {
   name: 'AboutPage',
   components: {BaseHeader, CollectionBlock, BasePage, AboutBlock},
   created() {
     pageStateInit()
+  },
+  mounted() {
+    pageInstanceState.isLoaded = true;
+    $(window).scrollTop(0)
   },
   computed: {
     windowWidth() {

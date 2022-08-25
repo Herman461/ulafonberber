@@ -1,22 +1,7 @@
 <template>
-  <base-header />
   <div class="single">
-    <template v-if="windowWidth > 767">
-      <base-page>
-        <template v-slot:first-block>
-          <about-block />
-        </template>
-        <template v-slot:second-block>
-          <work-block />
-        </template>
-        <template v-slot:third-block>
-          <collection-block />
-        </template>
-      </base-page>
-    </template>
-    <template v-else>
-      <work-block />
-    </template>
+    <base-header />
+    <work-block />
   </div>
 
 </template>
@@ -29,6 +14,7 @@ import CollectionBlock from "@/components/blocks/CollectionBlock";
 import BasePage from "@/components/BasePage";
 import pageInstanceState, {pageStateInit} from "@/pageInstance/page-instance.state";
 import BaseHeader from "@/components/common/BaseHeader";
+import $ from "jquery";
 
 export default {
   name: "SinglePage",
@@ -40,6 +26,10 @@ export default {
     windowWidth() {
       return pageInstanceState.windowWidth
     }
-  }
+  },
+  mounted() {
+    pageInstanceState.isLoaded = true;
+    $(window).scrollTop(0)
+  },
 }
 </script>

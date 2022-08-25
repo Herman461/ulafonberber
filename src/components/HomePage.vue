@@ -1,22 +1,12 @@
 <template>
-  <base-header v-if="wasPageScrolled && windowWidth < 767" ref="header" />
+  <base-header v-if="wasPageScrolled" ref="header" />
   <div class="home">
-    <template v-if="windowWidth > 767">
-      <base-page>
-        <template v-slot:first-block>
-          <about-block />
-        </template>
-        <template v-slot:second-block>
-          <gallery-block :page="1"/>
-        </template>
-        <template v-slot:third-block>
-          <gallery-block :is-central="true" :page="2"/>
-        </template>
-      </base-page>
-    </template>
-    <template v-else>
-      <div :style="{'min-height': !wasPageScrolled ? '450px' : 'auto', height: !wasPageScrolled ? '100vh' : 'auto'}" :class="{scrolled: wasPageScrolled}" class="home__main main-home" ref="mainScreen">
-        <div :class="{hidden: isHiddenLogo}" class="main-home__logo">
+      <div
+          :style="{'min-height': !wasPageScrolled ? '450px' : 'auto', height: !wasPageScrolled ? '100vh' : 'auto'}"
+          :class="{scrolled: wasPageScrolled}"
+          class="home__main main-home" ref="mainScreen"
+      >
+        <div :class="{hidden: isHiddenLogo, fixed: isLogoFixed}" class="main-home__logo">
           <svg :style="{width: logo.width, height: logo.height, top: logo.top + '%'} ">
             <use xlink:href="@/assets/images/logo.svg#logo"></use>
           </svg>
@@ -34,7 +24,6 @@
       <div ref="about" class="home__about">
         <about-block />
       </div>
-    </template>
   </div>
 </template>
 
@@ -54,6 +43,7 @@ export default {
       wasMainBlockScrolled: false,
       isHiddenLogo: false,
       wasPageScrolled: false,
+      isLogoFixed: false,
       logo: {
         top: 50,
         height: 360,
@@ -62,6 +52,19 @@ export default {
     }
   },
   mounted() {
+    window.addEventListener('scroll', () => {
+      const aboutBlockTopPos = this.$refs.about.getBoundingClientRect().top
+      if (aboutBlockTopPos - 150 <= 0 && !this.isHiddenLogo) {
+        this.isHiddenLogo = true
+      } else if (aboutBlockTopPos - 150 >= 0 && this.isHiddenLogo) {
+        this.isHiddenLogo = false
+      }
+    })
+    if (this.isLoaded) {
+      this.isLogoFixed = true
+      this.wasPageScrolled = true
+      return
+    }
     document.body.style.overflow = 'hidden'
     const initialTopValue = this.logo.top
     const finalLogoWidth = 43
@@ -75,30 +78,28 @@ export default {
       }, 2000)
     })
     .then(() => {
-      $('html, body').animate({
-        scrollTop: window.innerHeight
-      }, 500, null, () => {
-        document.body.style.overflow = 'auto'
-        this.wasPageScrolled = true
-        window.scrollTo(0, 0)
-      });
-      // window.scrollBy({
-      //   top: window.innerHeight,
-      //   left: 0,
-      //   behavior: 'smooth'
-      // });
+          $('html, body').animate({
+            scrollTop: $(window).height() + 55
+          }, 900, null)
+      // $(window).animate({
+      //   duration: 900,
+      //   behavior: 'smooth',
+      //   scrollTop: $(window).height()
+      // })
       // this.$refs.gallery.scrollIntoView({ behavior: "smooth" });
     })
-    // .then(() => {
-    //   setTimeout(() => {
-    //
-    //   }, 1000)
-    // })
+    .then(() => {
+      setTimeout(() => {
+        document.body.style.overflow = 'auto'
+        this.wasPageScrolled = true
+        $(window).scrollTop(0, 0)
+        // window.scrollTo(0, 0)
+      }, 1100)
+    })
 
     window.onbeforeunload = function () {
-      window.scrollTo(0, 0);
+      $(window).scrollTop(0);
     }
-
     window.addEventListener('scroll', () => {
       const mainScreenHeight  = this.$refs.mainScreen.offsetHeight
       const scrollTop = document.documentElement.scrollTop
@@ -111,22 +112,17 @@ export default {
       this.logo.width = percent * finalLogoWidth
 
       this.logo.top = ((1 - offset) * initialTopValue).toFixed(2)
-      console.log(this.logo.top)
     })
 
-    window.addEventListener('scroll', () => {
-      const aboutBlockTopPos = this.$refs.about.getBoundingClientRect().top
-      if (aboutBlockTopPos - 150 <= 0 && !this.isHiddenLogo) {
-        this.isHiddenLogo = true
-      } else if (aboutBlockTopPos - 150 >= 0 && this.isHiddenLogo) {
-        this.isHiddenLogo = false
-      }
-    })
+
 
   },
   computed: {
     windowWidth() {
       return pageInstanceState.windowWidth
+    },
+    isLoaded() {
+      return pageInstanceState.isLoaded
     }
   },
   components: {BaseHeader, BasePage, AboutBlock, GalleryBlock},

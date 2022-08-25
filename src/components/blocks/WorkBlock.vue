@@ -1,6 +1,9 @@
 <template>
 
   <div class="work">
+    <router-link to="/gallery" class="work__button-prev">
+      <img src="@/assets/images/icons/arrow-prev.svg" alt="">
+    </router-link>
     <div v-if="activeImageSrc" class="work__viewer work-viewer">
       <div class="work-viewer__body">
         <button @click="closeImage" type="button" class="work-viewer__close"><span></span></button>
@@ -13,12 +16,17 @@
             :space-between="29"
             :slides-per-view="1.3"
         >
-          <swiper-slide v-for="(imageSrc, index) in card.images">
-            <router-link to="/single" class="work__image image">
-              <div class="image__item">
-                <img @click="expandImageSize($event, imageSrc)" :class="{active: activeImage === index}" :data-index="index" :src="imageSrc" alt="">
-              </div>
-            </router-link>
+
+          <swiper-slide v-for="image in images">
+            <el-image
+                style="max-width: 100%; height: auto;"
+                :src="image"
+                :preview-src-list="images"
+                :initial-index="4"
+                fit="cover"
+                @click="onImageClick"
+                @close="onImageClose"
+            />
           </swiper-slide>
         </swiper>
 
@@ -30,9 +38,9 @@
           2022
         </div>
         <div class="work__text">
-          <p>Композиция посвящена  мистерии Чам (Cham), впечатлившая  автора во время пребывания в    монастыре Менри.
-            Чам – одна из самых  красочный религиозных церемоний в   Тибетской культуре. Мистерия Чам - это танец мистического содержания, во время которого монахи, облаченные в костюмы и маски персонажей буддийского пантеона, с помощью символических жестов и движений представляли победу Учения над омрачениями ума.
-            Монах облачается в божество, символически обретая его просветлённые качества и отождествляясь с ним.</p>
+          <p>Композиция посвящена мистерии Чам (Cham), впечатлившая автора во&nbsp;время пребывания в&nbsp;монастыре Менри.
+            Чам&nbsp;&mdash; одна из&nbsp;самых красочный религиозных церемоний в&nbsp;Тибетской культуре. Мистерия Чам&nbsp;&mdash; это танец мистического содержания, во&nbsp;время которого монахи, облаченные в&nbsp;костюмы и&nbsp;маски персонажей буддийского пантеона, с&nbsp;помощью символических жестов и&nbsp;движений представляли победу Учения над омрачениями ума.
+            Монах облачается в&nbsp;божество, символически обретая его просветлённые качества и&nbsp;отождествляясь с&nbsp;ним.</p>
         </div>
         <router-link to="/gallery" class="work__link link">Смотреть всю коллекцию</router-link>
       </div>
@@ -44,6 +52,7 @@
 import { Swiper } from 'swiper/vue/swiper.js';
 import { SwiperSlide } from 'swiper/vue/swiper-slide.js';
 import 'swiper/swiper-bundle.min.css'
+import pageInstanceState from "@/pageInstance/page-instance.state";
 
 export default {
   name: "WorkBlock",
@@ -55,20 +64,23 @@ export default {
     return {
       activeImage: null,
       activeImageSrc: null,
-
-      card: {
-        images: [
-            require('@/assets/images/vol_2/Ula_52475_DONE-min.jpg'),
-            require('@/assets/images/vol_2/Ula_52483_DONE-min.jpg'),
-            require('@/assets/images/vol_2/Ula_52499_DONE-min.jpg'),
-            require('@/assets/images/vol_2/Ula_52501_DONE-min.jpg'),
-            require('@/assets/images/vol_2/Ula_52514_DONE-min.jpg'),
-            require('@/assets/images/vol_2/Ula_52519_DONE-min.jpg'),
-        ]
-      }
+      images: [
+        require('@/assets/images/vol_2/Ula_52475_DONE-min.jpg'),
+        require('@/assets/images/vol_2/Ula_52483_DONE-min.jpg'),
+        require('@/assets/images/vol_2/Ula_52499_DONE-min.jpg'),
+        require('@/assets/images/vol_2/Ula_52501_DONE-min.jpg'),
+        require('@/assets/images/vol_2/Ula_52514_DONE-min.jpg'),
+        require('@/assets/images/vol_2/Ula_52519_DONE-min.jpg'),
+      ]
     }
   },
   methods: {
+    onImageClick() {
+      document.body.classList.add('hide-all')
+    },
+    onImageClose() {
+      document.body.classList.remove('hide-all')
+    },
     expandImageSize($event, imageSrc) {
       this.activeImage = Number($event.target.dataset.index)
       this.activeImageSrc = imageSrc
@@ -88,7 +100,8 @@ export default {
     },
     windowHeight() {
       return window.innerHeight
-    }
+    },
+
   },
 
 }

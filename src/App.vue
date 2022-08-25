@@ -1,14 +1,14 @@
 <template>
-  <div :class="{home: isHomePage}" class="wrapper">
+  <div :class="{home: isHomePage, 'single-page': isSinglePage}" class="wrapper">
     <div class="container">
-      <base-header />
       <div class="page">
         <template v-if="windowWidth > 767">
+          <base-header />
           <div class="preloader" :class="{hidden: !isLoading}"></div>
           <router-link to="/" :class="{top: !isLoading, shifted: showOneLine, fixed: fixedLogo, center: isLogoCentered}" :style="mainLineStyle" class="page__logo logo">
             <img src="@/assets/images/logo.svg" alt="">
           </router-link>
-          <span class="page__line" :class="{showed: !isLoading}" :style="mainLineStyle"></span>
+          <span class="page__line page__line_first" :class="{showed: !isLoading}" :style="mainLineStyle"></span>
           <span class="page__line" v-if="!showOneLine" :class="{done: animationDone}" :style="{right: columnWidth[2]}"></span>
           <base-page></base-page>
         </template>
@@ -102,6 +102,9 @@ export default {
     },
     isHomePage() {
       return this.$route.path === '/'
+    },
+    isSinglePage() {
+      return this.$route.path.includes('/single')
     },
     animationDone() {
       return pageInstanceState.animation.done

@@ -1,18 +1,22 @@
 <template>
   <div @scroll="onScroll" ref="gallery" class="works" :class="{active: isActiveBlock, lock: isLockedPage}">
-    <div :class="{'works_central': isCentral}" class="works__image image" v-for="image in images">
-      <router-link to="/single" class="image__item">
-        <img :src="image.src" alt="">
-      </router-link>
-      <div class="image__label">{{ image.name }}</div>
+    <div class="works__images">
+      <div :class="{'works_central': isCentral, 'fade': fade}" class="works__image image" v-for="image in images">
+        <router-link to="/single" class="image__item">
+          <img :src="image.src" alt="">
+        </router-link>
+        <div class="image__label">{{ image.name }}</div>
+      </div>
     </div>
+
   </div>
 </template>
 
 <script>
 import pageController from "@/pageInstance/page-instance.controller";
 import pageInstanceState from "@/pageInstance/page-instance.state";
-console.log(pageInstanceState)
+
+
 export default {
   name: "GalleryBlock",
   props: {
@@ -36,11 +40,21 @@ export default {
     return {
       images: [],
       wasScrolled: false,
-      isLockedPage: false
+      isLockedPage: false,
+      fade: false
     }
   },
   async created() {
     this.images = await pageController.getGalleryImages(this.page)
+  },
+  watch: {
+    '$route'(from, to) {
+      // Анимация для текстового блока
+      this.fade = true
+      setTimeout(() => {
+        this.fade = false
+      }, 900)
+    },
   },
   methods: {
     onScroll() {
