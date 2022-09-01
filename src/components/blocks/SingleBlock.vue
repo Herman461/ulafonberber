@@ -74,7 +74,6 @@ export default {
   watch: {
     '$route'(from, to) {
       // Анимация для текстового блока
-      console.log('ez')
       this.fade = true
       setTimeout(() => {
         this.fade = false

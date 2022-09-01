@@ -1,12 +1,12 @@
 <template>
-  <div :class="{home: isHomePage, 'single-page': isSinglePage}" class="wrapper">
+  <div :class="{home: isHomePage, 'single-page': isSinglePage, 'gallery-page': isGalleryPage}" class="wrapper">
     <div class="container">
       <div class="page">
         <template v-if="windowWidth > 767">
           <base-header />
           <div class="preloader" :class="{hidden: !isLoading}"></div>
           <router-link to="/" :class="{top: !isLoading, shifted: showOneLine, fixed: fixedLogo, center: isLogoCentered}" :style="mainLineStyle" class="page__logo logo">
-            <img src="@/assets/images/logo.svg" alt="">
+            <img src="@/assets/images/logo.png" alt="">
           </router-link>
           <span class="page__line page__line_first" :class="{showed: !isLoading}" :style="mainLineStyle"></span>
           <span class="page__line" v-if="!showOneLine" :class="{done: animationDone}" :style="{right: columnWidth[2]}"></span>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import pageInstanceState, {pageStateInit} from "@/pageInstance/page-instance.state.js"
+import pageInstanceState, {aboutTextChangePosition, pageStateInit} from "@/pageInstance/page-instance.state.js"
 import GalleryBlock from "@/components/blocks/GalleryBlock";
 import AboutBlock from "@/components/blocks/AboutBlock";
 import BasePage from "@/components/BasePage";
@@ -32,6 +32,7 @@ export default {
   name: "App",
   watch: {
     '$route'(to, from) {
+
       if (to.path === '/') {
         pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.home.slice()
         pageInstanceState.activeColumn = 1
@@ -75,6 +76,7 @@ export default {
       // Завершение анимации
       setTimeout(() => {
         pageInstanceState.animation.done = true
+        aboutTextChangePosition()
       }, this.animationDelay)
 
     }, 1500)
@@ -85,6 +87,7 @@ export default {
     columnWidth() {
       return pageInstanceState.currentColumnWidth
     },
+
     activeColumn() {
       return pageInstanceState.activeColumn
     },
@@ -105,6 +108,9 @@ export default {
     },
     isSinglePage() {
       return this.$route.path.includes('/single')
+    },
+    isGalleryPage() {
+      return this.$route.path.includes('/gallery')
     },
     animationDone() {
       return pageInstanceState.animation.done

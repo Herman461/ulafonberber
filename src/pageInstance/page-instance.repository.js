@@ -11,7 +11,7 @@
 
 
 export default class PageInstanceRepository {
-    async getGalleryImages(page = 1) {
+    async getGalleryImages(page = 1, count = 3) {
         const images = [
             {
                 id: 1,
@@ -43,11 +43,26 @@ export default class PageInstanceRepository {
                 src: require('@/assets/images/vol_2/Ula_52642_DONE-min.jpg'),
                 name: "«Созерцатель»"
             },
+            {
+                id: 7,
+                src: require('@/assets/images/vol_1/Ula_52819_DONE-min.jpg'),
+                name: "«Созерцатель»"
+            },
+            {
+                id: 8,
+                src: require('@/assets/images/vol_1/Ula_52822_DONE-min.jpg'),
+                name: "«Созерцатель»"
+            },
+            {
+                id: 9,
+                src: require('@/assets/images/vol_1/Ula_52838_DONE-min.jpg'),
+                name: "«Созерцатель»"
+            },
         ]
         if (page === 1) {
             return images.slice(0, 3);
         } else if (page === 2) {
-            return images.slice(3, 6);
+            return images.slice(3, 9);
         }
     }
 }

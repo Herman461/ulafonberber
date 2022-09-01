@@ -2,7 +2,7 @@
   <base-header v-if="wasPageScrolled" ref="header" />
   <div class="home">
       <div
-          :style="{'min-height': !wasPageScrolled ? '450px' : 'auto', height: !wasPageScrolled ? '100vh' : 'auto'}"
+          :style="{height: !wasPageScrolled ? '100vh' : 'auto'}"
           :class="{scrolled: wasPageScrolled}"
           class="home__main main-home" ref="mainScreen"
       >
@@ -18,7 +18,7 @@
           <gallery-block :page="1" />
         </div>
         <div class="gallery__column">
-          <gallery-block :page="2" />
+          <gallery-block :page="2" :count="6" />
         </div>
       </div>
       <div ref="about" class="home__about">
@@ -51,6 +51,9 @@ export default {
       }
     }
   },
+  created() {
+    $(window).scrollTop(0)
+  },
   mounted() {
     window.addEventListener('scroll', () => {
       const aboutBlockTopPos = this.$refs.about.getBoundingClientRect().top
@@ -79,7 +82,7 @@ export default {
     })
     .then(() => {
           $('html, body').animate({
-            scrollTop: $(window).height() + 55
+            scrollTop: this.$refs.mainScreen.clientHeight
           }, 900, null)
       // $(window).animate({
       //   duration: 900,

@@ -18,6 +18,9 @@ const pageInstanceState = reactive({
     animation: {
         done: false,
         delay: 600
+    },
+    textPosition: {
+        about: 0
     }
 })
 
@@ -26,6 +29,14 @@ export function pageStateInit() {
     window.addEventListener('resize', () => {
         pageInstanceState.windowWidth = document.documentElement.clientWidth
     })
+}
+
+export function aboutTextChangePosition(delay = 900) {
+    setTimeout(() => {
+        const text = document.querySelector('#about-text')
+        pageInstanceState.textPosition.about = window.innerHeight - text.getBoundingClientRect().y
+    }, delay)
+
 }
 
 export default pageInstanceState
