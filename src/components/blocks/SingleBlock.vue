@@ -43,12 +43,13 @@ export default {
       lockScroll: false,
       fade: false,
       images: [
+        require('@/assets/images/vol_2/Ula_52519_DONE-min.jpg'),
         require('@/assets/images/vol_2/Ula_52475_DONE-min.jpg'),
         require('@/assets/images/vol_2/Ula_52483_DONE-min.jpg'),
         require('@/assets/images/vol_2/Ula_52499_DONE-min.jpg'),
         require('@/assets/images/vol_2/Ula_52501_DONE-min.jpg'),
         require('@/assets/images/vol_2/Ula_52514_DONE-min.jpg'),
-        require('@/assets/images/vol_2/Ula_52519_DONE-min.jpg'),
+
       ]
     }
   },

@@ -76,7 +76,10 @@ export default {
       // Завершение анимации
       setTimeout(() => {
         pageInstanceState.animation.done = true
-        aboutTextChangePosition()
+        if (this.isSinglePage || this.isGalleryPage) {
+          aboutTextChangePosition()
+        }
+
       }, this.animationDelay)
 
     }, 1500)
@@ -107,6 +110,9 @@ export default {
       return this.$route.path === '/'
     },
     isSinglePage() {
+      return this.$route.path.includes('/single')
+    },
+    isAboutPage() {
       return this.$route.path.includes('/single')
     },
     isGalleryPage() {

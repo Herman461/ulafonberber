@@ -6,14 +6,14 @@
           :class="{scrolled: wasPageScrolled}"
           class="home__main main-home" ref="mainScreen"
       >
-        <div :class="{hidden: isHiddenLogo, fixed: isLogoFixed}" class="main-home__logo">
+        <div :class="{hidden: isHiddenTop, fixed: isLogoFixed}" class="main-home__logo">
           <svg :style="{width: logo.width, height: logo.height, top: logo.top + '%'} ">
             <use xlink:href="@/assets/images/logo.svg#logo"></use>
           </svg>
         </div>
       </div>
       <div class="line"></div>
-      <div ref="gallery" class="gallery">
+      <div ref="gallery" class="gallery" :class="{hidden: isHiddenTop}">
         <div class="gallery__column">
           <gallery-block :page="1" />
         </div>
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       wasMainBlockScrolled: false,
-      isHiddenLogo: false,
+      isHiddenTop: false,
       wasPageScrolled: false,
       isLogoFixed: false,
       logo: {
@@ -57,10 +57,10 @@ export default {
   mounted() {
     window.addEventListener('scroll', () => {
       const aboutBlockTopPos = this.$refs.about.getBoundingClientRect().top
-      if (aboutBlockTopPos - 150 <= 0 && !this.isHiddenLogo) {
-        this.isHiddenLogo = true
-      } else if (aboutBlockTopPos - 150 >= 0 && this.isHiddenLogo) {
-        this.isHiddenLogo = false
+      if (aboutBlockTopPos - 150 <= 0 && !this.isHiddenTop) {
+        this.isHiddenTop = true
+      } else if (aboutBlockTopPos - 150 >= 0 && this.isHiddenTop) {
+        this.isHiddenTop = false
       }
     })
     if (this.isLoaded) {

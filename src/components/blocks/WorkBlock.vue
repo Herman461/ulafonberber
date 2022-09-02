@@ -38,9 +38,7 @@
           2022
         </div>
         <div class="work__text">
-          <p>Композиция посвящена мистерии Чам (Cham), впечатлившая автора во&nbsp;время пребывания в&nbsp;монастыре Менри.
-            Чам&nbsp;&mdash; одна из&nbsp;самых красочный религиозных церемоний в&nbsp;Тибетской культуре. Мистерия Чам&nbsp;&mdash; это танец мистического содержания, во&nbsp;время которого монахи, облаченные в&nbsp;костюмы и&nbsp;маски персонажей буддийского пантеона, с&nbsp;помощью символических жестов и&nbsp;движений представляли победу Учения над омрачениями ума.
-            Монах облачается в&nbsp;божество, символически обретая его просветлённые качества и&nbsp;отождествляясь с&nbsp;ним.</p>
+          <p>Композиция посвящена мистерии Чам (Cham), впечатлившая автора во&nbsp;время пребывания в&nbsp;монастыре Менри. Чам&nbsp;&mdash; одна из&nbsp;самых красочный религиозных церемоний в&nbsp;Тибетской культуре. Мистерия Чам&nbsp;&mdash; это танец мистического содержания, во&nbsp;время которого монахи, облаченные в&nbsp;костюмы и&nbsp;маски персонажей буддийского пантеона, с&nbsp;помощью символических жестов и&nbsp;движений представляли победу Учения над омрачениями ума. Монах облачается в&nbsp;божество, символически обретая его просветлённые качества и&nbsp;отождествляясь с&nbsp;ним.</p>
         </div>
         <router-link to="/gallery" class="work__link link">Смотреть всю коллекцию</router-link>
       </div>
@@ -65,12 +63,12 @@ export default {
       activeImage: null,
       activeImageSrc: null,
       images: [
+        require('@/assets/images/vol_2/Ula_52519_DONE-min.jpg'),
         require('@/assets/images/vol_2/Ula_52475_DONE-min.jpg'),
         require('@/assets/images/vol_2/Ula_52483_DONE-min.jpg'),
         require('@/assets/images/vol_2/Ula_52499_DONE-min.jpg'),
         require('@/assets/images/vol_2/Ula_52501_DONE-min.jpg'),
         require('@/assets/images/vol_2/Ula_52514_DONE-min.jpg'),
-        require('@/assets/images/vol_2/Ula_52519_DONE-min.jpg'),
       ]
     }
   },

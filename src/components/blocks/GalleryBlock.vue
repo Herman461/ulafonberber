@@ -4,7 +4,7 @@
         <router-link to="/single" class="image__item">
           <img :src="image.src" alt="">
         </router-link>
-        <div class="image__label">{{ image.name }}</div>
+        <div class="image__label" v-html="image.name"></div>
       </div>
     </div>
 </template>
