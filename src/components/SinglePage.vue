@@ -1,6 +1,6 @@
 <template>
   <div class="single">
-    <base-header />
+    <base-header :show-arrow="true" />
     <work-block />
   </div>
 

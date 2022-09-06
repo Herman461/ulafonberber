@@ -15,10 +15,10 @@
       <div class="line"></div>
       <div ref="gallery" class="gallery" :class="{hidden: isHiddenTop}">
         <div class="gallery__column">
-          <gallery-block :page="1" />
+          <gallery-block orientation="vertical" />
         </div>
         <div class="gallery__column">
-          <gallery-block :page="2" :count="6" />
+          <gallery-block orientation="horizontal" />
         </div>
       </div>
       <div ref="about" class="home__about">

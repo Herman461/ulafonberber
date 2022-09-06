@@ -11,12 +11,12 @@
           <single-block v-if="isSingle" />
         </Transition>
         <Transition>
-          <gallery-block v-if="!isSingle" :page="1" @expand-second-column="expandSecondCol" ></gallery-block>
+          <gallery-block v-if="!isSingle" orientation="vertical" @expand-second-column="expandSecondCol" ></gallery-block>
         </Transition>
       </div>
 
     <div :class="{active: (activeColumn === 3)}" :style="calculateWidth(columnWidth[2])" class="page__block">
-        <gallery-block :page="2" @expand-third-column="expandThirdCol"></gallery-block>
+        <gallery-block orientation="horizontal" @expand-third-column="expandThirdCol"></gallery-block>
     </div>
   </div>
 </template>
@@ -28,7 +28,7 @@ import GalleryBlock from "@/components/blocks/GalleryBlock";
 import AboutBlock from "@/components/blocks/AboutBlock";
 import BaseHeader from "@/components/common/BaseHeader";
 import SingleBlock from "@/components/blocks/SingleBlock";
-
+import pageController from "@/pageInstance/page-instance.controller";
 
 export default {
   name: 'BasePage',
@@ -76,7 +76,7 @@ export default {
   computed: {
     // временная заглушка
     isSingle() {
-      return this.$route.path === '/single' && pageInstanceState.activeBlock === 'single'
+      return this.$route.path.includes('/single') && pageInstanceState.activeBlock === 'single'
     },
     columnWidth() {
       return pageInstanceState.currentColumnWidth
@@ -90,6 +90,9 @@ export default {
     animationDone() {
       return pageInstanceState.animation.done
     }
+  },
+  async created() {
+    await pageController.getWorks()
   },
   components: {SingleBlock, BaseHeader, AboutBlock, GalleryBlock},
 }

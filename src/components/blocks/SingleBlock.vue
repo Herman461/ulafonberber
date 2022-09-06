@@ -3,11 +3,11 @@
     <div class="single__body">
       <div class="single__images">
 
-        <div v-for="imageSrc in images" class="single__image">
+        <div v-for="imageSrc in work.gallary" class="single__image">
           <el-image
               style="max-width: 100%; height: auto;"
               :src="imageSrc"
-              :preview-src-list="images"
+              :preview-src-list="work.gallary"
               :initial-index="4"
               fit="cover"
               @click="onImageClick"
@@ -16,15 +16,8 @@
         </div>
       </div>
       <div class="single__content">
-        <div class="single__title title">
-          «Чам» <br>
-          Бронза. 82-47-48 <br>
-          2022
-        </div>
-        <div class="single__text" :class="{hidden: fade}">
-          <p>Композиция посвящена мистерии Чам (Cham), впечатлившая автора во&nbsp;время пребывания в&nbsp;монастыре Менри.
-            Чам&nbsp;&mdash; одна из&nbsp;самых красочный религиозных церемоний в&nbsp;Тибетской культуре. Мистерия Чам&nbsp;&mdash; это танец мистического содержания, во&nbsp;время которого монахи, облаченные в&nbsp;костюмы и&nbsp;маски персонажей буддийского пантеона, с&nbsp;помощью символических жестов и&nbsp;движений представляли победу Учения над омрачениями ума.
-            Монах облачается в&nbsp;божество, символически обретая его просветлённые качества и&nbsp;отождествляясь с&nbsp;ним.</p>
+        <div class="single__title title" v-html="work.name"></div>
+        <div class="single__text" :class="{hidden: fade}" v-html="work.description">
         </div>
       </div>
     </div>
@@ -34,6 +27,8 @@
 <script>
 import pageInstanceState from "@/pageInstance/page-instance.state";
 import 'element-plus/dist/index.css'
+import icon from "@/assets/images/icons/arrow-prev.svg";
+import pageInstanceController from "@/pageInstance/page-instance.controller";
 
 export default {
   name: "single-block",
@@ -42,20 +37,48 @@ export default {
       wasScrolled: false,
       lockScroll: false,
       fade: false,
-      images: [
-        require('@/assets/images/vol_2/Ula_52519_DONE-min.jpg'),
-        require('@/assets/images/vol_2/Ula_52475_DONE-min.jpg'),
-        require('@/assets/images/vol_2/Ula_52483_DONE-min.jpg'),
-        require('@/assets/images/vol_2/Ula_52499_DONE-min.jpg'),
-        require('@/assets/images/vol_2/Ula_52501_DONE-min.jpg'),
-        require('@/assets/images/vol_2/Ula_52514_DONE-min.jpg'),
-
-      ]
+      work: [],
     }
+  },
+  mounted() {
+    // Замена стандартных переключателей галереи
+    // const arrowPrev = document.querySelector('.el-image-viewer__btn.el-image-viewer__prev')
+    // const arrowNext = document.querySelector('.el-image-viewer__btn.el-image-viewer__prev')
+    //
+    // const icon = require('@/assets/images/icons/arrow-prev.svg')
+    //
+    // arrowPrev.outerHTML = `
+    //   <div class="el-image-viewer__btn el-image-viewer__prev">
+    //     <img src="${icon}" alt="">
+    //   </div>
+    // `
+  },
+  async created() {
+    await pageInstanceController.getWork(this.$route.params.id)
   },
   methods: {
     onImageClick() {
       document.body.classList.add('hide-all')
+      // Замена стандартных переключателей галереи
+      setTimeout(() => {
+        const arrowPrev = document.querySelector('.el-image-viewer__btn.el-image-viewer__prev')
+        const arrowNext = document.querySelector('.el-image-viewer__btn.el-image-viewer__next')
+
+        const icon = require('@/assets/images/icons/arrow-prev.svg')
+
+        arrowPrev.innerHTML = `
+            <span class="el-icon">
+                <img src="${icon}" alt="">
+            </span>
+      `
+
+        arrowNext.innerHTML = `
+            <span class="el-icon">
+                <img src="${icon}" alt="">
+            </span>
+      `
+      })
+
     },
     onImageClose() {
       document.body.classList.remove('hide-all')
@@ -66,12 +89,18 @@ export default {
       return pageInstanceState.activeColumn
     },
     isAboutPage() {
-      return this.$route.path === '/single'
+      return this.$route.path.includes('/single')
     },
     isActiveBlock() {
-      return pageInstanceState.activeBlock === 'single' || this.$route.path === '/single'
+      return pageInstanceState.activeBlock === 'single' || this.$route.path.includes('/single')
     },
+    work() {
+      return pageInstanceState.activeWork
+    }
   },
+  // async created() {
+  //   // const id = this.$route.params.id
+  // },
   watch: {
     '$route'(from, to) {
       // Анимация для текстового блока

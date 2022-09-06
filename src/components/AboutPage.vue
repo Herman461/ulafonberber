@@ -1,23 +1,10 @@
 <template>
-  <base-header />
+  <base-header :show-arrow="true" />
   <div class="about-page">
-    <template v-if="windowWidth > 767">
-      <base-page>
-        <template v-slot:first-block>
-          <about-block />
-        </template>
-        <template v-slot:second-block>
-          <collection-block />
-        </template>
-      </base-page>
-    </template>
-    <template v-else>
-      <div class="about-page__main">
-        <about-block />
-      </div>
-
-      <router-link to="/" class="about-page__link link">Вернуться</router-link>
-    </template>
+    <div class="about-page__main">
+      <about-block />
+    </div>
+    <router-link to="/" class="about-page__link link">Вернуться</router-link>
   </div>
 </template>
 

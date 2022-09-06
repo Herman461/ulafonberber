@@ -1,8 +1,8 @@
 <template>
   <div @scroll="onScroll" ref="gallery" class="works" :class="{active: isActiveBlock, lock: isLockedPage}">
       <div :class="{'works_central': isCentral}" class="works__image image" v-for="image in images">
-        <router-link to="/single" class="image__item">
-          <img :src="image.src" alt="">
+        <router-link @click="onImageClick(image.id)" :to='"/single/" + image.id' class="image__item">
+          <img :src="image.preview_medium" alt="">
         </router-link>
         <div class="image__label" v-html="image.name"></div>
       </div>
@@ -17,8 +17,8 @@ import pageInstanceState from "@/pageInstance/page-instance.state";
 export default {
   name: "GalleryBlock",
   props: {
-    page: {
-      type: Number
+    orientation: {
+      type: String
     },
     isCentral: {
       type: Boolean,
@@ -31,20 +31,27 @@ export default {
     },
     lock() {
       return pageInstanceState.lock
+    },
+    images() {
+      if (this.orientation === 'horizontal') {
+        return pageInstanceState.horizontalWorks
+      } else {
+        return pageInstanceState.verticalWorks
+      }
     }
   },
   data() {
     return {
-      images: [],
+
       wasScrolled: false,
       isLockedPage: false,
       fade: false
     }
   },
-  async created() {
-    this.images = await pageController.getGalleryImages(this.page)
-  },
   methods: {
+    async onImageClick(id) {
+      await pageController.getWork(id)
+    },
     onScroll() {
       // Исключаем страницы, на которых мы не будем расширять колонку галлереи
       if (this.$route.path.includes('/about') || this.$route.path.includes('/single')) return

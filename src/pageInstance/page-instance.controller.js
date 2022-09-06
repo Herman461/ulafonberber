@@ -15,10 +15,12 @@ class PageInstanceController {
 
     #service = new PageInstanceService()
 
-    async getGalleryImages(page) {
-        return await this.#service.getGalleryImages(page)
+    async getWorks() {
+        return await this.#service.getWorks()
     }
-
+    async getWork(id) {
+        return await this.#service.getWork(id)
+    }
 }
 
 export default new PageInstanceController()

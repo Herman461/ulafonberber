@@ -1,9 +1,7 @@
 <template>
 
   <div class="work">
-    <router-link to="/gallery" class="work__button-prev">
-      <img src="@/assets/images/icons/arrow-prev.svg" alt="">
-    </router-link>
+
     <div v-if="activeImageSrc" class="work__viewer work-viewer">
       <div class="work-viewer__body">
         <button @click="closeImage" type="button" class="work-viewer__close"><span></span></button>
@@ -17,11 +15,11 @@
             :slides-per-view="1.3"
         >
 
-          <swiper-slide v-for="image in images">
+          <swiper-slide v-for="image in work.gallary">
             <el-image
                 style="max-width: 100%; height: auto;"
                 :src="image"
-                :preview-src-list="images"
+                :preview-src-list="work.gallary"
                 :initial-index="4"
                 fit="cover"
                 @click="onImageClick"
@@ -32,13 +30,9 @@
 
       </div>
       <div class="work__content">
-        <div class="work__title title">
-          «Чам» <br>
-          Бронза. 82-47-48 <br>
-          2022
+        <div class="work__title title" v-html="work.name">
         </div>
-        <div class="work__text">
-          <p>Композиция посвящена мистерии Чам (Cham), впечатлившая автора во&nbsp;время пребывания в&nbsp;монастыре Менри. Чам&nbsp;&mdash; одна из&nbsp;самых красочный религиозных церемоний в&nbsp;Тибетской культуре. Мистерия Чам&nbsp;&mdash; это танец мистического содержания, во&nbsp;время которого монахи, облаченные в&nbsp;костюмы и&nbsp;маски персонажей буддийского пантеона, с&nbsp;помощью символических жестов и&nbsp;движений представляли победу Учения над омрачениями ума. Монах облачается в&nbsp;божество, символически обретая его просветлённые качества и&nbsp;отождествляясь с&nbsp;ним.</p>
+        <div class="work__text" v-html="work.description">
         </div>
         <router-link to="/gallery" class="work__link link">Смотреть всю коллекцию</router-link>
       </div>
@@ -51,6 +45,8 @@ import { Swiper } from 'swiper/vue/swiper.js';
 import { SwiperSlide } from 'swiper/vue/swiper-slide.js';
 import 'swiper/swiper-bundle.min.css'
 import pageInstanceState from "@/pageInstance/page-instance.state";
+import pageInstanceController from "@/pageInstance/page-instance.controller";
+import icon from "@/assets/images/icons/arrow-prev.svg";
 
 export default {
   name: "WorkBlock",
@@ -62,19 +58,33 @@ export default {
     return {
       activeImage: null,
       activeImageSrc: null,
-      images: [
-        require('@/assets/images/vol_2/Ula_52519_DONE-min.jpg'),
-        require('@/assets/images/vol_2/Ula_52475_DONE-min.jpg'),
-        require('@/assets/images/vol_2/Ula_52483_DONE-min.jpg'),
-        require('@/assets/images/vol_2/Ula_52499_DONE-min.jpg'),
-        require('@/assets/images/vol_2/Ula_52501_DONE-min.jpg'),
-        require('@/assets/images/vol_2/Ula_52514_DONE-min.jpg'),
-      ]
+      work: [],
     }
   },
+
   methods: {
     onImageClick() {
       document.body.classList.add('hide-all')
+      // Замена стандартных переключателей галереи
+      setTimeout(() => {
+        const arrowPrev = document.querySelector('.el-image-viewer__btn.el-image-viewer__prev')
+        const arrowNext = document.querySelector('.el-image-viewer__btn.el-image-viewer__next')
+
+        const icon = require('@/assets/images/icons/arrow-prev.svg')
+
+        arrowPrev.innerHTML = `
+            <span class="el-icon">
+                <img src="${icon}" alt="">
+            </span>
+      `
+
+        arrowNext.innerHTML = `
+            <span class="el-icon">
+                <img src="${icon}" alt="">
+            </span>
+      `
+      })
+
     },
     onImageClose() {
       document.body.classList.remove('hide-all')
@@ -92,6 +102,9 @@ export default {
       this.activeImage = null
     }
   },
+  async created() {
+    await pageInstanceController.getWork(this.$route.params.id)
+  },
   computed: {
     windowWidth() {
       return window.innerWidth
@@ -99,7 +112,9 @@ export default {
     windowHeight() {
       return window.innerHeight
     },
-
+    work() {
+      return pageInstanceState.activeWork
+    }
   },
 
 }

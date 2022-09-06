@@ -438,6 +438,12 @@ p:last-child {
     -webkit-transition: all 0.9s ease 0s;
     -o-transition: all 0.9s ease 0s;
     transition: all 0.9s ease 0s;
+    font-weight: 300;
+    line-height: calc(23.4 / 18 * 100%);
+}
+.work__text {
+    font-weight: 300;
+    line-height: calc(23.4 / 18 * 100%);
 }
 
 .single__text.hidden {
@@ -447,6 +453,10 @@ p:last-child {
 
 .title {
     margin-bottom: 26px;
+}
+
+.el-image-viewer__actions {
+    display: none;
 }
 
 .page__block.active .about {
@@ -755,7 +765,22 @@ p:last-child {
     visibility: hidden;
     z-index: 50;
 }
+.el-image-viewer__prev {
+    left: 0;
+    background: transparent;
+}
 
+.el-image-viewer__next {
+    right: 80px !important;
+    transform: rotate(180deg);
+    background: transparent;
+}
+
+.el-image-viewer__prev img,
+.el-image-viewer__next img {
+    width: 36px !important;
+    height: 18px !important;
+}
 @media (min-width: 767.98px) {
     .header.active .header__menu::before {
         content: "";
@@ -769,6 +794,9 @@ p:last-child {
     .el-image-viewer__close {
         right: 80px;
     }
+
+
+
 
     .header.active .header__top::before {
         content: "";
@@ -1067,6 +1095,13 @@ p:last-child {
 }
 
 @media (max-width: 767.98px) {
+    .el-image-viewer__next {
+        right: 15px !important;
+        transform: translate(0, -50%) rotate(180deg);
+    }
+    .el-image-viewer__prev {
+        left: 15px !important;
+    }
     .about__content .ps {
         height: auto !important;
     }
@@ -1095,6 +1130,7 @@ p:last-child {
         background: #F4F4EE;
         border-bottom: 1px solid #F4F4EE;
     }
+
 
     .main-home__logo.hidden svg {
         opacity: 0;
@@ -1612,9 +1648,9 @@ p:last-child {
         height: auto;
     }
 
-    .page__block:nth-child(3) .works.active .works__image:first-child {
-        margin-bottom: 34px;
-    }
+    /*.page__block:nth-child(3) .works.active .works__image:first-child {*/
+    /*    margin-bottom: 34px;*/
+    /*}*/
 
     .works {
         padding-right: 43px;
@@ -2051,6 +2087,10 @@ p:last-child {
         visibility: hidden;
     }
 
+    .header__top {
+        justify-content: space-between;
+        flex-direction: row-reverse;
+    }
     .el-image-viewer__close {
         top: 15px;
         right: 15px;
@@ -2064,9 +2104,20 @@ p:last-child {
         right: 0;
     }
 
-    .work__button-prev {
+
+    .header__button-prev {
         display: inline-block;
-        margin-bottom: 24px;
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        transform: translate(0, -50%);
+        transition: all 0.3s ease 0s;
+    }
+
+    .header.active .header__button-prev {
+        opacity: 0;
+        visibility: hidden;
+
     }
 
     .el-image-viewer__wrapper {

@@ -13,13 +13,26 @@
 
 
 import PageInstanceRepository from "@/pageInstance/page-instance.repository";
+import pageInstanceState from "@/pageInstance/page-instance.state";
 
 export default class PageInstanceService {
 
     #repository = new PageInstanceRepository()
 
-    async getGalleryImages(page) {
-        return await this.#repository.getGalleryImages(page)
+    async getWorks() {
+        const works = await this.#repository.getWorks()
+
+        pageInstanceState.verticalWorks = works.filter(work => work.orientation === 'vertical')
+        pageInstanceState.horizontalWorks = works.filter(work => work.orientation === 'horizontal')
+
+        return works
     }
 
+    async getWork(id) {
+        const work = await this.#repository.getWork(id)
+
+        pageInstanceState.activeWork = work
+
+        return work;
+    }
 }

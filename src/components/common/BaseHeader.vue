@@ -5,12 +5,13 @@
         <span></span>
         <span></span>
       </button>
+      <div v-if="showArrow" @click="$router.go(-1)" class="header__button-prev">
+        <img src="@/assets/images/icons/arrow-prev.svg" alt="">
+      </div>
       <ul class="header__languages">
         <li @click="changeLang('ch')" :class="{active: isChineseLang}" class="header__language">中文</li>
         <li @click="changeLang('ru')" :class="{active: isRussianLang}" class="header__language">ru</li>
         <li @click="changeLang('en')" :class="{active: isEnglishLang}" class="header__language">en</li>
-        <!--            <li class="header__language">ru</li>-->
-        <!--            <li class="header__language">en</li>-->
       </ul>
     </div>
     <div :class="{active: isActive}" class="header__menu menu-header">
@@ -34,9 +35,16 @@
 
 <script>
 import pageInstanceState from "@/pageInstance/page-instance.state";
+import pageInstanceController from "@/pageInstance/page-instance.controller";
 
 export default {
   name: "BaseHeader",
+  props: {
+    showArrow: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       isActive: false,
@@ -60,6 +68,8 @@ export default {
     changeLang(lang) {
       pageInstanceState.language = lang
       document.body.classList.remove('hidden')
+      pageInstanceController.getWorks()
+      pageInstanceController.getWork(this.$route.params.id)
     }
   },
   computed: {

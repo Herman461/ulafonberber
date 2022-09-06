@@ -8,7 +8,7 @@ import GalleryPage from "@/components/GalleryPage";
 
 const routes = [
     { path: '/', component: HomePage },
-    { path: '/single', component: SinglePage },
+    { path: '/single/:id', component: SinglePage },
     { path: '/about', component: AboutPage },
     { path: '/gallery', component: GalleryPage },
 ]
