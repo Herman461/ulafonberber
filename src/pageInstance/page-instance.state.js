@@ -22,8 +22,9 @@ const pageInstanceState = reactive({
     textPosition: {
         about: 0
     },
-    horizontalWorks: [],
-    verticalWorks: [],
+    works: [],
+    // horizontalWorks: [],
+    // verticalWorks: [],
     activeWork: []
 })
 

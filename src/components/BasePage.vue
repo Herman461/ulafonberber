@@ -11,12 +11,12 @@
           <single-block v-if="isSingle" />
         </Transition>
         <Transition>
-          <gallery-block v-if="!isSingle" orientation="vertical" @expand-second-column="expandSecondCol" ></gallery-block>
+          <gallery-block :page="1" v-if="!isSingle" @expand-second-column="expandSecondCol" ></gallery-block>
         </Transition>
       </div>
 
     <div :class="{active: (activeColumn === 3)}" :style="calculateWidth(columnWidth[2])" class="page__block">
-        <gallery-block orientation="horizontal" @expand-third-column="expandThirdCol"></gallery-block>
+        <gallery-block :page="2" @expand-third-column="expandThirdCol"></gallery-block>
     </div>
   </div>
 </template>

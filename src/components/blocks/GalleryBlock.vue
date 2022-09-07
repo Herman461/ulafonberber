@@ -2,7 +2,7 @@
   <div @scroll="onScroll" ref="gallery" class="works" :class="{active: isActiveBlock, lock: isLockedPage}">
       <div :class="{'works_central': isCentral}" class="works__image image" v-for="image in images">
         <router-link @click="onImageClick(image.id)" :to='"/single/" + image.id' class="image__item">
-          <img :src="image.preview_medium" alt="">
+          <el-image :src="image.preview_medium" alt="" lazy />
         </router-link>
         <div class="image__label" v-html="image.name"></div>
       </div>
@@ -17,9 +17,12 @@ import pageInstanceState from "@/pageInstance/page-instance.state";
 export default {
   name: "GalleryBlock",
   props: {
-    orientation: {
-      type: String
+    page: {
+
     },
+    // orientation: {
+    //   type: String
+    // },
     isCentral: {
       type: Boolean,
       default: false
@@ -33,11 +36,19 @@ export default {
       return pageInstanceState.lock
     },
     images() {
-      if (this.orientation === 'horizontal') {
-        return pageInstanceState.horizontalWorks
+      const length = pageInstanceState.works.length
+
+      if (this.page === 1) {
+        return pageInstanceState.works.slice(0, Math.floor(length / 2))
       } else {
-        return pageInstanceState.verticalWorks
+        return pageInstanceState.works.slice(Math.floor(length / 2), -1)
       }
+      // return pageInstanceState.works
+      // if (this.orientation === 'horizontal') {
+      //   return pageInstanceState.horizontalWorks
+      // } else {
+      //   return pageInstanceState.verticalWorks
+      // }
     }
   },
   data() {

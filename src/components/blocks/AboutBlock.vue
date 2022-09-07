@@ -128,6 +128,8 @@ export default {
       } else {
         pageInstanceState.textPosition.about = 0
       }
+
+      if (from.path.includes('/single') && to.path.includes('/single')) return
       // Анимация для текстового блока
       this.fade = true
       setTimeout(() => {

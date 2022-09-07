@@ -6,14 +6,14 @@
     </template>
     <template v-else>
       <div class="gallery__column">
-        <gallery-block orientation="vertical" />
+        <gallery-block :page="1" />
       </div>
       <div class="gallery__line"></div>
       <router-link to="/" class="gallery__logo">
         <img src="@/assets/images/logo.svg" alt="">
       </router-link>
       <div class="gallery__column">
-        <gallery-block orientation="horizontal" />
+        <gallery-block :page="2" />
       </div>
 
     </template>

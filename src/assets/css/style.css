@@ -328,6 +328,18 @@ p:last-child {
     visibility: hidden;
 }
 
+.single.v-enter-active .single__title,
+.single.v-enter-active .single__title {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.single__title {
+    -webkit-transition: all 0.9s ease 0s;
+    -o-transition: all 0.9s ease 0s;
+    transition: all 0.9s ease 0s;
+}
+
 .works {
     -webkit-transition: all 0.9s ease 0s;
     -o-transition: all 0.9s ease 0s;
@@ -446,7 +458,8 @@ p:last-child {
     line-height: calc(23.4 / 18 * 100%);
 }
 
-.single__text.hidden {
+.single__text.hidden,
+.single__title.hidden {
     opacity: 0;
     visibility: hidden;
 }
@@ -485,6 +498,11 @@ p:last-child {
     /*padding-top: 60px;*/
     min-height: 100vh;
     width: 100%;
+}
+
+.el-image {
+    display: block;
+    min-height: 200px;
 }
 
 .about__image {
@@ -1392,13 +1410,9 @@ p:last-child {
         flex: 0 1 50%;
     }
 
-    .gallery__column:first-child {
-        padding-right: 38px;
-    }
-    .gallery__column:last-child {
-        padding-left: 38px;
-    }
-
+    /*.gallery__column:first-child {*/
+    /*    padding-right: 38px;*/
+    /*}*/
     .gallery__line {
         position: absolute;
         top: -72px;
@@ -1967,28 +1981,15 @@ p:last-child {
     padding: 0;
 }
 
-@media (max-width: 400px) {
-    .works__image {
-        max-width: 95%;
-    }
+/*@media (max-width: 400px) {*/
 
-    .gallery__column:last-child .works {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        -webkit-box-align: end;
-        -ms-flex-align: end;
-        align-items: flex-end;
-    }
 
-    /*.gallery__column:last-child {*/
-    /*    padding-left: 0;*/
-    /*}*/
-}
+
+
+/*    !*.gallery__column:last-child {*!*/
+/*    !*    padding-left: 0;*!*/
+/*    !*}*!*/
+/*}*/
 
 /*.page__block {*/
 /*    !*position: relative;*!*/
@@ -2079,6 +2080,21 @@ p:last-child {
 }
 
 @media (max-width: 767.98px) {
+    .works__image {
+        max-width: 70%;
+    }
+    .gallery__column:last-child .works {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-align: end;
+        -ms-flex-align: end;
+        align-items: flex-end;
+    }
     .page {
         padding-top: 60px;
     }

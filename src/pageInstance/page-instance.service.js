@@ -20,12 +20,12 @@ export default class PageInstanceService {
     #repository = new PageInstanceRepository()
 
     async getWorks() {
-        const works = await this.#repository.getWorks()
+        pageInstanceState.works = await this.#repository.getWorks()
 
-        pageInstanceState.verticalWorks = works.filter(work => work.orientation === 'vertical')
-        pageInstanceState.horizontalWorks = works.filter(work => work.orientation === 'horizontal')
+        // pageInstanceState.verticalWorks = works.filter(work => work.orientation === 'vertical')
+        // pageInstanceState.horizontalWorks = works.filter(work => work.orientation === 'horizontal')
 
-        return works
+        return pageInstanceState.works
     }
 
     async getWork(id) {

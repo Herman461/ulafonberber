@@ -12,11 +12,12 @@
               fit="cover"
               @click="onImageClick"
               @close="onImageClose"
+              lazy
           />
         </div>
       </div>
       <div class="single__content">
-        <div class="single__title title" v-html="work.name"></div>
+        <div class="single__title title" :class="{hidden: fade}"  v-html="work.name"></div>
         <div class="single__text" :class="{hidden: fade}" v-html="work.description">
         </div>
       </div>
@@ -37,7 +38,6 @@ export default {
       wasScrolled: false,
       lockScroll: false,
       fade: false,
-      work: [],
     }
   },
   mounted() {
@@ -102,7 +102,12 @@ export default {
   //   // const id = this.$route.params.id
   // },
   watch: {
-    '$route'(from, to) {
+    async '$route'(from, to) {
+      if (from.path.includes('single')) {
+        await pageInstanceController.getWork(this.$route.params.id)
+        return
+      }
+
       // Анимация для текстового блока
       this.fade = true
       setTimeout(() => {

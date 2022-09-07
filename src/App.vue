@@ -54,6 +54,10 @@ export default {
         pageInstanceState.activeColumn = 2
         pageInstanceState.activeBlock = 'gallery'
       }
+      // Очищаем работу после того как пользователь покинул её
+      if (from.path.includes('/single')) {
+        pageInstanceState.activeWork = []
+      }
     }
   },
   data() {
