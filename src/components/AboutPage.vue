@@ -20,6 +20,7 @@ export default {
   components: {BaseHeader, CollectionBlock, BasePage, AboutBlock},
   created() {
     pageStateInit()
+
   },
   mounted() {
     pageInstanceState.isLoaded = true;

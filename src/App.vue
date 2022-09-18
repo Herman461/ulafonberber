@@ -21,7 +21,6 @@
   </div>
 
 </template>
-
 <script>
 import pageInstanceState, {aboutTextChangePosition, pageStateInit} from "@/pageInstance/page-instance.state.js"
 import GalleryBlock from "@/components/blocks/GalleryBlock";

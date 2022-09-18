@@ -12,6 +12,9 @@ module.exports = {
                 '@': resolve('src')
             }
         },
+        devServer: {
+            historyApiFallback: true
+        }
     },
     publicPath: process.env.NODE_ENV === 'production'
         ? '/ulafonberber/'

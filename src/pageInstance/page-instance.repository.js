@@ -30,6 +30,15 @@ export default class PageInstanceRepository {
 
         return response.data;
     }
+
+    async getLocalization() {
+        const response = await http.get('/localization/', {
+            params: {
+                lang: pageInstanceState.language
+            }
+        })
+        return response.data;
+    }
 }
 
 

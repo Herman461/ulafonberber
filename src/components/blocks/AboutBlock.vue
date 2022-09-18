@@ -62,6 +62,7 @@
 <script>
 import pageInstanceState, {aboutTextChangePosition} from "@/pageInstance/page-instance.state";
 import {debounce} from "@/utils/debounce";
+import pageInstanceController from "@/pageInstance/page-instance.controller";
 
 export default {
   name: "AboutBlock",
@@ -121,8 +122,9 @@ export default {
     },
   },
   watch: {
-    '$route'(from, to) {
-
+    async '$route'(from, to) {
+      const result = await pageInstanceController.getLocalization()
+      console.log(result)
       if (this.isSinglePage) {
         aboutTextChangePosition()
       } else {

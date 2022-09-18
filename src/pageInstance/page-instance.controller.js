@@ -21,6 +21,10 @@ class PageInstanceController {
     async getWork(id) {
         return await this.#service.getWork(id)
     }
+    async getLocalization() {
+
+        return await this.#service.getLocalization();
+    }
 }
 
 export default new PageInstanceController()

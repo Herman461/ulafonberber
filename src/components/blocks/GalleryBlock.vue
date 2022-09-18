@@ -39,9 +39,12 @@ export default {
       const length = pageInstanceState.works.length
 
       if (this.page === 1) {
+        console.log(pageInstanceState.works.slice(0, Math.floor(length / 2)))
         return pageInstanceState.works.slice(0, Math.floor(length / 2))
+
       } else {
-        return pageInstanceState.works.slice(Math.floor(length / 2), -1)
+        console.log(pageInstanceState.works.slice(Math.floor(length / 2), pageInstanceState.works.length))
+        return pageInstanceState.works.slice(Math.floor(length / 2), pageInstanceState.works.length + 1)
       }
       // return pageInstanceState.works
       // if (this.orientation === 'horizontal') {
