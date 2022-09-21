@@ -21,7 +21,6 @@ export default class PageInstanceService {
 
     async getWorks() {
         pageInstanceState.works = await this.#repository.getWorks()
-        console.log(pageInstanceState.works)
         // pageInstanceState.verticalWorks = works.filter(work => work.orientation === 'vertical')
         // pageInstanceState.horizontalWorks = works.filter(work => work.orientation === 'horizontal')
 
@@ -36,7 +35,7 @@ export default class PageInstanceService {
         return work;
     }
     async getLocalization() {
-
+        pageInstanceState.content = await this.#repository.getLocalization()
         return await this.#repository.getLocalization();
     }
 }

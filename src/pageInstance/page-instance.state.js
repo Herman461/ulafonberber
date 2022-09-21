@@ -15,6 +15,7 @@ const pageInstanceState = reactive({
     isLoading: true,
     isLoaded: false,
     lock: false,
+    content: [],
     animation: {
         done: false,
         delay: 600

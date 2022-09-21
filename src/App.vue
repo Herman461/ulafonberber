@@ -1,5 +1,5 @@
 <template>
-  <div :class="{home: isHomePage, 'single-page': isSinglePage, 'gallery-page': isGalleryPage}" class="wrapper">
+  <div :class="{home: isHomePage, 'single-page': isSinglePage, 'gallery-page': isGalleryPage, 'about-page': isAboutPage}" class="wrapper">
     <div class="container">
       <div class="page">
         <template v-if="windowWidth > 767">
@@ -27,10 +27,15 @@ import GalleryBlock from "@/components/blocks/GalleryBlock";
 import AboutBlock from "@/components/blocks/AboutBlock";
 import BasePage from "@/components/BasePage";
 import BaseHeader from "@/components/common/BaseHeader";
+import pageInstanceController from "@/pageInstance/page-instance.controller";
 export default {
   name: "App",
   watch: {
     '$route'(to, from) {
+      document.body.classList.add('anim')
+      setTimeout(() => {
+        document.body.classList.remove('anim')
+      }, 900)
 
       if (to.path === '/') {
         pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.home.slice()
@@ -64,8 +69,9 @@ export default {
       isLogoCentered: false
     }
   },
-  created() {
-
+  async created() {
+    await pageInstanceController.getLocalization()
+    console.log(pageInstanceState.content)
     if (window.location.pathname.includes('/single')) {
       this.isLogoCentered = true
     }
@@ -115,8 +121,9 @@ export default {
     isSinglePage() {
       return this.$route.path.includes('/single')
     },
+
     isAboutPage() {
-      return this.$route.path.includes('/single')
+      return this.$route.path.includes('/about')
     },
     isGalleryPage() {
       return this.$route.path.includes('/gallery')

@@ -20,14 +20,15 @@
           <li @click="closeMenu" class="menu-header__item"><router-link class="menu-header__link" to="/about">about</router-link></li>
           <li @click="closeMenu" class="menu-header__item"><router-link class="menu-header__link" to="/gallery">gallery</router-link></li>
         </ul>
-        <div class="menu-header__label">contact artist agent</div>
-        <a href="" class="menu-header__phone">+ 7 ( ___ )___ -__ -__  </a>
-        <div class="menu-header__label">socials</div>
-        <ul class="menu-header__socials">
-          <li class="menu-header__social"><a href="">Instagram</a></li>
-          <li class="menu-header__social"><a href="">Facebook</a></li>
-          <li class="menu-header__social"><a href="">Pinterest</a></li>
-        </ul>
+        <div class="menu-header__label" v-html="menuPhoneHeading"></div>
+        <a href="" class="menu-header__phone" v-html="menuPhone"></a>
+        <div class="menu-header__label" v-html="menuLinksHeading"></div>
+        <div class="menu-header__bottom" v-html="menuLinks"></div>
+<!--        <ul class="menu-header__socials">-->
+<!--          <li class="menu-header__social"><a href="">Instagram</a></li>-->
+<!--          <li class="menu-header__social"><a href="">Facebook</a></li>-->
+<!--          <li class="menu-header__social"><a href="">Pinterest</a></li>-->
+<!--        </ul>-->
       </div>
     </div>
   </div>
@@ -69,6 +70,7 @@ export default {
       pageInstanceState.language = lang
       document.body.classList.remove('hidden')
       pageInstanceController.getWorks()
+      pageInstanceController.getLocalization()
       pageInstanceController.getWork(this.$route.params.id)
     }
   },
@@ -81,6 +83,18 @@ export default {
     },
     isRussianLang() {
       return pageInstanceState.language === 'ru'
+    },
+    menuPhone() {
+      return pageInstanceState.content['menu_phone']
+    },
+    menuLinks() {
+      return pageInstanceState.content['menu_links']
+    },
+    menuLinksHeading() {
+      return pageInstanceState.content['menu_links_heading']
+    },
+    menuPhoneHeading() {
+      return pageInstanceState.content['menu_phone_heading']
     }
   }
 }

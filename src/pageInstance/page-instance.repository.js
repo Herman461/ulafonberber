@@ -32,6 +32,7 @@ export default class PageInstanceRepository {
     }
 
     async getLocalization() {
+        console.log(pageInstanceState.language)
         const response = await http.get('/localization/', {
             params: {
                 lang: pageInstanceState.language
