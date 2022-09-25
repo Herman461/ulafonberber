@@ -9,9 +9,10 @@
         <img src="@/assets/images/icons/arrow-prev.svg" alt="">
       </div>
       <ul class="header__languages">
-        <li @click="changeLang('ch')" :class="{active: isChineseLang}" class="header__language">中文</li>
-        <li @click="changeLang('ru')" :class="{active: isRussianLang}" class="header__language">ru</li>
-        <li @click="changeLang('en')" :class="{active: isEnglishLang}" class="header__language">en</li>
+        <li :class="{active: language.code === 'ru'}" v-for="language in languages" @click="changeLang(language.code, $event)" class="header__language">{{language.name}}</li>
+<!--        <li @click="changeLang(languages.code)" :class="{active: isChineseLang}" class="header__language">{{languages[0]?.name}}</li>-->
+<!--        <li @click="changeLang(languages.code)" :class="{active: isRussianLang}" class="header__language">{{languages[1]?.name}}</li>-->
+<!--        <li @click="changeLang(languages.code)" :class="{active: isEnglishLang}" class="header__language">{{languages[2]?.name}}</li>-->
       </ul>
     </div>
     <div :class="{active: isActive}" class="header__menu menu-header">
@@ -50,8 +51,12 @@ export default {
     return {
       isActive: false,
       hasBackground: false,
-      isHomePage: false
+      isHomePage: false,
+      languages: []
     }
+  },
+  async created() {
+    this.languages = await pageInstanceController.getLanguages()
   },
   methods: {
     toggleButton() {
@@ -66,7 +71,9 @@ export default {
       this.isActive = false
       document.body.classList.remove('hidden')
     },
-    changeLang(lang) {
+    changeLang(lang, event) {
+      document.querySelector('.header__language.active').classList.remove('active')
+      event.target.classList.add('active')
       pageInstanceState.language = lang
       document.body.classList.remove('hidden')
       pageInstanceController.getWorks()

@@ -25,6 +25,11 @@ class PageInstanceController {
 
         return await this.#service.getLocalization();
     }
+    async getLanguages() {
+        const response = await this.#service.getLanguage()
+
+        return response;
+    }
 }
 
 export default new PageInstanceController()

@@ -1,20 +1,63 @@
 <template>
-  <div :class="{home: isHomePage, 'single-page': isSinglePage, 'gallery-page': isGalleryPage, 'about-page': isAboutPage}" class="wrapper">
+  <div
+      :class="{
+        home: isHomePage,
+        'single-page': isSinglePage,
+        'gallery-page': isGalleryPage,
+        'about-page': isAboutPage
+      }"
+      class="wrapper">
     <div class="container">
       <div class="page">
+        <!-- Отрисовка ПК версии -->
         <template v-if="windowWidth > 767">
+
+          <!-- Отрисовка шапки -->
           <base-header />
+
+          <!-- Preloader (фон) -->
           <div class="preloader" :class="{hidden: !isLoading}"></div>
-          <router-link to="/" :class="{top: !isLoading, shifted: showOneLine, fixed: fixedLogo, center: isLogoCentered}" :style="mainLineStyle" class="page__logo logo">
+
+          <!-- Логотип. Он же и анимируется во время начальной загрузки -->
+          <router-link
+              to="/"
+              :class="
+                {
+                  top: !isLoading,
+                  shifted: showOneLine,
+                  fixed: fixedLogo,
+                  center: isLogoCentered
+                }"
+              class="page__logo logo"
+              :style="mainLineStyle">
             <img src="@/assets/images/logo.png" alt="">
           </router-link>
-          <span class="page__line page__line_first" :class="{showed: !isLoading}" :style="mainLineStyle"></span>
-          <span class="page__line" v-if="!showOneLine" :class="{done: animationDone}" :style="{right: columnWidth[2]}"></span>
+
+          <!-- Линия (ближе к левой части экрана), которая перемещается при изменении размера контента блоков -->
+          <span
+              :class="{showed: !isLoading}"
+              class="page__line page__line_first"
+              :style="mainLineStyle">
+          </span>
+
+          <!-- Линия (ближе к правой части экрана), которая перемещается при изменении размера контента блоков -->
+          <span
+              class="page__line"
+              v-if="!showOneLine"
+              :class="{done: animationDone}"
+              :style="{right: columnWidth[2]}">
+          </span>
+
+          <!-- Отрисовка самих блоков в зависимости от выбранного роута -->
           <base-page></base-page>
+
         </template>
+
+        <!-- Отрисовка мобильной версии -->
         <template v-else>
           <router-view />
         </template>
+
       </div>
     </div>
 
@@ -28,11 +71,15 @@ import AboutBlock from "@/components/blocks/AboutBlock";
 import BasePage from "@/components/BasePage";
 import BaseHeader from "@/components/common/BaseHeader";
 import pageInstanceController from "@/pageInstance/page-instance.controller";
+
 export default {
   name: "App",
   watch: {
     '$route'(to, from) {
+
+      // Добавляется класс на время анимации, после анимации удаляется
       document.body.classList.add('anim')
+
       setTimeout(() => {
         document.body.classList.remove('anim')
       }, 900)

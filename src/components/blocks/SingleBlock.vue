@@ -3,11 +3,11 @@
     <div class="single__body">
       <div class="single__images">
 
-        <div v-for="imageSrc in work.gallary" class="single__image">
+        <div v-for="image in work.gallery_items" class="single__image">
           <el-image
-              style="max-width: 100%; height: auto;"
-              :src="imageSrc"
-              :preview-src-list="work.gallary"
+              :style="{'max-width': '100%', paddingBottom: (image.height / image.width) * 100 + '%'}"
+              :src="image.src"
+              :preview-src-list="work.gallery_items"
               :initial-index="4"
               fit="cover"
               @click="onImageClick"
@@ -18,6 +18,7 @@
       </div>
       <div class="single__content">
         <div class="single__title title" :class="{hidden: fade}"  v-html="work.name"></div>
+        <div class="single__size title" :class="{hidden: fade}" v-html="work.size"></div>
         <div class="single__text" :class="{hidden: fade}" v-html="work.description">
         </div>
       </div>
@@ -54,7 +55,8 @@ export default {
     // `
   },
   async created() {
-    await pageInstanceController.getWork(this.$route.params.id)
+    const result = await pageInstanceController.getWork(this.$route.params.id)
+    console.log(result)
   },
   methods: {
     onImageClick() {

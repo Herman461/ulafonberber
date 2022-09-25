@@ -11,7 +11,7 @@
           <single-block v-if="isSingle" />
         </Transition>
         <Transition>
-          <gallery-block  :is-first="true" :page="1" v-if="!isSingle" @expand-second-column="expandSecondCol" ></gallery-block>
+          <gallery-block :is-first="true" :page="1" v-if="!isSingle" @expand-second-column="expandSecondCol" ></gallery-block>
         </Transition>
       </div>
 
@@ -32,7 +32,6 @@ import pageController from "@/pageInstance/page-instance.controller";
 
 export default {
   name: 'BasePage',
-
   methods: {
     calculateWidth(width) {
       if (!width) {

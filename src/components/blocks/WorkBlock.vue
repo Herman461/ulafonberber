@@ -17,7 +17,6 @@
 
           <swiper-slide v-for="image in work.gallary">
             <el-image
-                style="max-width: 100%; height: auto;"
                 :src="image"
                 :preview-src-list="work.gallary"
                 :initial-index="4"
@@ -30,8 +29,7 @@
 
       </div>
       <div class="work__content">
-        <div class="work__title title" v-html="work.name">
-        </div>
+        <div class="work__title title" v-html="work.name"></div>
         <div class="work__text" v-html="work.description">
         </div>
         <router-link to="/gallery" class="work__link link">Смотреть всю коллекцию</router-link>

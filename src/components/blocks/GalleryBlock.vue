@@ -1,9 +1,9 @@
 <template>
-  <div :style="position" @scroll="onScroll" ref="gallery" class="works" :class="{active: isActiveBlock, lock: isLockedPage, 'is-first': isFirst, 'is-second': isSecond}">
+  <div @scroll="onScroll" ref="gallery" class="works" :class="{active: isActiveBlock, lock: isLockedPage, 'is-first': isFirst, 'is-second': isSecond}">
     <div  class="works__body" ref="galleryBody">
       <div :class="{'works_central': isCentral}" class="works__image image" v-for="image in images">
-        <router-link :style="{width: image.width + 'px', height: image.height + 'px'}" @click="onImageClick(image.id)" :to='"/single/" + image.id' class="image__item">
-          <el-image :style="{width: image.width + 'px', height: image.height + 'px'}" :src="image.preview_medium" alt="" lazy />
+        <router-link @click="onImageClick(image.id)" :to='"/single/" + image.id' class="image__item">
+          <el-image :style="{'max-width': '100%', paddingBottom: (image.height / image.width) * 100 + '%'}" :src="image.preview_medium" alt="" lazy />
           <div class="image__label" v-html="image.name"></div>
         </router-link>
 
@@ -65,9 +65,12 @@ export default {
       // }
     }
   },
+  mounted() {
+    // this.calculateImageSize()
+  },
   data() {
     return {
-
+      wasLoaded: false,
       wasScrolled: false,
       isLockedPage: false,
       fade: false,
@@ -82,11 +85,10 @@ export default {
   },
   watch: {
      '$route'(from, to) {
-       this.calculateImageSize()
+
 
       const coords = this.$refs.gallery.getBoundingClientRect()
-      // if (to.path === '/') return
-      // console.log(coords)
+
       if (pageInstanceState.windowWidth < 991.98) return
 
       if (to.path === '/' && from.path === '/') return
@@ -104,6 +106,7 @@ export default {
         }
 
         if (this.isSecond) {
+
           gsap.to('.works.is-second', {
             height: '100%',
             opacity: 0,
@@ -162,7 +165,7 @@ export default {
             width: '43.5%',
             duration: 0.03,
             ease: 'ease',
-            paddingRight: '200px'
+            // paddingRight: '200px'
           })
         }
         if (this.isSecond) {
@@ -174,7 +177,7 @@ export default {
             duration: 0.03,
             ease: 'ease',
             opacity: 1,
-            paddingRight: '200px'
+            // paddingRight: '200px'
           })
         }
       }
@@ -190,40 +193,49 @@ export default {
 
 
     },
-    images() {
-      this.calculateImageSize()
-    }
+
   },
   methods: {
-    calculateImageSize() {
-
-      setTimeout(() => {
-
-        const width = this.$refs.galleryBody.offsetWidth
-        const length = pageInstanceState.works.length
-        if (this.page === 1) {
-
-          pageInstanceState.works.slice(0, Math.floor(length / 2)).forEach(image => {
-            // const length = pageInstanceState.works.length
-
-
-            const coefficient = (image.width / width).toFixed(2)
-
-            image.width = (image.width / coefficient).toFixed(2)
-            image.height = (image.height / coefficient).toFixed(2)
-          })
-
-        } else {
-          pageInstanceState.works.slice(Math.floor(length / 2), pageInstanceState.works.length + 1).forEach(image => {
-            // const length = pageInstanceState.works.length
-            const coefficient = (image.width / width).toFixed(2)
-            image.width = (image.width / coefficient).toFixed(2)
-            image.height = (image.height / coefficient).toFixed(2)
-          })
-        }
-      }, 900)
-
-    },
+    // calculateImageSize() {
+    //   const width = this.$refs.galleryBody.offsetWidth
+    //   const length = pageInstanceState.works.length
+    //   const coefficient = pageInstanceState.coefficient
+    //
+    //   if (this.page === 1) {
+    //
+    //     pageInstanceState.works.slice(0, Math.floor(length / 2)).forEach(image => {
+    //
+    //       const newWidth = parseFloat(image.width)
+    //       const newHeight = parseFloat(image.height)
+    //       image.width = (newWidth / coefficient).toFixed(2)
+    //       image.height = (newHeight / coefficient).toFixed(2)
+    //       console.log(image.width)
+    //       if (this.wasLoaded) {
+    //         image.width = '100%'
+    //       } else {
+    //         image.width += 'px'
+    //       }
+    //     })
+    //
+    //   } else {
+    //     pageInstanceState.works.slice(Math.floor(length / 2), pageInstanceState.works.length + 1).forEach(image => {
+    //       // const length = pageInstanceState.works.length
+    //       const newWidth = parseFloat(image.width)
+    //       const newHeight = parseFloat(image.height)
+    //       const coefficient = (newWidth / width).toFixed(2)
+    //       image.width = (newWidth / coefficient).toFixed(2)
+    //       image.height = (newHeight / coefficient).toFixed(2)
+    //
+    //       // if (this.wasLoaded) {
+    //       //   image.width = '100%'
+    //       // } else {
+    //       //   image.width += 'px'
+    //       // }
+    //       // image.height += 'px'
+    //     })
+    //   }
+    //   this.wasLoaded = true
+    // },
     async onImageClick(id) {
       await pageController.getWork(id)
     },

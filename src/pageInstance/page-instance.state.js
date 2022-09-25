@@ -7,6 +7,7 @@ const pageInstanceState = reactive({
         about: ["auto", "170px"],
         gallery: ["220px", '43.5%', '43.5%'],
     },
+    coefficient: 3,
     windowWidth: 1920,
     currentColumnWidth: [],
     activeColumn: [],

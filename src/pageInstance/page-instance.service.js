@@ -14,6 +14,7 @@
 
 import PageInstanceRepository from "@/pageInstance/page-instance.repository";
 import pageInstanceState from "@/pageInstance/page-instance.state";
+import http from "@/axiosConfig/base-axios-config";
 
 export default class PageInstanceService {
 
@@ -34,6 +35,12 @@ export default class PageInstanceService {
 
         return work;
     }
+    async getLanguage() {
+        const response = await this.#repository.getLanguages()
+
+        return response;
+    }
+
     async getLocalization() {
         pageInstanceState.content = await this.#repository.getLocalization()
         return await this.#repository.getLocalization();
