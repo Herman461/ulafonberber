@@ -1,11 +1,10 @@
 <template>
   <div class="base-page" :class="{done: animationDone}">
-
+    <!--  Первая колонка  -->
     <div :class="{active: (activeColumn === 1)}" :style="calculateWidth(columnWidth[0])" class="page__block">
-<!--      <slot  name="first-block"></slot>-->
       <about-block @expand-first-column="expandFirstCol" />
     </div>
-
+    <!--  Вторая колонка  -->
       <div  :class="{active: (activeColumn === 2)}" :style="calculateWidth(columnWidth[1])" class="page__block">
         <Transition>
           <single-block v-if="isSingle" />
@@ -14,7 +13,7 @@
           <gallery-block :is-first="true" :page="1" v-if="!isSingle" @expand-second-column="expandSecondCol" ></gallery-block>
         </Transition>
       </div>
-
+    <!--  Третья колонка  -->
     <div :class="{active: (activeColumn === 3)}" :style="calculateWidth(columnWidth[2])" class="page__block">
         <gallery-block :is-second="true" :page="2" @expand-third-column="expandThirdCol"></gallery-block>
     </div>
@@ -34,6 +33,9 @@ export default {
   name: 'BasePage',
   methods: {
     calculateWidth(width) {
+      // Функция рассчитывает ширину колонок
+
+      // Если не указана ширина, то скрываем колонку
       if (!width) {
         return {
           opacity: 0,
@@ -42,7 +44,7 @@ export default {
           width: 0
         }
       }
-
+      // Устанавливаем высоту
       let property
       if (width.includes('auto')) {
         property = `1 1 ${width}`
@@ -73,7 +75,6 @@ export default {
     }
   },
   computed: {
-    // временная заглушка
     isSingle() {
       return this.$route.path.includes('/single') && pageInstanceState.activeBlock === 'single'
     },

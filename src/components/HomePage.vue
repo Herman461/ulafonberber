@@ -1,18 +1,33 @@
 <template>
+
   <base-header v-if="wasPageScrolled" ref="header" />
   <div class="home">
+    <!-- Главный загрузочный экран  -->
       <div
-          :style="{height: !wasPageScrolled ? '100vh' : 'auto'}"
+          :style="{
+            height: !wasPageScrolled ? '100vh' : 'auto'
+          }"
           :class="{scrolled: wasPageScrolled}"
-          class="home__main main-home" ref="mainScreen"
-      >
-        <div :class="{hidden: isHiddenTop, fixed: isLogoFixed}" class="main-home__logo">
-          <svg :style="{width: logo.width, height: logo.height, top: logo.top + '%'} ">
+          class="home__main main-home"
+          ref="mainScreen">
+        <!-- Логотип  -->
+        <div
+            :class="{hidden: isHiddenTop, fixed: isLogoFixed}"
+            class="main-home__logo">
+          <svg
+              :style="{
+                width: logo.width,
+                height: logo.height,
+                top: logo.top + '%'
+              }">
             <use xlink:href="@/assets/images/logo.svg#logo"></use>
           </svg>
         </div>
       </div>
+      <!-- Линия  -->
       <div class="line"></div>
+
+    <!-- Блок Галерея  -->
       <div ref="gallery" class="gallery" :class="{hidden: isHiddenTop}">
         <div class="gallery__column">
           <gallery-block  :page="1" orientation="vertical" />
@@ -21,6 +36,7 @@
           <gallery-block :page="2" orientation="horizontal" />
         </div>
       </div>
+    <!-- Блок О нас  -->
       <div ref="about" class="home__about">
         <about-block />
       </div>
@@ -55,20 +71,30 @@ export default {
     $(window).scrollTop(0)
   },
   mounted() {
+    // Если начинаем доскролливать до блока about, то скрываем предыдущие блоки
     window.addEventListener('scroll', () => {
       const aboutBlockTopPos = this.$refs.about.getBoundingClientRect().top
+
       if (aboutBlockTopPos - 150 <= 0 && !this.isHiddenTop) {
         this.isHiddenTop = true
+
       } else if (aboutBlockTopPos - 150 >= 0 && this.isHiddenTop) {
         this.isHiddenTop = false
       }
     })
+
+    // Если сайт уже был загружен, то не начинаем загрузку с нуля
     if (this.isLoaded) {
       this.isLogoFixed = true
       this.wasPageScrolled = true
+
       return
     }
+
+    // Начинаем загрузку
+
     document.body.style.overflow = 'hidden'
+
     const initialTopValue = this.logo.top
     const finalLogoWidth = 43
     const finalLogoHeight = 90
@@ -84,30 +110,30 @@ export default {
           $('html, body').animate({
             scrollTop: this.$refs.mainScreen.clientHeight
           }, 900, null)
-      // $(window).animate({
-      //   duration: 900,
-      //   behavior: 'smooth',
-      //   scrollTop: $(window).height()
-      // })
-      // this.$refs.gallery.scrollIntoView({ behavior: "smooth" });
     })
     .then(() => {
       setTimeout(() => {
         document.body.style.overflow = 'auto'
         this.wasPageScrolled = true
         $(window).scrollTop(0, 0)
-        // window.scrollTo(0, 0)
       }, 1100)
     })
 
+    // Чтобы не было багов, перед возможной перезагрузки страницы откатываем ее на начальное положение
     window.onbeforeunload = function () {
       $(window).scrollTop(0);
     }
     window.addEventListener('scroll', () => {
+      // Получаем высоту окна главного экрана, по сути - высоту окна браузера
       const mainScreenHeight  = this.$refs.mainScreen.offsetHeight
+
+      // Кол-во проскролленных пикселей
       const scrollTop = document.documentElement.scrollTop
 
-      const offset = (scrollTop / mainScreenHeight)
+      // Какой процент от всего окна уже был прокручен (число с плавающей точной)
+      const offset = scrollTop / mainScreenHeight
+
+      // Преобразуем переменную offset. В данном случае 4 - во сколько раз нужно уменьшить логотип
       const percent = ((1 - offset) * 4).toFixed(2)
 
       if (percent < 1) return

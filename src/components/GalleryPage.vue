@@ -1,22 +1,23 @@
 <template>
   <base-header />
   <div class="gallery">
-    <template v-if="windowWidth > 767">
+    <!-- Первая колонка с работами -->
+    <div class="gallery__column">
+      <gallery-block :page="1" />
+    </div>
 
-    </template>
-    <template v-else>
-      <div class="gallery__column">
-        <gallery-block :page="1" />
-      </div>
-      <div class="gallery__line"></div>
-      <router-link to="/" class="gallery__logo">
-        <img src="@/assets/images/logo.svg" alt="">
-      </router-link>
-      <div class="gallery__column">
-        <gallery-block :page="2" />
-      </div>
+    <!-- Декоративная линия по центру -->
+    <div class="gallery__line"></div>
 
-    </template>
+    <!-- Логотип -->
+    <router-link to="/" class="gallery__logo">
+      <img src="@/assets/images/logo.svg" alt="">
+    </router-link>
+
+    <!-- Вторая колонка с работами -->
+    <div class="gallery__column">
+      <gallery-block :page="2" />
+    </div>
   </div>
 
 </template>
@@ -38,14 +39,10 @@ export default {
     },
   },
   mounted() {
+    // Отмечаем, что страница загружена и откатываем скролл
     pageInstanceState.isLoaded = true;
     $(window).scrollTop(0)
   },
 
 }
 </script>
-
-
-<style scoped lang="scss">
-
-</style>

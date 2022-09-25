@@ -1,13 +1,17 @@
 <template>
   <div ref="single" class="single">
     <div class="single__body">
+      <!-- Изображения -->
       <div class="single__images">
 
         <div v-for="image in work.gallery_items" class="single__image">
           <el-image
-              :style="{'max-width': '100%', paddingBottom: (image.height / image.width) * 100 + '%'}"
+              :style="{
+                'max-width': '100%',
+                paddingBottom: (image.height / image.width) * 100 + '%'
+              }"
               :src="image.src"
-              :preview-src-list="work.gallery_items"
+              :preview-src-list="srcList"
               :initial-index="4"
               fit="cover"
               @click="onImageClick"
@@ -16,11 +20,15 @@
           />
         </div>
       </div>
+
+      <!-- Текстовый контент -->
       <div class="single__content">
+        <!-- Заголовок -->
         <div class="single__title title" :class="{hidden: fade}"  v-html="work.name"></div>
+        <!-- Дополнительные данные -->
         <div class="single__size title" :class="{hidden: fade}" v-html="work.size"></div>
-        <div class="single__text" :class="{hidden: fade}" v-html="work.description">
-        </div>
+        <!-- Описание -->
+        <div class="single__text" :class="{hidden: fade}" v-html="work.description"></div>
       </div>
     </div>
   </div>
@@ -41,19 +49,6 @@ export default {
       fade: false,
     }
   },
-  mounted() {
-    // Замена стандартных переключателей галереи
-    // const arrowPrev = document.querySelector('.el-image-viewer__btn.el-image-viewer__prev')
-    // const arrowNext = document.querySelector('.el-image-viewer__btn.el-image-viewer__prev')
-    //
-    // const icon = require('@/assets/images/icons/arrow-prev.svg')
-    //
-    // arrowPrev.outerHTML = `
-    //   <div class="el-image-viewer__btn el-image-viewer__prev">
-    //     <img src="${icon}" alt="">
-    //   </div>
-    // `
-  },
   async created() {
     const result = await pageInstanceController.getWork(this.$route.params.id)
     console.log(result)
@@ -61,6 +56,7 @@ export default {
   methods: {
     onImageClick() {
       document.body.classList.add('hide-all')
+
       // Замена стандартных переключателей галереи
       setTimeout(() => {
         const arrowPrev = document.querySelector('.el-image-viewer__btn.el-image-viewer__prev')
@@ -98,19 +94,22 @@ export default {
     },
     work() {
       return pageInstanceState.activeWork
+    },
+    srcList() {
+      return pageInstanceState.activeWork.gallery_items.map(item => item.src)
     }
   },
-  // async created() {
-  //   // const id = this.$route.params.id
-  // },
   watch: {
     async '$route'(from, to) {
+
+      // Получаем работу по id параметра
       if (from.path.includes('single')) {
         await pageInstanceController.getWork(this.$route.params.id)
+
         return
       }
 
-      // Анимация для текстового блока
+      // Включаем анимацию для текстового блока
       this.fade = true
       setTimeout(() => {
         this.fade = false

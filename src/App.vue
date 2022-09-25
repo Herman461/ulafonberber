@@ -10,7 +10,7 @@
     <div class="container">
       <div class="page">
         <!-- Отрисовка ПК версии -->
-        <template v-if="windowWidth > 767">
+        <template v-if="windowWidth > 991.98">
 
           <!-- Отрисовка шапки -->
           <base-header />
@@ -26,7 +26,8 @@
                   top: !isLoading,
                   shifted: showOneLine,
                   fixed: fixedLogo,
-                  center: isLogoCentered
+                  center: isLogoCentered,
+                  loading: isLoading
                 }"
               class="page__logo logo"
               :style="mainLineStyle">
@@ -48,7 +49,7 @@
               :style="{right: columnWidth[2]}">
           </span>
 
-          <!-- Отрисовка самих блоков в зависимости от выбранного роута -->
+          <!-- Отрисовка блоков в зависимости от выбранного роута -->
           <base-page></base-page>
 
         </template>
@@ -72,6 +73,10 @@ import BasePage from "@/components/BasePage";
 import BaseHeader from "@/components/common/BaseHeader";
 import pageInstanceController from "@/pageInstance/page-instance.controller";
 
+
+/**
+ * @vue-data {Boolean} isLogoCentered - Центрируем ли логотип относительно экрана (только для ПК)
+ */
 export default {
   name: "App",
   watch: {
@@ -84,6 +89,9 @@ export default {
         document.body.classList.remove('anim')
       }, 900)
 
+      /*
+      * В зависимости от роута менятся конфигурация колонок
+      * */
       if (to.path === '/') {
         pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.home.slice()
         pageInstanceState.activeColumn = 1
@@ -105,6 +113,8 @@ export default {
         pageInstanceState.activeColumn = 2
         pageInstanceState.activeBlock = 'gallery'
       }
+
+
       // Очищаем работу после того как пользователь покинул её
       if (from.path.includes('/single')) {
         pageInstanceState.activeWork = []
@@ -118,7 +128,7 @@ export default {
   },
   async created() {
     await pageInstanceController.getLocalization()
-    console.log(pageInstanceState.content)
+
     if (window.location.pathname.includes('/single')) {
       this.isLogoCentered = true
     }
@@ -129,12 +139,10 @@ export default {
     setTimeout(() => {
       pageInstanceState.isLoading = false
       this.isLogoCentered = false
+
       // Завершение анимации
       setTimeout(() => {
         pageInstanceState.animation.done = true
-        if (this.isSinglePage || this.isGalleryPage) {
-          aboutTextChangePosition()
-        }
 
       }, this.animationDelay)
 

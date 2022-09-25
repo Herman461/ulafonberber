@@ -9,5 +9,5 @@ import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 // import VueLazyLoad from 'vue3-lazyload'
 
 const app = createApp(App).use(router).use(ElementPlus).use(PerfectScrollbar)
-console.log(process.env.BASE_URL)
+
 app.mount('#app')

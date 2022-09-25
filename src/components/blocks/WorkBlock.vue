@@ -2,23 +2,19 @@
 
   <div class="work">
 
-    <div v-if="activeImageSrc" class="work__viewer work-viewer">
-      <div class="work-viewer__body">
-        <button @click="closeImage" type="button" class="work-viewer__close"><span></span></button>
-        <img :src="activeImageSrc" alt="">
-      </div>
-    </div>
     <div class="work__body">
+      <!-- Изображения -->
       <div class="work__images">
+
         <swiper
             :space-between="29"
             :slides-per-view="1.3"
         >
 
-          <swiper-slide v-for="image in work.gallary">
+          <swiper-slide v-for="image in work.gallery_items">
             <el-image
-                :src="image"
-                :preview-src-list="work.gallary"
+                :src="image.src"
+                :preview-src-list="srcList"
                 :initial-index="4"
                 fit="cover"
                 @click="onImageClick"
@@ -28,10 +24,14 @@
         </swiper>
 
       </div>
+      <!-- Текстовый контент -->
       <div class="work__content">
+        <!-- Заголовок -->
         <div class="work__title title" v-html="work.name"></div>
-        <div class="work__text" v-html="work.description">
-        </div>
+        <div class="work__size title" v-html="work.size"></div>
+        <!-- Описание -->
+        <div class="work__text" v-html="work.description"></div>
+        <!-- Ссылка на всю коллекцию -->
         <router-link to="/gallery" class="work__link link">Смотреть всю коллекцию</router-link>
       </div>
     </div>
@@ -44,7 +44,6 @@ import { SwiperSlide } from 'swiper/vue/swiper-slide.js';
 import 'swiper/swiper-bundle.min.css'
 import pageInstanceState from "@/pageInstance/page-instance.state";
 import pageInstanceController from "@/pageInstance/page-instance.controller";
-import icon from "@/assets/images/icons/arrow-prev.svg";
 
 export default {
   name: "WorkBlock",
@@ -56,13 +55,13 @@ export default {
     return {
       activeImage: null,
       activeImageSrc: null,
-      work: [],
     }
   },
 
   methods: {
     onImageClick() {
       document.body.classList.add('hide-all')
+
       // Замена стандартных переключателей галереи
       setTimeout(() => {
         const arrowPrev = document.querySelector('.el-image-viewer__btn.el-image-viewer__prev')
@@ -87,18 +86,6 @@ export default {
     onImageClose() {
       document.body.classList.remove('hide-all')
     },
-    expandImageSize($event, imageSrc) {
-      this.activeImage = Number($event.target.dataset.index)
-      this.activeImageSrc = imageSrc
-      document.querySelector('.single').style.overflow = 'hidden'
-      document.body.style.overflow = 'hidden'
-    },
-    closeImage() {
-      document.body.style.overflow = 'auto'
-      document.querySelector('.single').style.overflow = 'auto'
-      this.activeImageSrc = null
-      this.activeImage = null
-    }
   },
   async created() {
     await pageInstanceController.getWork(this.$route.params.id)
@@ -107,11 +94,11 @@ export default {
     windowWidth() {
       return window.innerWidth
     },
-    windowHeight() {
-      return window.innerHeight
-    },
     work() {
       return pageInstanceState.activeWork
+    },
+    srcList() {
+      return pageInstanceState.activeWork.gallery_items.map(item => item.src)
     }
   },
 

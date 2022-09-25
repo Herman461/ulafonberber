@@ -1,10 +1,34 @@
 <template>
-  <div @scroll="onScroll" ref="gallery" class="works" :class="{active: isActiveBlock, lock: isLockedPage, 'is-first': isFirst, 'is-second': isSecond}">
+  <div
+      @scroll="onScroll"
+      ref="gallery"
+      class="works"
+      :class="{
+        active: isActiveBlock,
+        lock: isLockedPage,
+        'is-first': isFirst,
+        'is-second': isSecond
+      }">
+    <!--  Оболочка  -->
     <div  class="works__body" ref="galleryBody">
-      <div :class="{'works_central': isCentral}" class="works__image image" v-for="image in images">
-        <router-link @click="onImageClick(image.id)" :to='"/single/" + image.id' class="image__item">
-          <el-image :style="{'max-width': '100%', paddingBottom: (image.height / image.width) * 100 + '%'}" :src="image.preview_medium" alt="" lazy />
-          <div class="image__label" v-html="image.name"></div>
+
+      <!--  Изображения  -->
+      <div
+          :class="{'works_central': isCentral}"
+          class="works__image image"
+          v-for="image in images">
+
+        <router-link
+            @click="onImageClick(image.id)"
+            :to='"/single/" + image.id'
+            class="image__item"
+        >
+          <el-image
+              :style="{'max-width': '100%', paddingBottom: (image.height / image.width) * 100 + '%'}"
+              :src="image.preview_medium"
+              alt="" lazy
+          />
+            <div class="image__label" v-html="image.name"></div>
         </router-link>
 
       </div>
@@ -23,10 +47,6 @@ export default {
     page: {
 
     },
-    // orientation: {
-    //   type: String
-    // },
-
     isCentral: {
       type: Boolean,
       default: false
@@ -47,8 +67,23 @@ export default {
     lock() {
       return pageInstanceState.lock
     },
+    isAboutPage() {
+      return this.$route.path.includes('/about')
+    },
+    isSinglePage() {
+      return this.$route.path.includes('/single')
+    },
     images() {
+      // Разделяем поровну изображения для первой и второй колокни
       const length = pageInstanceState.works.length
+
+
+      if (this.isAboutPage && this.page === 1) {
+        return pageInstanceState.works.slice()
+      }
+      if (this.isSinglePage && this.page === 2) {
+        return pageInstanceState.works.slice()
+      }
 
       if (this.page === 1) {
 
@@ -57,16 +92,10 @@ export default {
       } else {
         return pageInstanceState.works.slice(Math.floor(length / 2), pageInstanceState.works.length + 1)
       }
-      // return pageInstanceState.works
-      // if (this.orientation === 'horizontal') {
-      //   return pageInstanceState.horizontalWorks
-      // } else {
-      //   return pageInstanceState.verticalWorks
-      // }
+
     }
   },
   mounted() {
-    // this.calculateImageSize()
   },
   data() {
     return {
@@ -74,13 +103,6 @@ export default {
       wasScrolled: false,
       isLockedPage: false,
       fade: false,
-      // position: {
-      //   position: "static",
-      //   top: null,
-      //   left: null,
-      //   height: null,
-      //   width: null
-      // },
     }
   },
   watch: {
@@ -93,6 +115,7 @@ export default {
 
       if (to.path === '/' && from.path === '/') return
 
+       // Анимирование колонок, в зависимости от текущей страницы
       if (from.path.includes('/about')) {
         if (this.isFirst) {
           gsap.to('.works.is-first', {
@@ -156,6 +179,7 @@ export default {
           ease: 'ease',
         })
       }
+
       if (from.path.includes('/gallery')) {
         if (this.isFirst) {
           gsap.to('.works.is-first', {
@@ -165,7 +189,6 @@ export default {
             width: '43.5%',
             duration: 0.03,
             ease: 'ease',
-            // paddingRight: '200px'
           })
         }
         if (this.isSecond) {
@@ -177,89 +200,28 @@ export default {
             duration: 0.03,
             ease: 'ease',
             opacity: 1,
-            // paddingRight: '200px'
           })
         }
       }
-      // setTimeout(() => {
-      //   this.position = {
-      //     position: "static",
-      //     top: null,
-      //     left: null,
-      //     height: null,
-      //     width: null
-      //   }
-      // }, 900)
-
-
     },
 
   },
   methods: {
-    // calculateImageSize() {
-    //   const width = this.$refs.galleryBody.offsetWidth
-    //   const length = pageInstanceState.works.length
-    //   const coefficient = pageInstanceState.coefficient
-    //
-    //   if (this.page === 1) {
-    //
-    //     pageInstanceState.works.slice(0, Math.floor(length / 2)).forEach(image => {
-    //
-    //       const newWidth = parseFloat(image.width)
-    //       const newHeight = parseFloat(image.height)
-    //       image.width = (newWidth / coefficient).toFixed(2)
-    //       image.height = (newHeight / coefficient).toFixed(2)
-    //       console.log(image.width)
-    //       if (this.wasLoaded) {
-    //         image.width = '100%'
-    //       } else {
-    //         image.width += 'px'
-    //       }
-    //     })
-    //
-    //   } else {
-    //     pageInstanceState.works.slice(Math.floor(length / 2), pageInstanceState.works.length + 1).forEach(image => {
-    //       // const length = pageInstanceState.works.length
-    //       const newWidth = parseFloat(image.width)
-    //       const newHeight = parseFloat(image.height)
-    //       const coefficient = (newWidth / width).toFixed(2)
-    //       image.width = (newWidth / coefficient).toFixed(2)
-    //       image.height = (newHeight / coefficient).toFixed(2)
-    //
-    //       // if (this.wasLoaded) {
-    //       //   image.width = '100%'
-    //       // } else {
-    //       //   image.width += 'px'
-    //       // }
-    //       // image.height += 'px'
-    //     })
-    //   }
-    //   this.wasLoaded = true
-    // },
+
     async onImageClick(id) {
+      // Получаем работу по клику на изображение
       await pageController.getWork(id)
     },
     onScroll() {
       // Исключаем страницы, на которых мы не будем расширять колонку галлереи
       if (this.$route.path.includes('/about') || this.$route.path.includes('/single')) return
-      // Если элемент еще не скроллился ни разу
-      // if (!this.wasScrolled && !this.isActiveBlock && !this.lock) {
-      //   this.isLockedPage = true
-      //   pageInstanceState.lock = true
-      //   this.$refs.gallery.scrollTo(0, 0)
-      //   setTimeout(() => {
-      //     this.isLockedPage = false
-      //     pageInstanceState.lock = false
-      //   }, 600)
-      //   this.wasScrolled = true
-      // }
 
       // Если элемент еще не скроллился ни разу
       if (!this.wasScrolled && !this.isActiveBlock) {
         this.$refs.gallery.scrollTo(0, 0)
       }
 
-
+      // Если пользователь начинает скроллить блок, то делаем его активным и меняем адрес
       if (!this.isActiveBlock && !pageInstanceState.lock) {
         pageInstanceState.activeBlock = 'gallery'
         pageInstanceState.lock = true

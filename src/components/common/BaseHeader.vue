@@ -9,10 +9,11 @@
         <img src="@/assets/images/icons/arrow-prev.svg" alt="">
       </div>
       <ul class="header__languages">
-        <li :class="{active: language.code === 'ru'}" v-for="language in languages" @click="changeLang(language.code, $event)" class="header__language">{{language.name}}</li>
-<!--        <li @click="changeLang(languages.code)" :class="{active: isChineseLang}" class="header__language">{{languages[0]?.name}}</li>-->
-<!--        <li @click="changeLang(languages.code)" :class="{active: isRussianLang}" class="header__language">{{languages[1]?.name}}</li>-->
-<!--        <li @click="changeLang(languages.code)" :class="{active: isEnglishLang}" class="header__language">{{languages[2]?.name}}</li>-->
+        <li
+            :class="{active: language.code === 'ru'}"
+            v-for="language in languages"
+            @click="changeLang(language.code, $event)"
+            class="header__language">{{language.name}}</li>
       </ul>
     </div>
     <div :class="{active: isActive}" class="header__menu menu-header">
@@ -25,11 +26,6 @@
         <a href="" class="menu-header__phone" v-html="menuPhone"></a>
         <div class="menu-header__label" v-html="menuLinksHeading"></div>
         <div class="menu-header__bottom" v-html="menuLinks"></div>
-<!--        <ul class="menu-header__socials">-->
-<!--          <li class="menu-header__social"><a href="">Instagram</a></li>-->
-<!--          <li class="menu-header__social"><a href="">Facebook</a></li>-->
-<!--          <li class="menu-header__social"><a href="">Pinterest</a></li>-->
-<!--        </ul>-->
       </div>
     </div>
   </div>
@@ -73,24 +69,20 @@ export default {
     },
     changeLang(lang, event) {
       document.querySelector('.header__language.active').classList.remove('active')
+
       event.target.classList.add('active')
+
       pageInstanceState.language = lang
       document.body.classList.remove('hidden')
+
       pageInstanceController.getWorks()
       pageInstanceController.getLocalization()
       pageInstanceController.getWork(this.$route.params.id)
+
+      this.closeMenu()
     }
   },
   computed: {
-    isEnglishLang() {
-      return pageInstanceState.language === 'en'
-    },
-    isChineseLang() {
-      return pageInstanceState.language === 'ch'
-    },
-    isRussianLang() {
-      return pageInstanceState.language === 'ru'
-    },
     menuPhone() {
       return pageInstanceState.content['menu_phone']
     },

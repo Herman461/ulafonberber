@@ -28,6 +28,7 @@ export default {
     }
   },
   mounted() {
+    // Отмечаем, что страница загружена и откатываем скролл
     pageInstanceState.isLoaded = true;
     $(window).scrollTop(0)
   },
