@@ -7,7 +7,7 @@
       <about-block />
     </div>
 
-    <router-link to="/" class="about-page__link link">Вернуться</router-link>
+    <router-link to="/" class="about-page__link link" v-html="goToBack"></router-link>
 
   </div>
 </template>
@@ -35,6 +35,9 @@ export default {
   computed: {
     windowWidth() {
       return pageInstanceState.windowWidth
+    },
+    goToBack() {
+      return pageInstanceState.content['go_to_back']
     }
   }
 }

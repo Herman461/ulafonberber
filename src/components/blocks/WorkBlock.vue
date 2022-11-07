@@ -32,7 +32,7 @@
         <!-- Описание -->
         <div class="work__text" v-html="work.description"></div>
         <!-- Ссылка на всю коллекцию -->
-        <router-link to="/gallery" class="work__link link">Смотреть всю коллекцию</router-link>
+        <router-link to="/gallery" class="work__link link" v-html="linkContent"></router-link>
       </div>
     </div>
   </div>
@@ -99,6 +99,9 @@ export default {
     },
     srcList() {
       return pageInstanceState.activeWork.gallery_items.map(item => item.src)
+    },
+    linkContent() {
+      return pageInstanceState.content['go_to_collection']
     }
   },
 

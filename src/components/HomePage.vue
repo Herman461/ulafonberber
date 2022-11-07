@@ -1,6 +1,6 @@
 <template>
 
-  <base-header v-if="wasPageScrolled" ref="header" />
+  <base-header :is-languages-visible="true" v-if="wasPageScrolled" ref="header" />
   <div class="home">
     <!-- Главный загрузочный экран  -->
       <div

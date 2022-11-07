@@ -1,5 +1,5 @@
 <template>
-  <base-header />
+  <base-header :is-languages-visible="true" />
   <div class="gallery">
     <!-- Первая колонка с работами -->
     <div class="gallery__column">

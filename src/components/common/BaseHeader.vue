@@ -8,7 +8,7 @@
       <div v-if="showArrow" @click="$router.go(-1)" class="header__button-prev">
         <img src="@/assets/images/icons/arrow-prev.svg" alt="">
       </div>
-      <ul class="header__languages">
+      <ul :class="{visible: isLanguagesVisible}" class="header__languages">
         <li
             :class="{active: language.code === 'ru'}"
             v-for="language in languages"
@@ -19,8 +19,8 @@
     <div :class="{active: isActive}" class="header__menu menu-header">
       <div class="menu-header__body">
         <ul class="menu-header__list">
-          <li @click="closeMenu" class="menu-header__item"><router-link class="menu-header__link" to="/about">about</router-link></li>
-          <li @click="closeMenu" class="menu-header__item"><router-link class="menu-header__link" to="/gallery">gallery</router-link></li>
+          <li @click="closeMenu" class="menu-header__item"><router-link class="menu-header__link" to="/about" v-html="menuItemAbout"></router-link></li>
+          <li @click="closeMenu" class="menu-header__item"><router-link class="menu-header__link" to="/gallery" v-html="menuItemGallery"></router-link></li>
         </ul>
         <div class="menu-header__label" v-html="menuPhoneHeading"></div>
         <a href="" class="menu-header__phone" v-html="menuPhone"></a>
@@ -41,6 +41,10 @@ export default {
     showArrow: {
       type: Boolean,
       default: false
+    },
+    isLanguagesVisible: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -48,7 +52,8 @@ export default {
       isActive: false,
       hasBackground: false,
       isHomePage: false,
-      languages: []
+      languages: [],
+
     }
   },
   async created() {
@@ -94,7 +99,13 @@ export default {
     },
     menuPhoneHeading() {
       return pageInstanceState.content['menu_phone_heading']
-    }
-  }
+    },
+    menuItemAbout() {
+      return pageInstanceState.content['menu_item_about']
+    },
+    menuItemGallery() {
+      return pageInstanceState.content['menu_item_gallery']
+    },
+  },
 }
 </script>

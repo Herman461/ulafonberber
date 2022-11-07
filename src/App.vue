@@ -114,7 +114,6 @@ export default {
         pageInstanceState.activeBlock = 'gallery'
       }
 
-
       // Очищаем работу после того как пользователь покинул её
       if (from.path.includes('/single')) {
         pageInstanceState.activeWork = []
@@ -123,7 +122,8 @@ export default {
   },
   data() {
     return {
-      isLogoCentered: false
+      isLogoCentered: false,
+      isLanguagesVisible: false
     }
   },
   async created() {

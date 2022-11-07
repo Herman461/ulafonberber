@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 const http = axios.create({
-    baseURL: "https://ulafonberber.mws.agency/api/v1"
+    baseURL: "https://ulafonberber.com/api"
 })
 
 export default http;
