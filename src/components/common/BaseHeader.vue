@@ -10,7 +10,7 @@
       </div>
       <ul :class="{visible: isLanguagesVisible}" class="header__languages">
         <li
-            :class="{active: language.code === 'ru'}"
+            :class="{active: language.code === languageCode}"
             v-for="language in languages"
             @click="changeLang(language.code, $event)"
             class="header__language">{{language.name}}</li>
@@ -106,6 +106,9 @@ export default {
     menuItemGallery() {
       return pageInstanceState.content['menu_item_gallery']
     },
+    languageCode() {
+      return pageInstanceState.language
+    }
   },
 }
 </script>
