@@ -127,6 +127,9 @@ export default {
     }
   },
   async created() {
+    if (GLOBAL_LANG) {
+      pageInstanceState.language = GLOBAL_LANG
+    }
     await pageInstanceController.getLocalization()
 
     if (window.location.pathname.includes('/single')) {
@@ -134,6 +137,7 @@ export default {
     }
   },
   mounted() {
+
     pageStateInit()
     // искусственная задержка
     setTimeout(() => {
