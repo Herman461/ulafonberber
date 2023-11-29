@@ -10,12 +10,16 @@
           <single-block v-if="isSingle" />
         </Transition>
         <Transition>
-          <gallery-block :is-first="true" :page="1" v-if="!isSingle" @expand-second-column="expandSecondCol" ></gallery-block>
+          <gallery-block :is-first="true" :page="1" v-if="!isSingle && !isNews" @expand-second-column="expandSecondCol" ></gallery-block>
+        </Transition>
+        <Transition>
+          <news-block :is-first="true" :page="1" v-if="!isSingle && isNews" @expand-second-column="expandSecondCol" ></news-block>
         </Transition>
       </div>
     <!--  Третья колонка  -->
     <div :class="{active: (activeColumn === 3)}" :style="calculateWidth(columnWidth[2])" class="page__block">
-        <gallery-block :is-second="true" :page="2" @expand-third-column="expandThirdCol"></gallery-block>
+        <gallery-block v-if="!isNews" :is-second="true" :page="2" @expand-third-column="expandThirdCol"></gallery-block>
+        <news-block v-if="isNews" :is-second="true" :page="2" @expand-third-column="expandThirdCol"></news-block>
     </div>
   </div>
 </template>
@@ -24,6 +28,7 @@
 <script>
 import pageInstanceState from "@/pageInstance/page-instance.state";
 import GalleryBlock from "@/components/blocks/GalleryBlock";
+import NewsBlock from "@/components/blocks/NewsBlock";
 import AboutBlock from "@/components/blocks/AboutBlock";
 import BaseHeader from "@/components/common/BaseHeader";
 import SingleBlock from "@/components/blocks/SingleBlock";
@@ -78,6 +83,9 @@ export default {
     isSingle() {
       return this.$route.path.includes('/single') && pageInstanceState.activeBlock === 'single'
     },
+    isNews() {
+      return this.$route.path.includes('/news') && pageInstanceState.activeBlock === 'news'
+    },
     columnWidth() {
       return pageInstanceState.currentColumnWidth
     },
@@ -94,7 +102,7 @@ export default {
   async created() {
     await pageController.getWorks()
   },
-  components: {SingleBlock, BaseHeader, AboutBlock, GalleryBlock},
+  components: {SingleBlock, BaseHeader, AboutBlock, GalleryBlock, NewsBlock},
 }
 </script>
 

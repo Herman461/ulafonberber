@@ -4,7 +4,8 @@
         home: isHomePage,
         'single-page': isSinglePage,
         'gallery-page': isGalleryPage,
-        'about-page': isAboutPage
+        'about-page': isAboutPage,
+        'news-page': isNewsPage
       }"
       class="wrapper">
     <div class="container">
@@ -81,7 +82,7 @@ export default {
   name: "App",
   watch: {
     '$route'(to, from) {
-
+      ym(94032966, 'hit', to.fullPath)
       // Добавляется класс на время анимации, после анимации удаляется
       document.body.classList.add('anim')
 
@@ -112,6 +113,11 @@ export default {
         pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.gallery.slice()
         pageInstanceState.activeColumn = 2
         pageInstanceState.activeBlock = 'gallery'
+      }
+      if (to.path.includes('/news')) {
+        pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.gallery.slice()
+        pageInstanceState.activeColumn = 2
+        pageInstanceState.activeBlock = 'news'
       }
 
       // Очищаем работу после того как пользователь покинул её
@@ -180,7 +186,9 @@ export default {
     isSinglePage() {
       return this.$route.path.includes('/single')
     },
-
+    isNewsPage() {
+      return this.$route.path.includes('/news')
+    },
     isAboutPage() {
       return this.$route.path.includes('/about')
     },

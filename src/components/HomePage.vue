@@ -1,7 +1,8 @@
 <template>
 
-  <base-header :is-languages-visible="true" v-if="wasPageScrolled" ref="header" />
+  <base-header :is-languages-invisible="true" v-if="wasPageScrolled" ref="header" />
   <div class="home">
+    <base-languages :was-page-scrolled="wasPageScrolled" :is-absolute="true" />
     <!-- Главный загрузочный экран  -->
       <div
           :style="{
@@ -51,6 +52,7 @@ import pageInstanceState from "@/pageInstance/page-instance.state";
 import {pageStateInit} from "@/pageInstance/page-instance.state";
 import BaseHeader from "@/components/common/BaseHeader";
 import $ from 'jquery'
+import BaseLanguages from "@/components/common/BaseLanguages";
 
 export default {
   name: 'HomePage',
@@ -154,6 +156,6 @@ export default {
       return pageInstanceState.isLoaded
     }
   },
-  components: {BaseHeader, BasePage, AboutBlock, GalleryBlock},
+  components: {BaseLanguages, BaseHeader, BasePage, AboutBlock, GalleryBlock},
 }
 </script>

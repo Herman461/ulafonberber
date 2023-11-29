@@ -2,23 +2,9 @@
   <base-header :is-languages-invisible="true" />
   <base-languages />
   <div class="gallery">
-    <div class="gallery__dropdown dropdown-gallery" :class="{'active': isDropdownActive}">
-      <div @click="isDropdownActive = !isDropdownActive" class="dropdown-gallery__head">
-        <span v-html="activeSection"></span>
-        <img src="@/assets/images/icons/angle-down.svg" alt="">
-      </div>
-      <ul class="dropdown-gallery__list">
-        <li v-if="languageCode === 'ru'" @click="getWorks" :class="{'hidden': activeSection === 'Все работы'}" class="dropdown-gallery__item">Все работы</li>
-        <li v-if="languageCode === 'en'" @click="getWorks" :class="{'hidden': activeSection === 'All works'}" class="dropdown-gallery__item">All works</li>
-        <li @click="updateWorks(section.id, section.description, section.name)" v-for="(section, index) in sections" :class="{'hidden': activeSection === section.name}" class="dropdown-gallery__item">{{section.name}}</li>
-      </ul>
-    </div>
-
-
-    <div v-if="description" v-html="description" class="gallery__description"></div>
     <!-- Первая колонка с работами -->
     <div class="gallery__column">
-      <gallery-block :page="1" />
+      <news-block :column="firstColumn" :page="1" />
     </div>
 
     <!-- Декоративная линия по центру -->
@@ -31,7 +17,7 @@
 
     <!-- Вторая колонка с работами -->
     <div class="gallery__column">
-      <gallery-block :page="2" />
+      <news-block :column="secondColumn" :page="2" />
     </div>
   </div>
 
@@ -39,14 +25,15 @@
 
 <script>
 import pageInstanceState, {pageStateInit} from "@/pageInstance/page-instance.state";
-import GalleryBlock from "@/components/blocks/GalleryBlock";
+import NewsBlock from "@/components/blocks/NewsBlock";
 import BaseHeader from "@/components/common/BaseHeader";
 import $ from 'jquery'
 import BaseLanguages from "@/components/common/BaseLanguages";
 import pageController from "@/pageInstance/page-instance.controller";
 export default {
-  name: "gallery-page",
-  components: {BaseLanguages, BaseHeader, GalleryBlock},
+  name: "news-page",
+  components: {BaseLanguages, BaseHeader, NewsBlock},
+
   methods: {
     async getWorks() {
       this.isDropdownActive = !this.isDropdownActive
@@ -73,13 +60,48 @@ export default {
   },
   data() {
     return {
-      isDropdownActive: false
+      isDropdownActive: false,
+      maxScrollTop: 0,
+      firstColumn: [],
+      secondColumn: []
     }
   },
   created() {
     pageStateInit()
+
+    window.addEventListener('scroll', async () => {
+      if (this.isLoadingNews) return
+
+      var scrollHeight = Math.max(
+          document.body.scrollHeight, document.body.scrollHeight,
+          document.body.offsetHeight, document.body.offsetHeight,
+          document.body.clientHeight, document.body.clientHeight
+      );
+      if (window.pageYOffset > this.maxScrollTop) {
+        this.maxScrollTop = window.pageYOffset
+
+        if(window.pageYOffset >= scrollHeight - innerHeight) {
+          pageInstanceState.isLoadingNews = true
+          pageInstanceState.currentNewsPage += 1
+          const firstResult = await pageController.getNews(pageInstanceState.currentNewsPage)
+          pageInstanceState.currentNewsPage += 1
+          const secondResult = await pageController.getNews(pageInstanceState.currentNewsPage)
+          pageInstanceState.firstNewsColumn = [...pageInstanceState.firstNewsColumn, ...firstResult]
+          pageInstanceState.secondNewsColumn = [...pageInstanceState.secondNewsColumn, ...secondResult]
+
+
+          pageInstanceState.isLoadingNews = false
+          // this.getNews()
+        }
+
+      }
+    })
+
   },
   computed: {
+    isLoadingNews() {
+      return pageInstanceState.isLoadingNews
+    },
     windowWidth() {
       return pageInstanceState.windowWidth
     },

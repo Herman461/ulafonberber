@@ -1,8 +1,8 @@
 <template>
   <div
-      @scroll="onScroll"
-      ref="gallery"
-      class="works"
+      @scroll="onScroll($event), onScrollNews($event)"
+      ref="news"
+      class="works news"
       :class="{
         active: isActiveBlock,
         lock: isLockedPage,
@@ -10,58 +10,63 @@
         'is-second': isSecond
       }">
     <!--  Оболочка  -->
-    <div  class="works__body" ref="galleryBody">
-      <perfect-scrollbar>
-        <template v-if="page === 1 && windowWidth > 991.98">
+    <div  class="works__body" ref="newsBody">
 
-          <ul class="works__togglers">
-            <li v-if="languageCode === 'ru'" @click="getWorks" :class="{'active': activeSection === 'Все работы'}" class="works__toggler">Все работы</li>
-            <li v-if="languageCode === 'en'" @click="getWorks" :class="{'active': activeSection === 'All works'}" class="works__toggler">All works</li>
-            <li @click="updateWorks(section.id, section.description, section.name)" v-for="(section, index) in sections" :class="{'active': activeSection === section.name}" class="works__toggler">{{section.name}}</li>
-          </ul>
-          <div v-if="description" v-html="description" class="works__description"></div>
-        </template>
+      <template v-if="page === 1 && windowWidth > 991.98">
 
+        <ul style="display: none;" class="works__togglers">
+          <li @click="getWorks" :class="'active'" class="works__toggler">Все новости</li>
+          <li @click="getWorks" class="works__toggler">О нас</li>
+          <li class="works__toggler">Социальные сети</li>
+        </ul>
 
-        <!--  Изображения  -->
-        <div
-            :class="{'works_central': isCentral}"
-            class="works__image image"
-            v-for="image in images">
+      </template>
+      <template v-if="page === 1">
+        <div class="news__title" v-html="news_social"></div>
+        <BaseNewsBlock :key="item.id" :item="item" v-for="item in finalNews" />
+      </template>
 
-          <router-link
-              @click="onImageClick(image.id)"
-              :to='"/single/" + image.id'
-              class="image__item"
-          >
-
-            <el-image
-                :style="{'max-width': '100%', paddingBottom: (image.height / image.width) * 100 + '%'}"
-                :src="image.preview_medium"
-                alt=""
-            />
-            <div class="image__label" v-html="image.name"></div>
-          </router-link>
-
-        </div>
-      </perfect-scrollbar>
-
+      <template v-if="page === 2">
+        <BaseNewsBlock :key="item.id" :item="item" v-for="item in finalNews" />
+      </template>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
 import pageController from "@/pageInstance/page-instance.controller";
-import pageInstanceState from "@/pageInstance/page-instance.state";
-import { PerfectScrollbar } from 'vue3-perfect-scrollbar'
+import pageInstanceState, {pageStateInit} from "@/pageInstance/page-instance.state";
 import gsap from "gsap";
-
+import Swiper from 'swiper'
+import 'swiper/swiper-bundle.min.css';
+import {debounce} from "@/helpers";
+import BaseNewsBlock from "@/components/common/BaseNewsBlock";
 export default {
-  name: "GalleryBlock",
-  components: {PerfectScrollbar},
+  name: "NewsBlock",
+  components: {BaseNewsBlock},
+
+
+  data() {
+    return {
+
+      wasLoaded: false,
+      wasScrolled: false,
+      isLockedPage: false,
+      fade: false,
+      news: [],
+      maxScrollTop: 0,
+      lockScroll: false,
+
+    }
+  },
+
   props: {
     page: {
 
+    },
+    column: {
+      type: Array,
+      default: []
     },
     isCentral: {
       type: Boolean,
@@ -77,12 +82,31 @@ export default {
     }
   },
   computed: {
+    news_social() {
+      return pageInstanceState.content['news_social']
+
+    },
+    finalNews() {
+      if (this.page === 1) {
+        return pageInstanceState.firstNewsColumn
+      } else if (this.page === 2) {
+        return pageInstanceState.secondNewsColumn
+      }
+
+    },
+    currentNewsPage() {
+      return pageInstanceState.currentNewsPage
+    },
     description() {
       return pageInstanceState.activeWorkDescription
     },
+
     sections() {
       return pageInstanceState.sections
 
+    },
+    isLoadingNews() {
+      return pageInstanceState.isLoadingNews
     },
     languageCode() {
       return pageInstanceState.language
@@ -94,7 +118,7 @@ export default {
       return pageInstanceState.windowWidth
     },
     isActiveBlock() {
-      return pageInstanceState.activeBlock === 'gallery'
+      return pageInstanceState.activeBlock === 'news'
     },
     lock() {
       return pageInstanceState.lock
@@ -129,6 +153,9 @@ export default {
     }
   },
   async mounted() {
+
+    await this.getNews()
+
     if (this.page === 1) {
       await pageController.getSections()
 
@@ -142,21 +169,18 @@ export default {
 
       }
     }
-  },
-  data() {
-    return {
 
-      wasLoaded: false,
-      wasScrolled: false,
-      isLockedPage: false,
-      fade: false,
-    }
+
+  },
+  created() {
+    pageStateInit()
+
   },
   watch: {
      '$route'(from, to) {
 
 
-      const coords = this.$refs.gallery.getBoundingClientRect()
+      const coords = this.$refs.news.getBoundingClientRect()
 
       if (pageInstanceState.windowWidth < 991.98) return
 
@@ -227,7 +251,7 @@ export default {
         })
       }
 
-      if (from.path.includes('/gallery')) {
+      if (from.path.includes('/news')) {
         if (this.isFirst) {
           gsap.to('.works.is-first', {
             height: '100%',
@@ -254,7 +278,31 @@ export default {
 
   },
   methods: {
+    async getNews() {
 
+      pageInstanceState.isLoadingNews = true
+      pageInstanceState.currentNewsPage += 1
+
+      let result = null
+
+      if (this.page === 1 && this.currentNewsPage === 2) {
+        result = await pageController.getNews(1)
+      } else if (this.page === 2 && this.currentNewsPage === 1) {
+        result = await pageController.getNews(2)
+      } else {
+        result = await pageController.getNews(this.currentNewsPage)
+      }
+      if (result.length === 0) return;
+
+      if (this.page === 1) {
+        pageInstanceState.firstNewsColumn = [...pageInstanceState.firstNewsColumn, ...result]
+
+      } else if (this.page === 2) {
+        pageInstanceState.secondNewsColumn = [...pageInstanceState.secondNewsColumn, ...result]
+      }
+
+      pageInstanceState.isLoadingNews = false
+    },
     async getWorks() {
       if (this.languageCode === 'ru') {
         pageInstanceState.activeSection = "Все работы"
@@ -282,16 +330,16 @@ export default {
 
       // Если элемент еще не скроллился ни разу
       if (!this.wasScrolled && !this.isActiveBlock) {
-        this.$refs.gallery.scrollTo(0, 0)
+        this.$refs.news.scrollTo(0, 0)
       }
 
       // Если пользователь начинает скроллить блок, то делаем его активным и меняем адрес
       if (!this.isActiveBlock && !pageInstanceState.lock) {
-        pageInstanceState.activeBlock = 'gallery'
+        pageInstanceState.activeBlock = 'news'
         pageInstanceState.lock = true
         pageInstanceState.currentColumnWidth = pageInstanceState.columnWidth.gallery
 
-        this.$router.push('gallery')
+        this.$router.push('news')
 
         this.$emit('expand-third-column')
 
@@ -303,7 +351,28 @@ export default {
           pageInstanceState.lock = false
         }.bind(this), 600)
       }
+
+
+
     },
+    onScrollNews() {
+      if (this.isLoadingNews) return
+
+      var scrollHeight = Math.max(
+          this.$refs.news.scrollHeight, this.$refs.news.scrollHeight,
+          this.$refs.news.offsetHeight, this.$refs.news.offsetHeight,
+          this.$refs.news.clientHeight, this.$refs.news.clientHeight
+      );
+      if (this.$refs.news.scrollTop > this.maxScrollTop) {
+        this.maxScrollTop = this.$refs.news.scrollTop
+
+        if(this.$refs.news.scrollTop >= scrollHeight - innerHeight) {
+
+          this.getNews()
+        }
+
+      }
+    }
   },
 
 }

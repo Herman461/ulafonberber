@@ -8,7 +8,7 @@
           <el-image
               :style="{
                 'max-width': '100%',
-                paddingBottom: (image.height / image.width) * 100 + '%'
+                paddingBottom: ((image.height ? image.height : 70) / (image.width ? image.width : 100)) * 100 + '%'
               }"
               :src="image.src"
               :preview-src-list="srcList"
@@ -51,7 +51,6 @@ export default {
   },
   async created() {
     const result = await pageInstanceController.getWork(this.$route.params.id)
-    console.log(result)
   },
   methods: {
     onImageClick() {

@@ -8,19 +8,16 @@
       <div v-if="showArrow" @click="$router.go(-1)" class="header__button-prev">
         <img src="@/assets/images/icons/arrow-prev.svg" alt="">
       </div>
-      <ul :class="{visible: isLanguagesVisible}" class="header__languages">
-        <li
-            :class="{active: language.code === languageCode}"
-            v-for="language in languages"
-            @click="changeLang(language.code, $event)"
-            class="header__language">{{language.name}}</li>
-      </ul>
+      <div :class="{invisible: isLanguagesInvisible}" class="header__languages">
+        <base-languages @close-menu="closeMenu" />
+      </div>
     </div>
     <div :class="{active: isActive}" class="header__menu menu-header">
       <div class="menu-header__body">
         <ul class="menu-header__list">
           <li @click="closeMenu" class="menu-header__item"><router-link class="menu-header__link" to="/about" v-html="menuItemAbout"></router-link></li>
           <li @click="closeMenu" class="menu-header__item"><router-link class="menu-header__link" to="/gallery" v-html="menuItemGallery"></router-link></li>
+          <li @click="closeMenu" class="menu-header__item"><router-link class="menu-header__link" to="/news" v-html="menuItemNews"></router-link></li>
         </ul>
         <div class="menu-header__label" v-html="menuPhoneHeading"></div>
         <a href="" class="menu-header__phone" v-html="menuPhone"></a>
@@ -34,15 +31,18 @@
 <script>
 import pageInstanceState from "@/pageInstance/page-instance.state";
 import pageInstanceController from "@/pageInstance/page-instance.controller";
+import BaseLanguages from "@/components/common/BaseLanguages";
 
 export default {
   name: "BaseHeader",
+  components: {BaseLanguages},
+
   props: {
     showArrow: {
       type: Boolean,
       default: false
     },
-    isLanguagesVisible: {
+    isLanguagesInvisible: {
       type: Boolean,
       default: false
     }
@@ -52,13 +52,11 @@ export default {
       isActive: false,
       hasBackground: false,
       isHomePage: false,
-      languages: [],
+
 
     }
   },
-  async created() {
-    this.languages = await pageInstanceController.getLanguages()
-  },
+
   methods: {
     toggleButton() {
       this.isActive = !this.isActive
@@ -72,20 +70,7 @@ export default {
       this.isActive = false
       document.body.classList.remove('hidden')
     },
-    changeLang(lang, event) {
-      document.querySelector('.header__language.active').classList.remove('active')
 
-      event.target.classList.add('active')
-
-      pageInstanceState.language = lang
-      document.body.classList.remove('hidden')
-
-      pageInstanceController.getWorks()
-      pageInstanceController.getLocalization()
-      pageInstanceController.getWork(this.$route.params.id)
-
-      this.closeMenu()
-    }
   },
   computed: {
     menuPhone() {
@@ -106,9 +91,10 @@ export default {
     menuItemGallery() {
       return pageInstanceState.content['menu_item_gallery']
     },
-    languageCode() {
-      return pageInstanceState.language
-    }
+    menuItemNews() {
+      return pageInstanceState.content['menu_item_news']
+    },
+
   },
 }
 </script>

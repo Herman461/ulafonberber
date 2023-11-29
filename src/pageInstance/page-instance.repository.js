@@ -20,7 +20,15 @@ export default class PageInstanceRepository {
 
         return response.data.data;
     }
+    async updateWorks(id) {
+        const response = await http.get('/works/', {
+            params: {
+                section: String(id)
+            }
+        })
 
+        return response.data.data;
+    }
     async getWork(id) {
         const response = await http.get('/works/' + id + '/', {
             params: {
@@ -36,13 +44,36 @@ export default class PageInstanceRepository {
         return response.data;
     }
 
+    async getSections() {
+        const response = await http.get('/sections/', {
+            params: {
+                lang: pageInstanceState.language
+            }
+        });
+
+        return response.data.data;
+    }
+
     async getLocalization() {
         const response = await http.get('/localization/', {
             params: {
                 lang: pageInstanceState.language
             }
         })
+        console.log(response.data)
         return response.data;
+    }
+
+    async getNews(page) {
+        const response = await http.get('/news/', {
+            params: {
+                lang: pageInstanceState.language,
+                page,
+            }
+        })
+        console.log(page)
+        console.log(response.data.data)
+        return response.data.data;
     }
 }
 

@@ -37,7 +37,15 @@ const pageInstanceState = reactive({
         delay: 600
     },
     works: [],
-    activeWork: []
+    activeWork: [],
+    sections: [],
+    activeSection: "",
+    activeWorkDescription: "",
+    totalToggler: "Все работы",
+    currentNewsPage: 0,
+    isLoadingNews: false,
+    firstNewsColumn: [],
+    secondNewsColumn: [],
 })
 
 // Изменяет значение ширины окна браузера при событии resize

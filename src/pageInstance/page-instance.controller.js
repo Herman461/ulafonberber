@@ -21,12 +21,24 @@ class PageInstanceController {
     async getWork(id) {
         return await this.#service.getWork(id)
     }
+    async updateWorks(id) {
+        return await this.#service.updateWorks(id)
+    }
     async getLocalization() {
 
         return await this.#service.getLocalization();
     }
+    async getSections() {
+        return await this.#service.getSections();
+    }
     async getLanguages() {
         const response = await this.#service.getLanguage()
+
+        return response;
+    }
+
+    async getNews(page) {
+        const response = await this.#service.getNews(page)
 
         return response;
     }

@@ -70,6 +70,9 @@ export default {
     isSinglePage() {
       return this.$route.path.includes('/single')
     },
+    isNewsPage() {
+      return this.$route.path.includes('/news')
+    },
     isGalleryPage() {
       return this.$route.path.includes('/gallery')
     },
@@ -98,7 +101,7 @@ export default {
       const top = this.$refs.about.scrollTop
 
       // На странице Single и Gallery делаем скролл картинки (несмотря на то, что она зафиксирована)
-      if (this.isSinglePage || this.isGalleryPage) {
+      if (this.isSinglePage || this.isGalleryPage || this.isNewsPage) {
 
         this.image.top = 200 - top + 'px'
         this.image.transition = 'none !important'

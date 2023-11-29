@@ -35,14 +35,30 @@ export default class PageInstanceService {
 
         return work;
     }
+    async updateWorks(id) {
+        pageInstanceState.works = await this.#repository.updateWorks(id)
+
+        return pageInstanceState.works
+    }
+
     async getLanguage() {
         const response = await this.#repository.getLanguages()
 
         return response;
     }
 
+    async getSections() {
+        pageInstanceState.sections = await this.#repository.getSections()
+
+        return pageInstanceState.sections;
+    }
+
     async getLocalization() {
         pageInstanceState.content = await this.#repository.getLocalization()
         return await this.#repository.getLocalization();
+    }
+
+    async getNews(page) {
+        return await this.#repository.getNews(page);
     }
 }
